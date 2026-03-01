@@ -1,5 +1,7 @@
+<!-- README.md -->
+
 <p align="center">
-  <img src="brand/header-banner.svg" alt="CiCwtch banner" width="100%" />
+  <img src="brand/img_project_banner_logo.png" alt="CiCwtch — Project Logo" width="720" />
 </p>
 
 <p align="center">
@@ -12,17 +14,13 @@
 </p>
 
 <p align="center">
-  ⭐ Star us on GitHub — your support genuinely helps the project grow.
+  <strong>Smart systems for trusted dog care.</strong><br/>
+  Built in Wales • Designed with care
 </p>
 
-# 🐾 CiCwtch
-
-> Smart systems for trusted dog care.  
-> Built in Wales. Designed with care.
-
----
-
-⭐ Star us on GitHub — your support genuinely helps the project grow.
+<p align="center">
+  ⭐ Star this repo — it helps more than you’d think.
+</p>
 
 ---
 
@@ -30,114 +28,108 @@
 
 **CiCwtch** is a structured digital platform for modern dog walking and pet care services.
 
-The project combines operational discipline, accessible design, and secure architecture to create a system that families can trust and professionals can rely on.
-
-CiCwtch is currently in active development.
+The goal is simple: combine warmth and trust with robust, maintainable engineering — so the platform feels friendly to use and solid under pressure.
 
 ---
 
 ## Project Identity
 
-CiCwtch is being developed by:
+CiCwtch is developed by **Nathan Jones**, operating under the development identity **Cwtch Consulting**.
 
-**Nathan Jones**  
-Developing under the identity **Cwtch Consulting**
-
-This is an independent, non-commercial development project at this stage.  
+This is an **independent, non-commercial development project** at this stage.  
 No services are currently being traded or offered.
 
 ---
 
 ## Core Principles
 
-CiCwtch is built on:
-
-- Transparency over opacity  
-- Accessibility over complexity  
-- Reliability over trend-driven features  
-- Long-term architectural integrity  
-
-The aim is not rapid feature accumulation — but stable foundations.
+- **Transparency** over opacity  
+- **Accessibility** over complexity  
+- **Reliability** over trend-driven features  
+- **Long-term architecture** over short-term hacks  
 
 ---
 
-## Current Status
+## Status
 
-**Phase:** Private Development / Pre-Launch  
+**Phase:** Active Development / Pre-Launch
 
-Architecture, features, branding, and licensing may evolve as the platform matures.
-
-This repository is publicly visible for transparency and structured collaboration.
-
----
-
-## Technology Direction
-
-The platform is being designed with:
-
-- Mobile-first principles  
-- Secure authentication models  
-- Scalable backend infrastructure  
-- Clear data separation and auditability  
-- Accessibility-conscious UI patterns  
-
-Specific implementation details may change during development.
-
----
-
-## Getting Involved
-
-CiCwtch welcomes structured contributions.
-
-If you would like to contribute:
-
-1. Open a discussion before submitting major changes.
-2. Align proposals with the project’s long-term architectural direction.
-3. Be constructive, clear, and respectful.
-
-Contribution areas of interest include:
-
-- Engineering
-- UX & accessibility
-- Welsh language localisation
-- Infrastructure & DevOps
-- Security review
-
-A contributor agreement may be introduced as the platform evolves to ensure clarity of intellectual property and future licensing rights.
-
-By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
+Expect change.  
+Features, structure, and licensing may evolve as the platform matures.
 
 ---
 
 ## Community
 
-💬 Discord: *(insert invite link here)*  
+- 💬 **Discord:** *(add invite link here)*  
+- 🐛 **Bugs / feature requests:** GitHub Issues  
+- 💡 **Design & technical discussion:** GitHub Discussions (recommended)
 
-Please use GitHub Issues for:
-
-- Bug reports  
-- Feature suggestions  
-- Technical discussions  
-
-Discord is intended for community discussion and collaboration.
+> Discord is for collaboration and conversation — GitHub Issues are for trackable work.
 
 ---
 
-## Governance & Certification
+## Contribution & Collaboration
 
-CiCwtch will only display certifications or compliance marks that are independently verifiable and directly relevant to the platform.
+Contributions are welcome — **structured contributions**.
 
-Trust is earned through behaviour, not decorative badges.
+**Before submitting large changes**, please open an Issue/Discussion to align on direction. This prevents duplicated effort and keeps architecture coherent.
+
+Areas where help is especially valuable:
+
+- Engineering (frontend, backend, mobile, infra)
+- UX, accessibility, content clarity
+- Welsh language / localisation
+- Security review and hardening
+- Documentation and developer experience
+
+### Contribution terms (important)
+By contributing to this repository, you acknowledge that your contributions may be incorporated into future commercial versions of the platform, and that licensing terms may evolve.
+
+A formal contributor agreement may be introduced later to keep intellectual property and licensing rights unambiguous.
+
+---
+
+## Security & Trust Signals
+
+CiCwtch will only display certifications/compliance marks that are:
+
+1) independently verifiable, and  
+2) directly relevant to the platform.
+
+No decorative badges. Only meaningful ones.
+
+---
+
+## Getting Started
+
+> This section will be finalised as the implementation stabilises.
+
+For now:
+
+- Clone the repository
+- Follow project notes in `/docs` (if present)
+- Use the project’s defined scripts/workflows (CI will reflect the supported flow)
+
+---
+
+## Roadmap (High Level)
+
+- Foundation architecture stabilisation
+- Data model and auditability
+- Booking / scheduling flow
+- Customer profiles + pet profiles
+- Notifications and integrations
+- Controlled release process
+- Potential licensing model (future)
 
 ---
 
 ## Licensing & Usage
 
-Copyright © 2026 Nathan Jones
+Copyright © 2026 Nathan Jones. All rights reserved.
 
-All rights reserved.
-
-This software is not open source at this time.
+This software is **not open source** at this time.
 
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
 
@@ -145,10 +137,8 @@ Future licensing models may be introduced at the sole discretion of the author.
 
 ---
 
-## Long-Term Vision
+## A Note on Intent
 
-CiCwtch is intended to become a dependable digital companion for dog owners and care professionals — blending warmth with technical discipline.
+CiCwtch is being built carefully: not loud, not rushed, not flimsy.
 
-Built locally.  
-Engineered carefully.  
-Structured to last.
+Good systems feel calm — even when they’re doing a lot.
