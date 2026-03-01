@@ -1,3 +1,20 @@
+<p align="center">
+  <img src="brand/header-banner.svg" alt="CiCwtch banner" width="100%" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/OWNER/REPO/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg" />
+  </a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/OWNER/REPO">
+    <img alt="OpenSSF Scorecard" src="https://api.scorecard.dev/projects/github.com/OWNER/REPO/badge" />
+  </a>
+</p>
+
+<p align="center">
+  ⭐ Star us on GitHub — your support genuinely helps the project grow.
+</p>
+
 # 🐾 CiCwtch
 
 > Smart systems for trusted dog care.  
