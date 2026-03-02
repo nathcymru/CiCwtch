@@ -1,26 +1,12 @@
-<img src="brand/CiCwtch_logo_exact.svg" alt="CiCwtch Logo" align="right" height="125" />
+<img src="brand/CiCwtch_logo_exact.svg" alt="CiCwtch Logo" align="right" height="72" />
 
 # CiCwtch
 
 <p align="left">
-  <!-- Core trust signals -->
-  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status (GitHub Actions)" />
-  <img src="https://img.shields.io/github/codeql-analysis-status/nathcymru/CiCwtch?style=for-the-badge" alt="CodeQL Status" />
+  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" />
   <img src="https://img.shields.io/github/v/release/nathcymru/CiCwtch?include_prereleases=true&style=for-the-badge" alt="Latest Release" />
-  <img src="https://img.shields.io/badge/status-active%20development-orange?style=for-the-badge" alt="Status: Active Development" />
-  <img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License: Proprietary — All Rights Reserved" />
-
-  <!-- Health signals -->
   <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
-  <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Commit Activity" />
-</p>
-
-<p align="left">
-  <!-- Collaboration signals -->
-  <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
-  <img src="https://img.shields.io/github/issues/nathcymru/CiCwtch?style=for-the-badge" alt="Open Issues" />
-  <img src="https://img.shields.io/github/issues-pr/nathcymru/CiCwtch?style=for-the-badge" alt="Open PRs" />
-  <img src="https://img.shields.io/discord/1477923985617326091?style=for-the-badge&logo=discord&logoColor=white" alt="Discord Members" />
+  <img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" />
 </p>
 
 <br clear="right" />
@@ -37,7 +23,7 @@ CiCwtch is engineered with long-term architectural stability in mind. The aim is
 
 ---
 
-## 👤 About the Builder
+### About the Builder
 
 <img src="brand/cavapoo.gif" alt="Bentley the Cavapoo" align="right" height="160" />
 
@@ -55,14 +41,36 @@ CiCwtch is built in that spirit.
 
 ## 🛠️ Development Status
 
-CiCwtch is currently in development. This repository is publicly visible to support structured collaboration and transparency during the build phase.
+CiCwtch is currently in active development.
 
-Key references:
-- Architecture: [docs/architecture.md](docs/architecture.md)
-- Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
-- Governance: [docs/GOVERNANCE.md](docs/GOVERNANCE.md)
-- Changelog: [docs/CHANGELOG.md](docs/CHANGELOG.md)
-- Security reporting: [.github/SECURITY.md](.github/SECURITY.md)
+<p align="left">
+  <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
+  <img src="https://img.shields.io/github/codeql-analysis-status/nathcymru/CiCwtch?style=for-the-badge" alt="CodeQL Status" />
+  <img src="https://img.shields.io/badge/Snyk-Security%20Monitoring-4C4A73?style=for-the-badge&logo=snyk&logoColor=white" alt="Snyk Security" />
+</p>
+
+This repository is publicly visible to support structured collaboration and transparency during the build phase.
+
+Key project documents:
+
+- Architecture: `docs/architecture.md`
+- Roadmap: `docs/ROADMAP.md`
+- Governance: `docs/GOVERNANCE.md`
+- Changelog: `docs/CHANGELOG.md`
+- Contribution Guide: `.github/CONTRIBUTING.md`
+- Code of Conduct: `.github/CODE_OF_CONDUCT.md`
+- Security Policy: `.github/SECURITY.md`
+- Support: `.github/SUPPORT.md`
+
+---
+
+## 📦 Package & Dependency Health
+
+<p align="left">
+  <img src="https://img.shields.io/npm/v/cicwtch?style=for-the-badge" alt="npm version" />
+  <img src="https://img.shields.io/pub/v/cicwtch?style=for-the-badge" alt="pub.dev version" />
+  <img src="https://img.shields.io/docker/pulls/cicwtch/cicwtch?style=for-the-badge" alt="Docker pulls" />
+</p>
 
 ---
 
@@ -76,17 +84,42 @@ Key references:
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
 </p>
 
+### 👨‍💻 Languages
+
+<p align="center">
+  <img src="docs/languages.svg" alt="Language breakdown for CiCwtch" />
+</p>
+
 ---
 
 ## 🤝 Collaboration & Community
 
-CiCwtch welcomes thoughtful, structured collaboration — but it is **not open source**.
+<p align="left">
+  <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
+  <img src="https://img.shields.io/github/issues/nathcymru/CiCwtch?style=for-the-badge" alt="Open Issues" />
+  <img src="https://img.shields.io/github/issues-pr/nathcymru/CiCwtch?style=for-the-badge" alt="Open PRs" />
+  <img src="https://img.shields.io/discord/1477923985617326091?style=for-the-badge&logo=discord&logoColor=white" alt="Discord Members" />
+</p>
 
-Contributions happen via a formal process. Contributors may:
-- volunteer (approved contributors), or
-- be procured/contracted for defined work packages (gig workers / suppliers), and work via GitHub in the same structured workflow.
+CiCwtch welcomes thoughtful and structured collaboration under a formal approval process.  
 
-Before submitting substantial changes, open an Issue (or Discussion, if enabled) to align on direction and scope. This helps maintain architectural coherence and avoids duplicated effort.
+The project is proprietary (not open source), but approved contributors may participate either voluntarily or under procurement/contract arrangements via GitHub workflows.
+
+Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This maintains architectural coherence and avoids duplicated effort.
+
+Areas where collaboration is especially valuable:
+
+- Frontend and backend engineering  
+- UX and accessibility refinement  
+- Welsh language localisation  
+- Documentation and technical clarity  
+- Security review  
+
+By contributing, you acknowledge that contributions may be incorporated into current or future commercial versions of the platform in accordance with the contribution terms.
+
+---
+
+### Community
 
 <p align="left">
   <a href="https://discord.gg/w8SsYu9pUT">
@@ -98,24 +131,9 @@ Before submitting substantial changes, open an Issue (or Discussion, if enabled)
   </a>
 </p>
 
-Contributor entry points:
-- Contributing guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
-- Code of Conduct: [.github/CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md)
-- Support: [.github/SUPPORT.md](.github/SUPPORT.md)
-- Security: [.github/SECURITY.md](.github/SECURITY.md)
-
-Areas where collaboration is especially valuable:
-- Frontend and backend engineering
-- UX and accessibility refinement
-- Welsh language localisation
-- Documentation and technical clarity
-- Security review
-
-By contributing, you acknowledge that contributions may be incorporated into current or future commercial versions of the platform, subject to the contribution terms in the contributing guide.
-
 ---
 
-## 💜 Sponsorship & Support
+### Sponsorship & Support
 
 <p align="left">
   <a href="https://github.com/sponsors/nathcymru">
@@ -134,9 +152,9 @@ By contributing, you acknowledge that contributions may be incorporated into cur
 Copyright © 2026 Nathan Jones  
 All rights reserved.
 
-This software is proprietary and is **not open source**.
+CiCwtch is proprietary software.
 
-No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as explicitly permitted in the [LICENSE](LICENSE) file.
+No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the `LICENSE` file.
 
 ---
 
