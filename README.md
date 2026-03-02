@@ -53,6 +53,12 @@ CiCwtch is currently in development.
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
 </p>
 
+<p align="center">
+  <img
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=nathcymru&repo=CiCwtch&layout=compact&langs_count=10&hide_border=true"
+    alt="Language breakdown"
+  />
+</p>
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
 ---
