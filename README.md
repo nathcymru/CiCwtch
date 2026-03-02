@@ -3,11 +3,14 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/OWNER/REPO/actions/workflows/ci.yml">
-    <img alt="CI" src="https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg" />
+  <a href="https://github.com/nathcymru/CiCwtch/stargazers">
+    <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="GitHub Stars" />
   </a>
-  <a href="https://scorecard.dev/viewer/?uri=github.com/OWNER/REPO">
-    <img alt="OpenSSF Scorecard" src="https://api.scorecard.dev/projects/github.com/OWNER/REPO/badge" />
+  <a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
+  </a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch">
+    <img src="https://img.shields.io/badge/OpenSSF_Scorecard-View-Report-blue?style=for-the-badge" alt="OpenSSF Scorecard" />
   </a>
 </p>
 
@@ -16,66 +19,84 @@
   Built in Wales • Designed with care
 </p>
 
+---
+
+## 🐶 CiCwtch
+
+CiCwtch is a structured digital platform for modern dog walking and pet care services.
+
+Built with clarity and long-term architectural stability in mind, the platform aims to be dependable for families and care professionals alike.
+
+---
+
+## 🚀 Built With
+
+These are some of the core technologies and frameworks used in the project:
+
 <p align="center">
-  ⭐ Star this repository to support the project.
+  <a href="https://dart.dev/">
+    <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  </a>
+  <a href="https://flutter.dev/">
+    <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  </a>
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  </a>
+  <a href="https://www.postgresql.org/">
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  </a>
+  <a href="https://git-scm.com/">
+    <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
+  </a>
 </p>
 
 ---
 
-## Overview
+## 🛠️ Development Status
 
-**CiCwtch** is a structured digital platform for modern dog walking and pet care services.
+CiCwtch is currently in active development.
 
-The platform is engineered with an emphasis on clarity, accessibility, operational integrity, and long-term architectural stability. The objective is to create a dependable system that feels warm to use and robust under the surface.
-
----
-
-## Project Status
-
-CiCwtch is in active development.
-
-This repository is publicly visible to support transparency and structured collaboration during the build phase.
+This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
 ---
 
-## Contribution & Collaboration
+## 🤝 Contribution & Collaboration
 
-Constructive contributions are welcome.
+We welcome thoughtful contributions.
 
 Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope.
 
-Areas where collaboration is especially valuable:
+Helpful contribution areas include:
 
-- Engineering (frontend, backend, mobile, infrastructure)
-- UX and accessibility refinement
-- Welsh language localisation
-- Documentation improvement
+- Frontend and backend engineering  
+- UX and accessibility refinement  
+- Welsh language localisation  
+- Documentation and technical clarity  
 - Security review
 
 By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
 
 ---
 
-## Community
+## 💬 Community
 
-💬 Discord: *(insert invite link here)*  
-
-For bugs and feature requests, please use GitHub Issues.
+- Discord *(insert invite link here)*  
+- GitHub Issues for bugs and feature requests
 
 ---
 
-## Licensing
+## 📜 Licensing Information
 
 Copyright © 2026 Nathan Jones  
 All rights reserved.
 
-This software is not open source at this time.  
+This software is **not open source** at this time.
+
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
 
 ---
 
-## Vision
+## 🎯 Vision
 
-CiCwtch is being built deliberately — combining warmth with technical discipline.
-
-The aim is simple: build something that feels trustworthy because it is well engineered.
+CiCwtch blends warmth and technical discipline — designed to feel trusted because it is well engineered.
