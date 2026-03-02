@@ -102,25 +102,44 @@ Areas where collaboration is especially valuable:
 
 By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributers must be arrpoved and agree to the contribution agreement found here [insert link].
 
-### For discussion and community engagement:
+### For discussion and community engagement
 
-- 💬 Discord: [https://discord.gg/w8SsYu9pUT](https://discord.gg/w8SsYu9pUT)  
-- 🐛 GitHub Issues: bug reports and feature proposals
+<p align="left">
+
+<a href="https://discord.gg/w8SsYu9pUT">
+  <img src="https://img.shields.io/badge/Join%20Discord-Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
+</a>
+
+<a href="https://github.com/nathcymru/CiCwtch/issues">
+  <img src="https://img.shields.io/badge/Report%20Issues-Feature%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
+</a>
+
+</p>
+
+---
+
+### Project stats
+
 <p align="left">
   <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
   <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
   <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
 </p>
 
-### Sponsorship and support:
+---
+
+### Sponsorship and support
 
 <p align="left">
+
 <a href="https://github.com/sponsors/nathcymru">
-  <img src="https://img.shields.io/badge/Join%20the%20Pack-Sponsor%20CiCwtch-ff69b4?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Join the Pack" />
+  <img src="https://img.shields.io/badge/Become%20a%20Sponsor-Join%20the%20Pack-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor CiCwtch" />
 </a>
-  <a href="https://buymeacoffee.com/cicwtch">
-    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Bone" />
-  </a>
+
+<a href="https://buymeacoffee.com/cicwtch">
+  <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Bone" />
+</a>
+
 </p>
 
 ---
