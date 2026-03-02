@@ -1,23 +1,15 @@
-<p align="center">
-  <img src="brand/CiCwtch_logo_exact.svg" alt="CiCwtch Logo" width="640" />
-</p>
-
-<p align="center">
-  <a href="https://github.com/nathcymru/CiCwtch/stargazers">
-    <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="GitHub Stars" />
-  </a>
-  <a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
-  </a>
-  <a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch">
-    <img src="https://img.shields.io/badge/OpenSSF_Scorecard-View-Report-blue?style=for-the-badge" alt="OpenSSF Scorecard" />
-  </a>
-</p>
-
-<p align="center">
-  <strong>Smart systems for trusted dog care</strong><br/>
-  Built in Wales • Designed with care
-</p>
+<table width="100%">
+  <tr>
+    <td align="left" valign="bottom">
+      <h1 style="margin: 0;">CiCwtch</h1>
+    </td>
+    <td align="right" valign="bottom">
+      <img src="brand/CiCwtch_logo_exact.svg"
+           alt="CiCwtch Logo"
+           height="64" />
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -147,3 +139,9 @@ All rights reserved.
 This software is **not open source** at this time.
 
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
+
+---
+<p align="center">
+  Built in Wales 🛠️ Designed with Cwtch
+  Adeiladwyd yng Nghymru 🏴󠁧󠁢󠁷󠁬󠁳󠁿 Dyluniwyd gyda Cwtch
+</p>
