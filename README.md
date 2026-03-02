@@ -74,20 +74,29 @@ Key project documents:
 
 ---
 
-## 🚀 Built With
-
+### 🏗 Built On
 <p align="left">
-  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
-  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
+<img src="https://img.shields.io/badge/Built%20On-Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare" />
+<img src="https://img.shields.io/badge/Workers-Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" />
+<img src="https://img.shields.io/badge/Database-Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" />
+<img src="https://img.shields.io/badge/Storage-Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" />
 </p>
 
-### 👨‍💻 Languages
+### 🧠 Built With
 
-<p align="center">
-  <img src="docs/languages.svg" alt="Language breakdown for CiCwtch" />
+<p align="left">
+<img src="https://img.shields.io/badge/Built%20With-Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+<img src="https://img.shields.io/badge/Language-Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+<img src="https://img.shields.io/badge/Payments-Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe" />
+<img src="https://img.shields.io/badge/Engine-SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" />
+</p>
+
+### 📱Built For
+<p align="left">
+<img src="https://img.shields.io/badge/Platform-iOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS" />
+<img src="https://img.shields.io/badge/Platform-Android-34A853?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
+<img src="https://img.shields.io/badge/Platform-Web%20App-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Web App" />
+<img src="https://img.shields.io/badge/Type-Progressive%20Web%20App-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white" alt="Progressive Web App" />
 </p>
 
 ---
@@ -106,21 +115,6 @@ CiCwtch welcomes thoughtful and structured collaboration under a formal approval
 The project is proprietary (not open source), but approved contributors may participate either voluntarily or under procurement/contract arrangements via GitHub workflows.
 
 Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This maintains architectural coherence and avoids duplicated effort.
-
-Areas where collaboration is especially valuable:
-
-- Frontend and backend engineering  
-- UX and accessibility refinement  
-- Welsh language localisation  
-- Documentation and technical clarity  
-- Security review  
-
-By contributing, you acknowledge that contributions may be incorporated into current or future commercial versions of the platform in accordance with the contribution terms.
-
----
-
-### Community
-
 <p align="left">
   <a href="https://discord.gg/w8SsYu9pUT">
     <img src="https://img.shields.io/badge/Join%20Discord-Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
@@ -130,6 +124,15 @@ By contributing, you acknowledge that contributions may be incorporated into cur
     <img src="https://img.shields.io/badge/Open%20Issues-Report%20Bugs%20%26%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
   </a>
 </p>
+Areas where collaboration is especially valuable:
+
+- Frontend and backend engineering  
+- UX and accessibility refinement  
+- Welsh language localisation  
+- Documentation and technical clarity  
+- Security review  
+
+By contributing, you acknowledge that contributions may be incorporated into current or future commercial versions of the platform in accordance with the contribution terms.
 
 ---
 
