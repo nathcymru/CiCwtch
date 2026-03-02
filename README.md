@@ -57,28 +57,33 @@ This repository is publicly visible to support structured collaboration and tran
 
 ---
 
-## 🤝 Contribution & Collaboration
+## 🤝 Collaboration & Community
 
-We welcome thoughtful contributions.
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
+  <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
+  <img src="https://img.shields.io/github/issues/nathcymru/CiCwtch?style=for-the-badge" alt="Open Issues" />
+  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
+</p>
 
-Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope.
+CiCwtch welcomes constructive, well-considered contributions.
 
-Helpful contribution areas include:
+Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This keeps architecture coherent and avoids duplicated effort.
+
+Areas where collaboration is particularly valuable:
 
 - Frontend and backend engineering  
 - UX and accessibility refinement  
 - Welsh language localisation  
 - Documentation and technical clarity  
-- Security review
+- Security review  
 
-By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
+For discussion and informal collaboration:
 
----
+- 💬 Discord: *(insert invite link here)*  
+- 🐛 GitHub Issues: bug reports and feature requests  
 
-## 💬 Community
-
-- Discord *(insert invite link here)*  
-- GitHub Issues for bugs and feature requests
+By contributing to this repository, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
 
 ---
 
