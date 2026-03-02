@@ -107,11 +107,11 @@ By contributing, you acknowledge that contributions may be incorporated into fut
 <p align="left">
 
 <a href="https://discord.gg/w8SsYu9pUT">
-  <img src="https://img.shields.io/badge/Join%20Discord-Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
+  <img src="https://img.shields.io/badge/Join%20Discord-👉%20Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
 </a>
 
 <a href="https://github.com/nathcymru/CiCwtch/issues">
-  <img src="https://img.shields.io/badge/Report%20Issues-Feature%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
+  <img src="https://img.shields.io/badge/Open%20Issues-👉%20Report%20Bugs%20%26%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
 </a>
 
 </p>
@@ -133,11 +133,11 @@ By contributing, you acknowledge that contributions may be incorporated into fut
 <p align="left">
 
 <a href="https://github.com/sponsors/nathcymru">
-  <img src="https://img.shields.io/badge/Become%20a%20Sponsor-Join%20the%20Pack-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor CiCwtch" />
+  <img src="https://img.shields.io/badge/Support%20CiCwtch-👉%20Join%20the%20Pack-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor CiCwtch" />
 </a>
 
 <a href="https://buymeacoffee.com/cicwtch">
-  <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Bone" />
+  <img src="https://img.shields.io/badge/Support%20CiCwtch-👉%20Buy%20a%20Bone-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy Me a Bone" />
 </a>
 
 </p>
