@@ -28,8 +28,8 @@ CiCwtch is a structured digital platform for modern dog walking and pet care ser
 Built with clarity and long-term architectural stability in mind, the platform aims to be dependable for families and care professionals alike.
 
 ---
-
-## 🚀 Built With
+## 🛠️ Development Status
+### 🚀 Built With
 
 These are some of the core technologies and frameworks used in the project:
 
@@ -40,10 +40,14 @@ These are some of the core technologies and frameworks used in the project:
     <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
     <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
 </p>
+### 👨‍💻Languages
 
+<p align="center">
+  <img src="docs/languages.svg" alt="Language breakdown for CiCwtch" />
+</p>
 ---
 
-## 🛠️ Development Status
+
 
 CiCwtch is currently in development.
 
@@ -51,13 +55,6 @@ CiCwtch is currently in development.
   <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
-</p>
-
-<p align="center">
-  <img
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=nathcymru&repo=CiCwtch&layout=compact&langs_count=10&hide_border=true"
-    alt="Language breakdown"
-  />
 </p>
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
