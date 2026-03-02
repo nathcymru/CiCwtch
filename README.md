@@ -1,12 +1,14 @@
-<table width="100%">
-  <tr>
-    <td align="left" valign="bottom">
-      <h1 style="margin: 0;">CiCwtch</h1>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none;">
+  <tr style="border:none;">
+    <td align="left" valign="bottom" style="border:none; padding:0;">
+      <div style="font-size: 44px; font-weight: 800; line-height: 1; margin: 0; padding: 0;">
+        CiCwtch
+      </div>
     </td>
-    <td align="right" valign="bottom">
-      <img src="brand/CiCwtch_logo_exact.svg"
-           alt="CiCwtch Logo"
-           height="64" />
+    <td align="right" valign="bottom" style="border:none; padding:0; width: 1%;">
+      <div style="height: 88px; overflow: hidden; display: inline-block;">
+        <img src="brand/CiCwtch_logo_exact.svg" alt="CiCwtch Logo" height="88" style="display:block;" />
+      </div>
     </td>
   </tr>
 </table>
@@ -30,8 +32,8 @@ CiCwtch is engineered with long-term architectural stability in mind. The aim is
        alt="Bentley the Cavapoo"
        align="right"
        height="160"
-       style="margin-left: 20px;" />
-  
+       style="margin-left: 20px; display:block;" />
+
 I build for peace, for enjoyment, and to fix the little inefficiencies in my world.
 
 Dogs keep me grounded — especially Bentley, my delightfully bonkers Cavapoo. 🐾
@@ -42,6 +44,7 @@ CiCwtch is built in that spirit.
 </p>
 
 ---
+
 ## 🛠️ Development Status
 
 CiCwtch is currently in development.
@@ -51,21 +54,25 @@ CiCwtch is currently in development.
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
 </p>
+
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
+
+---
 
 ### 🚀 Built With
 
 These are some of the core technologies and frameworks used in the project:
 
 <p align="left">
-    <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
-    <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
-    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
-    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-    <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
 </p>
 
-### 👨‍💻Languages
+### 👨‍💻 Languages
+
 <p align="center">
   <img src="docs/languages.svg" alt="Language breakdown for CiCwtch" />
 </p>
@@ -92,7 +99,7 @@ Areas where collaboration is especially valuable:
 - Documentation and technical clarity  
 - Security review  
 
-By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributers must be arrpoved and agree to the contribution agreement found here [insert link].
+By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributors must be approved and agree to the contribution agreement found here: *(insert link)*.
 
 ### For discussion and community engagement
 
@@ -108,16 +115,6 @@ By contributing, you acknowledge that contributions may be incorporated into fut
 
 ---
 
-### Project stats
-
-<p align="left">
-  <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
-  <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
-  <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
-</p>
-
----
-
 ### Sponsorship and support
 
 <p align="left">
@@ -129,6 +126,7 @@ By contributing, you acknowledge that contributions may be incorporated into fut
     <img src="https://img.shields.io/badge/Support%20CiCwtch-↗%20Buy%20a%20Bone-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy Me a Bone" />
   </a>
 </p>
+
 ---
 
 ## 📜 Licensing Information
@@ -141,7 +139,8 @@ This software is **not open source** at this time.
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
 
 ---
+
 <p align="center">
-  Built in Wales 🛠️ Designed with Cwtch
-  Adeiladwyd yng Nghymru 🏴󠁧󠁢󠁷󠁬󠁳󠁿 Dyluniwyd gyda Cwtch
+  Built in Wales 🛠️ Designed with Cwtch<br/>
+  Adeiladwyd yng Nghymru 🏴 Dyluniwyd gyda Cwtch
 </p>
