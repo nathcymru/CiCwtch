@@ -45,20 +45,32 @@ CiCwtch is currently in development.
 
 <p align="left">
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
+  <img src="https://img.shields.io/github/codeql-analysis-status/nathcymru/CiCwtch?style=for-the-badge" alt="CodeQL Status" />
+  <img src="https://img.shields.io/badge/Snyk-Security%20Monitoring-4C4A73?style=for-the-badge&logo=snyk&logoColor=white" alt="Snyk Security" />
 </p>
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
 ---
 
+## 📦 Package & Dependency Health
+
+<p align="left">
+  <img src="https://img.shields.io/npm/v/cicwtch?style=for-the-badge" alt="npm version" />
+  <img src="https://img.shields.io/pub/v/cicwtch?style=for-the-badge" alt="pub.dev version" />
+  <img src="https://img.shields.io/docker/pulls/cicwtch/cicwtch?style=for-the-badge" alt="Docker pulls" />
+</p>
+
+---
+
 ## 🚀 Built With
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
-  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
 </p>
 
 ### 👨‍💻 Languages
@@ -69,58 +81,54 @@ This repository is publicly visible to support structured collaboration and tran
 
 ---
 
-# 📊 Project Health
-
-### 📦 Package & Dependency Health
-
-<p align="left">
-  <img src="https://img.shields.io/npm/v/cicwtch?style=for-the-badge" alt="npm version" />
-  <img src="https://img.shields.io/pub/v/cicwtch?style=for-the-badge" alt="pub.dev version" />
-  <img src="https://img.shields.io/docker/pulls/cicwtch/cicwtch?style=for-the-badge" alt="Docker pulls" />
-</p>
-
----
-
-### 🛡 Security
-
-<p align="left">
-  <img src="https://img.shields.io/snyk/vulnerabilities/github/nathcymru/CiCwtch?style=for-the-badge" alt="Snyk Vulnerabilities" />
-  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/codeql.yml?label=CodeQL&style=for-the-badge" alt="CodeQL Status" />
-</p>
-
----
-
-### 🌍 Community Metrics
+## 🤝 Collaboration & Community
 
 <p align="left">
   <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
   <img src="https://img.shields.io/github/issues/nathcymru/CiCwtch?style=for-the-badge" alt="Open Issues" />
   <img src="https://img.shields.io/github/issues-pr/nathcymru/CiCwtch?style=for-the-badge" alt="Open PRs" />
+  <img src="https://img.shields.io/discord/1477923985617326091?style=for-the-badge&logo=discord&logoColor=white" alt="Discord Members" />
+</p>
+
+CiCwtch welcomes thoughtful and structured collaboration.
+
+Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This maintains architectural coherence and avoids duplicated effort.
+
+Areas where collaboration is especially valuable:
+
+- Frontend and backend engineering  
+- UX and accessibility refinement  
+- Welsh language localisation  
+- Documentation and technical clarity  
+- Security review  
+
+By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributors must be approved and agree to the contribution agreement found here: *(insert link)*.
+
+---
+
+### Community
+
+<p align="left">
   <a href="https://discord.gg/w8SsYu9pUT">
-    <img src="https://img.shields.io/discord/111111111111111111?label=Discord&style=for-the-badge&logo=discord&logoColor=white" alt="Discord" />
+    <img src="https://img.shields.io/badge/Join%20Discord-Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
+  </a>
+
+  <a href="https://github.com/nathcymru/CiCwtch/issues">
+    <img src="https://img.shields.io/badge/Open%20Issues-Report%20Bugs%20%26%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
   </a>
 </p>
 
 ---
 
-## 🤝 Collaboration
-
-CiCwtch welcomes thoughtful and structured collaboration.
-
-Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope.
-
-By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributors must be approved and agree to the contribution agreement.
-
----
-
-## 💖 Support the Project
+### Sponsorship & Support
 
 <p align="left">
   <a href="https://github.com/sponsors/nathcymru">
-    <img src="https://img.shields.io/badge/Join%20the%20Pack-GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" />
+    <img src="https://img.shields.io/badge/Join%20the%20Pack-GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Join the Pack" />
   </a>
+
   <a href="https://buymeacoffee.com/cicwtch">
-    <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" />
+    <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy a Bone" />
   </a>
 </p>
 
@@ -133,7 +141,7 @@ All rights reserved.
 
 This software is not open source at this time.
 
-No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software without explicit written permission.
+No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
 
 ---
 
