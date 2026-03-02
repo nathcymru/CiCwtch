@@ -79,8 +79,16 @@ Areas where collaboration is especially valuable:
 
 For discussion and community engagement:
 
-- 💬 Discord: *(insert invite link here)*  
-- 🐛 GitHub Issues: bug reports and feature proposals  
+- 💬 Discord: [https://discord.gg/w8SsYu9pUT](https://discord.gg/w8SsYu9pUT)  
+- 🐛 GitHub Issues: bug reports and feature proposals
+<p align="center">
+  <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
+  <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
+  <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
+  <a href="https://buymeacoffee.com/cicwtch">
+    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Bone" />
+  </a>
+</p>
 
 By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
 
