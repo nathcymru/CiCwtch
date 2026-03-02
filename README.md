@@ -58,19 +58,19 @@ This repository is publicly visible to support structured collaboration and tran
 ---
 
 ## 🤝 Collaboration & Community
+## 🤝 Collaboration & Community
 
 <p align="center">
-  <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
-  <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
-  <img src="https://img.shields.io/github/issues/nathcymru/CiCwtch?style=for-the-badge" alt="Open Issues" />
-  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
+  <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
+  <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
+  <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
 </p>
 
-CiCwtch welcomes constructive, well-considered contributions.
+CiCwtch welcomes thoughtful and structured collaboration.
 
-Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This keeps architecture coherent and avoids duplicated effort.
+Before submitting substantial changes, please open a GitHub Issue or Discussion to align on direction and scope. This maintains architectural coherence and avoids duplicated effort.
 
-Areas where collaboration is particularly valuable:
+Areas where collaboration is especially valuable:
 
 - Frontend and backend engineering  
 - UX and accessibility refinement  
@@ -78,12 +78,12 @@ Areas where collaboration is particularly valuable:
 - Documentation and technical clarity  
 - Security review  
 
-For discussion and informal collaboration:
+For discussion and community engagement:
 
 - 💬 Discord: *(insert invite link here)*  
-- 🐛 GitHub Issues: bug reports and feature requests  
+- 🐛 GitHub Issues: bug reports and feature proposals  
 
-By contributing to this repository, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
+By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
 
 ---
 
