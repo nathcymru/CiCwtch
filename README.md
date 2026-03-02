@@ -23,9 +23,23 @@
 
 ## 🐶 CiCwtch
 
-CiCwtch is a structured digital platform for modern dog walking and pet care services.
+CiCwtch is a structured digital platform designed for small dog walking and pet care businesses across the UK and Europe.
 
-Built with clarity and long-term architectural stability in mind, the platform aims to be dependable for families and care professionals alike.
+It began as a passion project — an attempt to build something calmer, clearer, and more dependable than the tools I could find. What started as solving small, everyday frustrations has grown into a disciplined effort to create a platform that balances warmth with technical integrity.
+
+CiCwtch is engineered with long-term architectural stability in mind. The aim is simple: dependable systems for professionals, reassuring simplicity for families.
+
+---
+
+### About the Builder
+
+I build for peace, for enjoyment, and to fix the little inefficiencies in my world.
+
+Dogs keep me grounded — especially Bentley, my delightfully bonkers Cavapoo. 🐾
+
+I am autistic, and the structured puzzles of engineering — whether an application, infrastructure, or a Home Assistant system — bring a kind of quiet order to an otherwise noisy world. There is something quietly powerful about improving what is right in front of you, properly and with care.
+
+CiCwtch is built in that spirit.
 
 ---
 ## 🛠️ Development Status
@@ -38,6 +52,7 @@ CiCwtch is currently in development.
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
 </p>
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
+
 ### 🚀 Built With
 
 These are some of the core technologies and frameworks used in the project:
@@ -77,20 +92,28 @@ Areas where collaboration is especially valuable:
 - Documentation and technical clarity  
 - Security review  
 
-For discussion and community engagement:
+By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform. All contributers must be arrpoved and agree to the contribution agreement found here [insert link].
+
+### For discussion and community engagement:
 
 - 💬 Discord: [https://discord.gg/w8SsYu9pUT](https://discord.gg/w8SsYu9pUT)  
 - 🐛 GitHub Issues: bug reports and feature proposals
-<p align="center">
+<p align="left">
   <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
   <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
   <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
+</p>
+
+### Sponsorship and support:
+
+<p align="left">
+<a href="https://github.com/sponsors/nathcymru">
+  <img src="https://img.shields.io/badge/Join%20the%20Pack-Sponsor%20CiCwtch-ff69b4?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Join the Pack" />
+</a>
   <a href="https://buymeacoffee.com/cicwtch">
     <img src="https://img.shields.io/badge/Buy%20Me%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy Me a Bone" />
   </a>
 </p>
-
-By contributing, you acknowledge that contributions may be incorporated into future commercial versions of the platform.
 
 ---
 
