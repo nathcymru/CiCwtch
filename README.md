@@ -55,7 +55,13 @@ These are some of the core technologies and frameworks used in the project:
 
 ## 🛠️ Development Status
 
-CiCwtch is currently in active development.
+CiCwtch is currently in development.
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
+  <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
+  <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
+</p>
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
