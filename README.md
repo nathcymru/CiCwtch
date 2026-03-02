@@ -33,22 +33,12 @@ Built with clarity and long-term architectural stability in mind, the platform a
 
 These are some of the core technologies and frameworks used in the project:
 
-<p align="center">
-  <a href="https://dart.dev/">
+<p align="left">
     <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
-  </a>
-  <a href="https://flutter.dev/">
     <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
-  </a>
-  <a href="https://nodejs.org/">
     <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
-  </a>
-  <a href="https://www.postgresql.org/">
     <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  </a>
-  <a href="https://git-scm.com/">
     <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
-  </a>
 </p>
 
 ---
@@ -57,7 +47,7 @@ These are some of the core technologies and frameworks used in the project:
 
 CiCwtch is currently in development.
 
-<p align="center">
+<p align="left">
   <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="CI Status" />
