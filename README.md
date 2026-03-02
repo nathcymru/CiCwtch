@@ -105,15 +105,13 @@ By contributing, you acknowledge that contributions may be incorporated into fut
 ### For discussion and community engagement
 
 <p align="left">
+  <a href="https://discord.gg/w8SsYu9pUT">
+    <img src="https://img.shields.io/badge/Join%20Discord-↗%20Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
+  </a>
 
-<a href="https://discord.gg/w8SsYu9pUT" style="text-decoration:none;">
-  <img src="https://img.shields.io/badge/Join%20Discord-Community%20Chat-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord" />
-</a>
-
-<a href="https://github.com/nathcymru/CiCwtch/issues" style="text-decoration:none;">
-  <img src="https://img.shields.io/badge/Open%20Issues-Report%20Bugs%20%26%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
-</a>
-
+  <a href="https://github.com/nathcymru/CiCwtch/issues">
+    <img src="https://img.shields.io/badge/Open%20Issues-↗%20Report%20Bugs%20%26%20Ideas-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues" />
+  </a>
 </p>
 
 ---
@@ -131,17 +129,14 @@ By contributing, you acknowledge that contributions may be incorporated into fut
 ### Sponsorship and support
 
 <p align="left">
+  <a href="https://github.com/sponsors/nathcymru">
+    <img src="https://img.shields.io/badge/Support%20CiCwtch-↗%20Join%20the%20Pack-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor CiCwtch" />
+  </a>
 
-<a href="https://github.com/sponsors/nathcymru">
-  <img src="https://img.shields.io/badge/Support%20CiCwtch-Join%20the%20Pack-EA4AAA?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor CiCwtch" />
-</a>
-
-<a href="https://buymeacoffee.com/cicwtch">
-  <img src="https://img.shields.io/badge/Support%20CiCwtch-Buy%20a%20Bone-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy Me a Bone" />
-</a>
-
+  <a href="https://buymeacoffee.com/cicwtch">
+    <img src="https://img.shields.io/badge/Support%20CiCwtch-↗%20Buy%20a%20Bone-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy Me a Bone" />
+  </a>
 </p>
-
 ---
 
 ## 📜 Licensing Information
@@ -152,9 +147,3 @@ All rights reserved.
 This software is **not open source** at this time.
 
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder.
-
----
-
-## 🎯 Vision
-
-CiCwtch blends warmth and technical discipline — designed to feel trusted because it is well engineered.
