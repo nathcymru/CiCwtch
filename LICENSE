@@ -1,13 +1,19 @@
 CiCwtch Proprietary License
 
 Copyright (c) 2026 Nathan Jones
-
 All rights reserved.
 
-This software and associated documentation files (the "Software") are proprietary and confidential.
+1. Ownership
+CiCwtch and all associated source code, assets, and documentation (the "Software") are owned by the copyright holder.
 
-No permission is granted to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of the Software without explicit written permission from the copyright holder.
+2. No Public License Granted
+The Software is proprietary. No permission is granted to any person or entity to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of the Software, in whole or in part, except as explicitly permitted in writing by the copyright holder.
 
-Approved contributors working under written agreement may access and modify the Software strictly within the scope of that agreement.
+3. Contributor Access by Agreement Only
+Access to contribute (including via pull requests or direct commits) may be granted to approved contributors under written agreement (including volunteer contribution terms or procurement/contract terms). Any contribution submitted is deemed licensed to the copyright holder for incorporation into current or future commercial versions of CiCwtch, as further described in the contribution terms.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+4. No Warranty
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+5. Limitation of Liability
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

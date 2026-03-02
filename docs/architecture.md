@@ -1,16 +1,19 @@
-# Architecture Overview
+# Architecture Overview (CiCwtch)
 
-## System Overview
-CiCwtch follows a modular architecture designed for long-term scalability.
+CiCwtch is designed for long-term maintainability and operational clarity.
 
-## Core Components
-- Flutter frontend
-- Node.js backend services
-- PostgreSQL database
+## Principles
+- Clear boundaries between UI, domain logic, and infrastructure
+- Security and privacy by design
+- Predictable data flows and auditable actions
 
-## Design Principles
-- Separation of concerns
-- Clear API boundaries
-- Testable components
+## Components (High-Level)
+- **Client Apps**: Flutter (mobile-first)
+- **Services**: Node.js backend services
+- **Data Layer**: PostgreSQL
 
-Future documentation will expand this using C4-style diagrams.
+## Documentation Style
+As this stabilises, architecture documentation will be expanded (C4 model / arc42 style), including:
+- context and container diagrams
+- data flow and trust boundaries
+- deployment and environment separation

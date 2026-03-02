@@ -1,5 +1,5 @@
 # Adopters
 
-This page will list organisations and projects using CiCwtch.
+This page will list organisations or projects using CiCwtch (with permission).
 
-(Coming soon.)
+- (none yet)
