@@ -33,6 +33,13 @@ CiCwtch is engineered with long-term architectural stability in mind. The aim is
 
 ### About the Builder
 
+<p>
+  <img src="brand/cavapoo.gif"
+       alt="Bentley the Cavapoo"
+       align="right"
+       height="160"
+       style="margin-left: 20px;" />
+  
 I build for peace, for enjoyment, and to fix the little inefficiencies in my world.
 
 Dogs keep me grounded — especially Bentley, my delightfully bonkers Cavapoo. 🐾
@@ -40,6 +47,7 @@ Dogs keep me grounded — especially Bentley, my delightfully bonkers Cavapoo. �
 I am autistic, and the structured puzzles of engineering — whether an application, infrastructure, or a Home Assistant system — bring a kind of quiet order to an otherwise noisy world. There is something quietly powerful about improving what is right in front of you, properly and with care.
 
 CiCwtch is built in that spirit.
+</p>
 
 ---
 ## 🛠️ Development Status
