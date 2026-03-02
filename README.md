@@ -58,9 +58,8 @@ This repository is publicly visible to support structured collaboration and tran
 ---
 
 ## 🤝 Collaboration & Community
-## 🤝 Collaboration & Community
 
-<p align="center">
+<p align="left">
   <img src="https://img.shields.io/github/contributors/nathcymru/CiCwtch?style=for-the-badge" alt="Contributors" />
   <img src="https://img.shields.io/github/forks/nathcymru/CiCwtch?style=for-the-badge" alt="Forks" />
   <img src="https://img.shields.io/github/stars/nathcymru/CiCwtch?style=for-the-badge" alt="Stars" />
