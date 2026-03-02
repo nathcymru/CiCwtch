@@ -160,7 +160,7 @@ CiCwtch is proprietary software.
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the `LICENSE` file.
 
 ---
-
+![Made in Cymru | Wales](https://img.shields.io/badge/Made%20in-Cymru%20%7C%20Wales-D30731?style=for-the-badge)
 <p align="center">
   Built in Wales 🛠️ Designed with Cwtch<br/>
   Adeiladwyd yng Nghymru 🏴 Dyluniwyd gyda Cwtch
