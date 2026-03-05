@@ -9,7 +9,7 @@
   </a>
 
 <a href="https://github.com/nathcymru/CiCwtch/releases">
-  <img src="https://img.shields.io/github/v/release/nathcymru/CiCwtch?style=for-the-badge" alt="Release" />
+  <img src="https://img.shields.io/github/v/tag/nathcymru/CiCwtch?sort=semver&style=for-the-badge&label=Release" alt="Release" />
 </a>
 
   <a href="https://github.com/nathcymru/CiCwtch/commits/main">
