@@ -8,9 +8,9 @@
     <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" />
   </a>
 
-  <a href="https://github.com/nathcymru/CiCwtch/releases">
-    <img src="https://img.shields.io/github/v/release/nathcymru/CiCwtch?include_prereleases=true&style=for-the-badge" alt="Release" />
-  </a>
+<a href="https://github.com/nathcymru/CiCwtch/releases">
+  <img src="https://img.shields.io/github/v/release/nathcymru/CiCwtch?style=for-the-badge" alt="Release" />
+</a>
 
   <a href="https://github.com/nathcymru/CiCwtch/commits/main">
     <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
