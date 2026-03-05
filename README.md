@@ -1,4 +1,4 @@
-<img src="brand/CiCwtch_logo_exact.svg" alt="CiCwtch Logo" align="right" height="72" />
+<img src="brand/app_icon_base.svg" alt="CiCwtch Logo" align="right" height="125" />
 
 # CiCwtch
 
@@ -37,7 +37,7 @@ CiCwtch is engineered with long-term architectural stability in mind. The aim is
 
 ### About the Builder
 
-<img src="brand/cavapoo.gif" alt="Bentley the Cavapoo" align="right" height="160" />
+<img src="brand/funny-dog-gif-7.gif" alt="Bentley the Cavapoo" align="right" height="160" />
 
 I build for peace, for enjoyment, and to fix the little inefficiencies in my world.
 
