@@ -4,7 +4,7 @@
 
 <p align="left">
   <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" />
-  <img src="https://img.shields.io/github/v/release/nathcymru/CiCwtch?include_prereleases=true&style=for-the-badge" alt="Latest Release" />
+  <img src="https://img.shields.io/github/v/tag/nathcymru/CiCwtch?sort=semver&style=for-the-badge" alt="Latest Release" />
   <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
   <img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" />
 </p>
@@ -47,8 +47,6 @@ The repository now includes a lean Flutter starter in `flutter/` so CI, Dependab
 
 <p align="left">
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
-  <img src="https://img.shields.io/github/codeql-analysis-status/nathcymru/CiCwtch?style=for-the-badge" alt="CodeQL Status" />
-  <img src="https://img.shields.io/badge/Snyk-Security%20Monitoring-4C4A73?style=for-the-badge&logo=snyk&logoColor=white" alt="Snyk Security" />
 </p>
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
@@ -70,9 +68,9 @@ Key project documents:
 ## 📦 Package & Dependency Health
 
 <p align="left">
-  <img src="https://img.shields.io/npm/v/cicwtch?style=for-the-badge" alt="npm version" />
-  <img src="https://img.shields.io/pub/v/cicwtch?style=for-the-badge" alt="pub.dev version" />
-  <img src="https://img.shields.io/docker/pulls/cicwtch/cicwtch?style=for-the-badge" alt="Docker pulls" />
+  <img src="https://img.shields.io/badge/npm-not%20published-lightgrey?style=for-the-badge&logo=npm&logoColor=white" alt="npm version" />
+  <img src="https://img.shields.io/badge/pub.dev-not%20published-lightgrey?style=for-the-badge&logo=dart&logoColor=white" alt="pub.dev version" />
+  <img src="https://img.shields.io/badge/Docker-not%20published-lightgrey?style=for-the-badge&logo=docker&logoColor=white" alt="Docker pulls" />
 </p>
 
 ---
@@ -147,7 +145,7 @@ By contributing, you acknowledge that contributions may be incorporated into cur
   </a>
 
   <a href="https://buymeacoffee.com/cicwtch">
-    <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy a Bone" />
+    <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy a Bone" />
   </a>
 </p>
 
@@ -163,11 +161,6 @@ CiCwtch is proprietary software.
 No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the `LICENSE` file.
 
 ---
-<p>
-  <img src="https://img.shields.io/badge/Made%20in-ffffff?style=for-the-badge&color=ffffff&labelColor=ffffff" alt="Made in" />
-  <img src="https://img.shields.io/badge/WALES-4f7a28?style=for-the-badge&color=4f7a28&labelColor=4f7a28" alt="WALES" />
-  <img src="https://img.shields.io/badge/CYMRU-ff4013?style=for-the-badge&color=ff4013&labelColor=ff4013" alt="CYMRU" />
-</p>
 <p align="center">
   Built in Wales 🛠️ Designed with Cwtch<br/>
   Adeiladwyd yng Nghymru 🏴 Dyluniwyd gyda Cwtch
