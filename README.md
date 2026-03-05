@@ -59,10 +59,13 @@ CiCwtch is currently in development.
   <a href="https://github.com/nathcymru/CiCwtch/pulse">
     <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Commit Activity" />
   </a>
+</p>
+
 The repository now includes a lean Flutter starter in `flutter/` so CI, Dependabot, and docs guardrails all point at a real application root. Native platform wrappers can be regenerated later with `flutter create . --platforms=android,ios,web` from inside `flutter/`.
 
 <!-- DEVELOPMENT STATUS -->
 
+<p align="left">
 <a href="docs/gdpr/readme.md">
   <img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="DPIA: In Progress" />
 </a>
@@ -71,7 +74,9 @@ The repository now includes a lean Flutter starter in `flutter/` so CI, Dependab
   <img src="https://img.shields.io/badge/GitHub%20Security-Open%20Dashboard-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Security" />
 </a>
 
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch)
+<a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch">
+  <img src="https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge" alt="OpenSSF Scorecard" />
+</a>
 </p>
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
@@ -231,7 +236,7 @@ All rights reserved.
 
 CiCwtch is proprietary software.
 
-No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the `LICENSE` file.
+No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the [LICENCSE.md](LICENCSE.md) file.
 
 ---
 <p align="center">
