@@ -53,41 +53,40 @@ CiCwtch is built in that spirit.
 
 ## 🛠️ Development Status
 
-CiCwtch is currently in active development.
+CiCwtch is currently in development.
 
-The repository now includes a lean Flutter starter in `flutter/` so CI, Dependabot, and docs guardrails all point at a real application root. Native platform wrappers can be regenerated later with `flutter create . --platforms=android,ios,web` from inside `flutter/`.
-
-<!-- DEVELOPMENT STATUS -->
 <p align="left">
   <a href="https://github.com/nathcymru/CiCwtch/pulse">
     <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Commit Activity" />
   </a>
+The repository now includes a lean Flutter starter in `flutter/` so CI, Dependabot, and docs guardrails all point at a real application root. Native platform wrappers can be regenerated later with `flutter create . --platforms=android,ios,web` from inside `flutter/`.
+
+<!-- DEVELOPMENT STATUS -->
+
+<a href="docs/gdpr/readme.md">
+  <img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="DPIA: In Progress" />
+</a>
 
 <a href="https://github.com/nathcymru/CiCwtch/security">
   <img src="https://img.shields.io/badge/GitHub%20Security-Open%20Dashboard-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Security" />
 </a>
 
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge)](https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch)
-
-<a href="docs/gdpr/readme.md">
-  <img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="DPIA: In Progress" />
-</a>
-
 </p>
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
 Key project documents:
 
-- Architecture: `docs/architecture.md`
-- Roadmap: `docs/ROADMAP.md`
-- Governance: `docs/GOVERNANCE.md`
-- Changelog: `docs/CHANGELOG.md`
-- Contribution Guide: `.github/CONTRIBUTING.md`
-- Code of Conduct: `.github/CODE_OF_CONDUCT.md`
-- Security Policy: `.github/SECURITY.md`
-- Support: `.github/SUPPORT.md`
-- Flutter App Starter: `flutter/README.md`
+- Architecture: [docs/architecture.md](docs/architecture.md)
+- Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
+- Governance: [docs/GOVERNANCE.md](docs/GOVERNANCE.md)
+- Changelog: [docs/CHANGELOG.md](docs/CHANGELOG.md)
+- Contribution Guide: [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md)
+- Code of Conduct: [.github/CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md)
+- Security Policy: [.github/SECURITY.md](.github/SECURITY.md)
+- Support: [.github/SUPPORT.md](.github/SUPPORT.md)
+- Flutter App Starter: [flutter/README.md](flutter/README.md)
 
 ---
 
