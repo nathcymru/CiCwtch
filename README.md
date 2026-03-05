@@ -1,9 +1,6 @@
-<img src="brand/app_icon_base.svg" alt="CiCwtch Logo" align="right" height="60" />
-
-# CiCwtch
-
+<img src="brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
 <!-- HEADER BADGES -->
-<p align="left">
+<p align="right">
   <a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" />
   </a>
@@ -17,19 +14,15 @@
   </a>
 </p>
 
+# CiCwtch
+
 <br clear="right" />
-
----
-
-## 🐶 About CiCwtch
 
 CiCwtch is a structured digital platform designed for small dog walking and pet care businesses across the UK and Europe.
 
 It began as a passion project — an attempt to build something calmer, clearer, and more dependable than the tools I could find. What started as solving small, everyday frustrations has grown into a disciplined effort to create a platform that balances warmth with technical integrity.
 
 CiCwtch is engineered with long-term architectural stability in mind. The aim is simple: dependable systems for professionals, reassuring simplicity for families.
-
----
 
 ### About the Builder
 
@@ -44,8 +37,6 @@ I am autistic, and the structured puzzles of engineering — whether an applicat
 CiCwtch is built in that spirit.
 
 <br clear="right" />
-
----
 
 ## 🛠️ Development Status
 
@@ -77,7 +68,7 @@ The repository now includes a lean Flutter starter in `flutter/` so CI, Dependab
 
 This repository is publicly visible to support structured collaboration and transparency during the build phase.
 
-Key project documents:
+### Key project documents:
 
 - Architecture: [docs/architecture.md](docs/architecture.md)
 - Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
@@ -89,10 +80,8 @@ Key project documents:
 - Support: [.github/SUPPORT.md](.github/SUPPORT.md)
 - Flutter App Starter: [flutter/README.md](flutter/README.md)
 
----
-
 ## 📦 Package & Dependency Health
-
+These badges monitor the health of CiCwtch dependencies across npm, Dart (pub.dev), and container tooling, helping ensure packages remain current and free from known vulnerabilities.
 <!-- PACKAGE & DEPENDENCY HEALTH (HONEST UNTIL PUBLISHED) -->
 <p align="left">
   <a href="docs/ROADMAP.md">
@@ -108,9 +97,8 @@ Key project documents:
   </a>
 </p>
 
----
-
-### 🏗 Built On
+### 🏗 Built on
+CiCwtch uses Cloudflare’s developer platform for edge-hosted services, with Workers providing the runtime and D1 and R2 handling database and object storage, as outlined in the system architecture documentation.
 <p align="left">
   <a href="https://www.cloudflare.com/">
     <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare" />
@@ -126,8 +114,8 @@ Key project documents:
   </a>
 </p>
 
-### 🧠 Built With
-
+### 🧠 Built with
+The application is written primarily in Flutter and Dart, enabling a single cross-platform codebase, with Stripe handling payments and SQLite used where lightweight storage is required, as defined in the project’s User Requirements Specification (URS).
 <p align="left">
   <a href="https://flutter.dev/">
     <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
@@ -143,7 +131,8 @@ Key project documents:
   </a>
 </p>
 
-### 📱Built For
+### 📱Built for
+CiCwtch targets iOS, Android, modern web browsers, and Progressive Web App installation from a unified Flutter codebase, consistent with the platform scope described in the URS.
 <p align="left">
   <a href="https://www.apple.com/ios/">
     <img src="https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="iOS" />
@@ -176,10 +165,6 @@ Key project documents:
   <a href="https://github.com/nathcymru/CiCwtch/pulls">
     <img src="https://img.shields.io/github/issues-pr/nathcymru/CiCwtch?style=for-the-badge" alt="Open PRs" />
   </a>
-
-  <a href="https://discord.gg/w8SsYu9pUT">
-    <img src="https://img.shields.io/discord/1477923985617326091?style=for-the-badge&label=Discord&logo=discord&logoColor=white" alt="Discord" />
-  </a>
 </p>
 
 CiCwtch welcomes thoughtful and structured collaboration under a formal approval process.  
@@ -190,13 +175,13 @@ Before submitting substantial changes, please open a GitHub Issue or Discussion 
 
 <!-- SUPPORT BUTTONS (KEEP YOUR EXISTING LINKS) -->
 <p align="left">
-  <a href="https://github.com/nathcymru/CiCwtch">
-    <img src="https://img.shields.io/badge/Join%20the%20Pack-Contribute-5865F2?style=for-the-badge&logo=github&logoColor=white" alt="Join the Pack" />
-  </a>
+<a href="https://discord.gg/w8SsYu9pUT">
+  <img src="https://img.shields.io/discord/1477923985617326091?style=for-the-badge&label=Join%20Discord&logo=discord&logoColor=white" alt="Join Discord" />
+</a>
 
-  <a href="https://buymeacoffee.com/cicwtch">
-    <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy a Bone" />
-  </a>
+<a href="https://github.com/nathcymru/CiCwtch/issues">
+  <img src="https://img.shields.io/badge/Report%20Issues-GitHub%20Issues-181717?style=for-the-badge&logo=github&logoColor=white" alt="Report Issues" />
+</a>
 </p>
 
 Areas where collaboration is especially valuable:
@@ -209,8 +194,6 @@ Areas where collaboration is especially valuable:
 
 By contributing, you acknowledge that contributions may be incorporated into current or future commercial versions of the platform in accordance with the contribution terms.
 
----
-
 ### Sponsorship & Support
 
 <p align="left">
@@ -222,8 +205,6 @@ By contributing, you acknowledge that contributions may be incorporated into cur
     <img src="https://img.shields.io/badge/Buy%20a%20Bone-Support%20CiCwtch-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=white" alt="Buy a Bone" />
   </a>
 </p>
-
----
 
 ## 📜 Licensing
 
