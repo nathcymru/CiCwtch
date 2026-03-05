@@ -1,4 +1,4 @@
-<img src="brand/app_icon_base.svg" alt="CiCwtch Logo" align="right" height="55" />
+<img src="brand/app_icon_base.svg" alt="CiCwtch Logo" align="right" height="60" />
 
 # CiCwtch
 
@@ -14,10 +14,6 @@
 
   <a href="https://github.com/nathcymru/CiCwtch/commits/main">
     <img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" />
-  </a>
-
-  <a href="https://github.com/nathcymru/CiCwtch/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" />
   </a>
 </p>
 
@@ -37,7 +33,7 @@ CiCwtch is engineered with long-term architectural stability in mind. The aim is
 
 ### About the Builder
 
-<img src="brand/cutedog.png" alt="Bentley the Cavapoo" align="right" height="160" />
+<img src="brand/cutedog.png" alt="Bentley the Cavapoo" align="right" height="200" />
 
 I build for peace, for enjoyment, and to fix the little inefficiencies in my world.
 
@@ -231,12 +227,12 @@ By contributing, you acknowledge that contributions may be incorporated into cur
 
 ## 📜 Licensing
 
-Copyright © 2026 Nathan Jones  
-All rights reserved.
-
-CiCwtch is proprietary software.
-
-No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the [LICENCSE.md](LICENCSE.md) file.
+<p align="left">
+  <a href="https://github.com/nathcymru/CiCwtch/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" />
+  </a>
+</p>
+CiCwtch is proprietary software.  No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the [LICENCSE.md](LICENCSE.md) file. Copyright © 2026 Nathan Jones.
 
 ---
 <p align="center">
