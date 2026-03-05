@@ -43,6 +43,8 @@ CiCwtch is built in that spirit.
 
 CiCwtch is currently in active development.
 
+The repository now includes a lean Flutter starter in `flutter/` so CI, Dependabot, and docs guardrails all point at a real application root. Native platform wrappers can be regenerated later with `flutter create . --platforms=android,ios,web` from inside `flutter/`.
+
 <p align="left">
   <img src="https://img.shields.io/github/commit-activity/m/nathcymru/CiCwtch?style=for-the-badge" alt="Monthly Activity" />
   <img src="https://img.shields.io/github/codeql-analysis-status/nathcymru/CiCwtch?style=for-the-badge" alt="CodeQL Status" />
@@ -61,6 +63,7 @@ Key project documents:
 - Code of Conduct: `.github/CODE_OF_CONDUCT.md`
 - Security Policy: `.github/SECURITY.md`
 - Support: `.github/SUPPORT.md`
+- Flutter App Starter: `flutter/README.md`
 
 ---
 

@@ -36,6 +36,8 @@ jobs:
               - 'flutter/lib/application/**'
               - 'flutter/lib/data/**'
               - 'flutter/lib/presentation/**'
+              - 'flutter/lib/shared/**'
+              - 'flutter/lib/main.dart'
               - 'flutter/pubspec.yaml'
               - 'flutter/analysis_options.yaml'
               - 'flutter/tools/**'
@@ -50,7 +52,8 @@ jobs:
             docs_changed:
               - 'docs/**'
               - 'README.md'
-              - 'flutter/FLUTTER_README.md'
+              - 'flutter/README.md'
+              - '.github/PULL_REQUEST_TEMPLATE.md'
 
       - name: Fail if docs not updated for architecture-sensitive changes
         if: steps.bypass.outputs.bypass != 'true' && steps.changes.outputs.arch_sensitive == 'true' && steps.changes.outputs.docs_changed != 'true'
@@ -60,7 +63,7 @@ jobs:
           echo "What changed (arch-sensitive):"
           echo "${{ steps.changes.outputs.arch_sensitive_files }}"
           echo ""
-          echo "Expected: update at least one doc under /docs (or README / flutter/FLUTTER_README.md)."
+          echo "Expected: update at least one doc under /docs (or README / flutter/README.md)."
           echo ""
           echo "If docs genuinely do not need updating, add PR label: docs-not-required"
           exit 1
