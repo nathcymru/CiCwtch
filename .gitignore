@@ -122,3 +122,7 @@ app.*.symbols
 .DS_Store
 **/.DS_Store
 __MACOSX/
+
+# IDE / editor files
+**/.idea/
+**/*.iml
