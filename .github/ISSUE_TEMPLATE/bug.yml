@@ -1,0 +1,147 @@
+name: "🐛 Bug Report"
+description: Report something that is broken or behaving incorrectly in CiCwtch.
+title: "[BUG] "
+labels: ["bug"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please provide enough detail to reproduce the issue reliably.
+        For client-facing issues, include whether this is **Client Portal** or **Admin/Walker** side.
+
+  - type: dropdown
+    id: app_area
+    attributes:
+      label: App Area
+      options:
+        - Client Portal (Pet Owner)
+        - Admin / Walker
+        - Shared / Both
+        - Unsure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Web
+        - iOS
+        - Android
+        - Web + iOS
+        - Web + Android
+        - iOS + Android
+        - All three (Web, iOS, Android)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App Version / Commit
+      description: Paste the app version, tag, or commit SHA where this occurs.
+      placeholder: e.g. v0.3.1 or 1a2b3c4
+    validations:
+      required: false
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken? One or two sentences.
+      placeholder: e.g. Client cannot apply voucher code; error shown but invoice total still changes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro_steps
+    attributes:
+      label: Steps to Reproduce
+      description: Provide exact, numbered steps.
+      placeholder: |
+        1) Log in as client
+        2) Open Invoices
+        3) Select invoice #123
+        4) Apply voucher "WELCOME10"
+        5) Observe error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behaviour
+      placeholder: e.g. Voucher should apply and invoice total should reduce by 10%.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behaviour
+     placeholder: e.g. App shows "Invalid voucher" but still reduces the total; refresh resets it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Screen Recording
+      description: Drag and drop images/videos here or paste links.
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Console Output
+      description: Paste relevant logs (Flutter debug console, web console, API responses). Remove secrets.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: network
+    attributes:
+      label: API / Network Notes
+      description: If relevant, include endpoint, status code, and response snippet (redact tokens).
+      placeholder: |
+        Endpoint: POST /api/v1/client/invoices/{id}/apply-voucher
+        Status: 400
+        Body: {"error":"voucher_expired"}
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Add device/browser details.
+      placeholder: |
+        Web: Chrome 123 on macOS
+        iOS: iPhone 14, iOS 17.3
+        Android: Pixel 7, Android 14
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: regression
+    attributes:
+      label: Regression Check
+      options:
+        - label: This worked in a previous version and recently broke (regression).
+        - label: This is intermittent/flaky.
+        - label: This blocks core user flow (login, booking, walk completion, invoice).
+    validations:
+      required: false
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact / Severity
+      description: How bad is it (annoying, blocks work, data loss risk, security)?
+      placeholder: e.g. Blocks client bookings entirely; high impact.
+    validations:
+      required: true
