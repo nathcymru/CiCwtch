@@ -1,5 +1,11 @@
 # Pull Request Summary
 
+## Task reference
+
+Closes #
+
+State the single task/issue this PR implements.
+
 ## What does this change do?
 
 Describe the change clearly and in plain language.
@@ -7,6 +13,21 @@ Describe the change clearly and in plain language.
 ## Why is this change needed?
 
 Explain the problem being solved, the user need, or the project objective.
+
+## URS alignment
+
+- [ ] This change aligns with the URS
+- [ ] This change does not alter agreed product scope
+
+If relevant, cite the URS section(s) reviewed.
+
+## Copilot usage note
+
+- [ ] Copilot-assisted change
+- [ ] Manually authored change
+- [ ] Copilot output was reviewed and corrected where necessary
+
+Briefly note any important corrections made to generated code.
 
 ## Architecture impact
 
@@ -23,7 +44,6 @@ Describe any impact on layers, module boundaries, responsibilities, state flow, 
 - [ ] Migration required
 
 If applicable, describe:
-
 - tables/collections added, removed, or changed;
 - columns/fields added, removed, or changed;
 - indexes or constraints changed;
@@ -51,7 +71,6 @@ If applicable, provide step-by-step instructions for safe rollout.
 - [ ] Visible UI change included
 
 If the UI changed, add screenshots or screen recordings for:
-
 - mobile;
 - web;
 - any notable responsive states.
@@ -74,9 +93,19 @@ If no documentation changes were made for an architecture-sensitive change, expl
 
 List any extra checks, environments, or limitations.
 
+## Demo path
+
+Provide the shortest step-by-step path to prove this PR works.
+
 ## Risks and rollback
 
 Describe any implementation risks, edge cases, or rollback considerations.
+
+## Out of scope confirmation
+
+- [ ] No unrelated refactors included
+- [ ] No speculative future features included
+- [ ] No new framework or architectural pattern introduced
 
 ## Checklist
 
