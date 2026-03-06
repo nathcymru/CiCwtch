@@ -52,7 +52,7 @@ This repository is publicly visible to support structured collaboration and tran
 
 ### 📂 Key project documents:
 
-- Architecture: [docs/architecture.md](docs/architecture.md)
+- Architecture: [docs/architecture/README.md](docs/architecture/README.md)
 - Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md)
 - Governance: [docs/GOVERNANCE.md](docs/GOVERNANCE.md)
 - Changelog: [docs/CHANGELOG.md](docs/CHANGELOG.md)
@@ -158,7 +158,7 @@ If you find this project valuable, please consider supporting its ongoing develo
 <p align="left">
   <a href="https://github.com/nathcymru/CiCwtch/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" /></a>
 </p>
-CiCwtch is proprietary software.  No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the [docs/LICENCSE.md](docs/LICENCSE.md) file. Copyright © 2026 Nathan Jones.
+CiCwtch is proprietary software.  No permission is granted to copy, modify, distribute, sublicense, or commercially exploit this software, in whole or in part, without explicit written permission from the copyright holder, except as defined in the [LICENSE](LICENSE) file. Copyright © 2026 Nathan Jones.
 <p>&nbsp;</p>
 
 ---
