@@ -5,7 +5,6 @@ labels:
   - copilot
   - development
 body:
-
   - type: markdown
     attributes:
       value: |
@@ -13,10 +12,12 @@ body:
 
         This issue is a **single isolated implementation task** intended for execution with GitHub Copilot.
 
-        ⚠️ Rules:
+        ### Rules
         - One task per PR
         - Do not expand scope beyond this issue
-        - Follow URS and architecture strictly
+        - Follow the URS and architecture strictly
+        - Do not introduce unrelated refactors
+        - Do not add unnecessary dependencies
 
   - type: markdown
     attributes:
@@ -29,24 +30,25 @@ body:
         **Core References**
         - URS: `/docs/URS.md`
         - Architecture: `/docs/architecture.md`
+        - Copilot instructions: `/.github/copilot-instructions.md`
 
         **Technology Stack (do not change)**
 
-        Client
+        **Client**
         - Flutter (Dart)
         - Targets: Web, iOS, Android
 
-        Backend
+        **Backend**
         - Cloudflare Workers
         - REST API
 
-        Database
+        **Database**
         - Cloudflare D1 (SQLite)
 
-        Storage (future)
+        **Storage (future)**
         - Cloudflare R2
 
-        Payments (future)
+        **Payments (future)**
         - Stripe
 
         ---
@@ -59,22 +61,23 @@ body:
         - Keep dependencies minimal
         - Prefer simple maintainable code
         - Avoid unnecessary abstractions
+        - Output complete working changes, not partial sketches
 
         ---
         ## Architecture Constraints
 
-        API
+        **API**
         - REST style
         - Versioned routes `/api/v1/`
         - JSON responses only
 
-        Database
+        **Database**
         - SQLite compatible SQL
         - UUID text primary keys
         - `created_at`, `updated_at`
-        - `archived_at` for soft deletes
+        - `archived_at` for soft deletes where appropriate
 
-        Development
+        **Development**
         - Feature isolated to this task
         - No unrelated refactoring
         - No speculative architecture changes
@@ -123,17 +126,17 @@ body:
     id: implementation
     attributes:
       label: Implementation Notes
-      description: Helpful hints or design guidance
+      description: Helpful hints, field definitions, route notes, schema notes, or design guidance
       placeholder: |
         Example:
         Client fields:
-        id
-        full_name
-        phone
-        email
-        address_id
-        created_at
-        updated_at
+        - id
+        - full_name
+        - phone
+        - email
+        - address_id
+        - created_at
+        - updated_at
 
   - type: textarea
     id: acceptance
@@ -145,6 +148,7 @@ body:
         - All CRUD routes work
         - API returns valid JSON
         - Validation errors handled correctly
+        - Code compiles successfully
     validations:
       required: true
 
@@ -152,15 +156,26 @@ body:
     id: demo
     attributes:
       label: Demo Steps
-      description: How to prove the feature works
+      description: Short step-by-step proof that the feature works
       placeholder: |
         Example:
         1. Run API locally
-        2. POST new client
-        3. GET client list
+        2. POST a new client
+        3. GET the client list
         4. Verify returned data
     validations:
       required: true
+
+  - type: textarea
+    id: pr_notes
+    attributes:
+      label: Pull Request Notes for Copilot
+      description: Any specific points Copilot should mention when drafting the PR summary
+      placeholder: |
+        Example:
+        - Mention migration file added
+        - Mention no UI change
+        - Mention API is backwards-compatible
 
   - type: checkboxes
     id: verification
