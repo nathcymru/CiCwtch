@@ -126,3 +126,9 @@ __MACOSX/
 # IDE / editor files
 **/.idea/
 **/*.iml
+
+# Cloudflare Workers / Wrangler
+worker/node_modules/
+worker/.wrangler/
+worker/dist/
+*.wrangler.toml.local
