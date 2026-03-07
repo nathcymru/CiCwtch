@@ -161,7 +161,7 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _status,
+                initialValue: _status,
                 decoration: const InputDecoration(
                   labelText: 'Status *',
                   border: OutlineInputBorder(),
@@ -182,7 +182,7 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _serviceType,
+                initialValue: _serviceType,
                 decoration: const InputDecoration(
                   labelText: 'Service type *',
                   border: OutlineInputBorder(),
