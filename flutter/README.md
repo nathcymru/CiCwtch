@@ -48,3 +48,28 @@ Key points:
   - `toJson`: `value ? 1 : 0`
 - No code generators are used — all `fromJson` / `toJson` implementations are explicit plain Dart.
 - No Flutter imports — model files are pure Dart.
+
+## Features
+
+### Clients
+
+Clients CRUD is implemented at `lib/features/clients/`. Screens:
+
+- **Clients list** — `ClientsListScreen` — lists active clients; FAB to create; tap to view detail.
+- **Client detail** — `ClientDetailScreen` — shows full client record; edit and archive actions.
+- **Create client** — `ClientCreateScreen` / `ClientFormScreen` — form with required `full_name`.
+- **Edit client** — `ClientEditScreen` / `ClientFormScreen` — pre-populated form; saves via `PUT /api/v1/clients/:id`.
+
+API dependency: `/api/v1/clients` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+### Dogs
+
+Dogs CRUD is implemented at `lib/features/dogs/`. Screens:
+
+- **Dogs list** — `DogsListScreen` — lists all dogs; FAB to create; tap to view detail.
+- **Dog detail** — `DogDetailScreen` — shows full dog record including breed, sex, neutered status, medical, behavioural, and feeding notes; edit and archive actions.
+- **Create dog** — `DogCreateScreen` / `DogFormScreen` — form with required `name` and `client_id`; optional breed, sex, neutered, date of birth, colour, microchip, vet practice, and notes fields.
+- **Edit dog** — `DogEditScreen` / `DogFormScreen` — pre-populated form; saves via `PUT /api/v1/dogs/:id`.
+- **Archive dog** — confirmation dialog; calls `DELETE /api/v1/dogs/:id`; returns to list on success.
+
+API dependency: `/api/v1/dogs` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
