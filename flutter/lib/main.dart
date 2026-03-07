@@ -66,6 +66,13 @@ class HomePage extends StatelessWidget {
                 onTap: () =>
                     Navigator.pushNamed(context, AppRoutes.dogsList),
               ),
+              ListTile(
+                leading: const Icon(Icons.directions_walk),
+                title: const Text('Walks'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () =>
+                    Navigator.pushNamed(context, AppRoutes.walksList),
+              ),
             ],
           ),
         ),

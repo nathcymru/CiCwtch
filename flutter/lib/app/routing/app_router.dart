@@ -8,6 +8,10 @@ import 'package:cicwtch/features/dogs/presentation/dog_create_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dog_detail_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dog_edit_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dogs_list_screen.dart';
+import 'package:cicwtch/features/walks/presentation/walk_create_screen.dart';
+import 'package:cicwtch/features/walks/presentation/walk_detail_screen.dart';
+import 'package:cicwtch/features/walks/presentation/walk_edit_screen.dart';
+import 'package:cicwtch/features/walks/presentation/walks_list_screen.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 
 class AppRoutes {
@@ -20,6 +24,10 @@ class AppRoutes {
   static const dogDetail = '/dogs/detail';
   static const dogCreate = '/dogs/create';
   static const dogEdit = '/dogs/edit';
+  static const walksList = '/walks';
+  static const walkDetail = '/walks/detail';
+  static const walkCreate = '/walks/create';
+  static const walkEdit = '/walks/edit';
 }
 
 class AppRouter {
@@ -67,6 +75,28 @@ class AppRouter {
         final dog = settings.arguments as Dog;
         return MaterialPageRoute(
           builder: (_) => DogEditScreen(dog: dog),
+          settings: settings,
+        );
+      case AppRoutes.walksList:
+        return MaterialPageRoute(
+          builder: (_) => const WalksListScreen(),
+          settings: settings,
+        );
+      case AppRoutes.walkDetail:
+        final walkId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => WalkDetailScreen(walkId: walkId),
+          settings: settings,
+        );
+      case AppRoutes.walkCreate:
+        return MaterialPageRoute(
+          builder: (_) => const WalkCreateScreen(),
+          settings: settings,
+        );
+      case AppRoutes.walkEdit:
+        final walk = settings.arguments as Walk;
+        return MaterialPageRoute(
+          builder: (_) => WalkEditScreen(walk: walk),
           settings: settings,
         );
       default:

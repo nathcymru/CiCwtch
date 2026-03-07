@@ -73,3 +73,15 @@ Dogs CRUD is implemented at `lib/features/dogs/`. Screens:
 - **Archive dog** — confirmation dialog; calls `DELETE /api/v1/dogs/:id`; returns to list on success.
 
 API dependency: `/api/v1/dogs` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+### Walks
+
+Walks CRUD is implemented at `lib/features/walks/`. Screens:
+
+- **Walks list** — `WalksListScreen` — lists active walks; FAB to create; tap to view detail.
+- **Walk detail** — `WalkDetailScreen` — shows full walk record including scheduled date/times, status, service type, dog ID, walker ID, and notes; edit and archive actions.
+- **Create walk** — `WalkCreateScreen` / `WalkFormScreen` — form with required `client_id`, `dog_id`, `scheduled_date`, `status`, and `service_type`; optional walker ID, start/end times, and notes.
+- **Edit walk** — `WalkEditScreen` / `WalkFormScreen` — pre-populated form; saves via `PUT /api/v1/walks/:id`.
+- **Archive walk** — confirmation dialog; calls `DELETE /api/v1/walks/:id`; returns to list on success.
+
+API dependency: `/api/v1/walks` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
