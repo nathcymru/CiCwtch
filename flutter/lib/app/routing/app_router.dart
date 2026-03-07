@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:cicwtch/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:cicwtch/features/clients/presentation/client_create_screen.dart';
 import 'package:cicwtch/features/clients/presentation/client_detail_screen.dart';
 import 'package:cicwtch/features/clients/presentation/client_edit_screen.dart';
@@ -20,6 +21,7 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 
 class AppRoutes {
   static const home = '/';
+  static const dashboard = '/dashboard';
   static const clientsList = '/clients';
   static const clientDetail = '/clients/detail';
   static const clientCreate = '/clients/create';
@@ -41,6 +43,11 @@ class AppRoutes {
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.dashboard:
+        return MaterialPageRoute(
+          builder: (_) => const DashboardScreen(),
+          settings: settings,
+        );
       case AppRoutes.clientsList:
         return MaterialPageRoute(
           builder: (_) => const ClientsListScreen(),
