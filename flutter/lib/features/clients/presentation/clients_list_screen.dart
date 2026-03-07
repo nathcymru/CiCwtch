@@ -5,6 +5,8 @@ import 'package:cicwtch/features/clients/data/clients_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/empty_state_block.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
 
 import 'client_detail_screen.dart';
 import 'client_create_screen.dart';
@@ -119,49 +121,22 @@ class _ClientsListScreenState extends State<ClientsListScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_clients.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.people_outline, size: 64),
-            SizedBox(height: 16),
-            Text('No clients yet. Tap + to add one.'),
-          ],
-        ),
+      return const EmptyStateBlock(
+        icon: Icons.people_outline,
+        message: 'No clients yet. Tap + to add one.',
       );
     }
 
     final filtered = _filteredClients;
 
     if (filtered.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.search_off, size: 64),
-            const SizedBox(height: 16),
-            Text('No clients match "$_searchQuery".'),
-          ],
-        ),
+      return EmptyStateBlock(
+        icon: Icons.search_off,
+        message: 'No clients match "$_searchQuery".',
       );
     }
 

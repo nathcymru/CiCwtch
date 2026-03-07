@@ -5,6 +5,9 @@ import 'package:cicwtch/features/walks/data/walks_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/detail_row.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/form_date_helper.dart';
 
 import 'walk_edit_screen.dart';
 
@@ -124,22 +127,7 @@ class _WalkDetailScreenState extends State<WalkDetailScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_walk == null) return const SizedBox.shrink();
@@ -148,74 +136,31 @@ class _WalkDetailScreenState extends State<WalkDetailScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _DetailRow(label: 'Scheduled date', value: walk.scheduledDate),
-        _DetailRow(label: 'Status', value: walk.status),
-        _DetailRow(label: 'Service type', value: walk.serviceType),
-        _DetailRow(label: 'Client ID', value: walk.clientId),
-        _DetailRow(label: 'Dog ID', value: walk.dogId),
+        DetailRow(label: 'Scheduled date', value: walk.scheduledDate),
+        DetailRow(label: 'Status', value: walk.status),
+        DetailRow(label: 'Service type', value: walk.serviceType),
+        DetailRow(label: 'Client ID', value: walk.clientId),
+        DetailRow(label: 'Dog ID', value: walk.dogId),
         if (walk.walkerId != null)
-          _DetailRow(label: 'Walker ID', value: walk.walkerId!),
+          DetailRow(label: 'Walker ID', value: walk.walkerId!),
         if (walk.scheduledStartTime != null)
-          _DetailRow(
+          DetailRow(
               label: 'Scheduled start', value: walk.scheduledStartTime!),
         if (walk.scheduledEndTime != null)
-          _DetailRow(label: 'Scheduled end', value: walk.scheduledEndTime!),
+          DetailRow(label: 'Scheduled end', value: walk.scheduledEndTime!),
         if (walk.actualStartTime != null)
-          _DetailRow(label: 'Actual start', value: walk.actualStartTime!),
+          DetailRow(label: 'Actual start', value: walk.actualStartTime!),
         if (walk.actualEndTime != null)
-          _DetailRow(label: 'Actual end', value: walk.actualEndTime!),
+          DetailRow(label: 'Actual end', value: walk.actualEndTime!),
         if (walk.pickupAddressId != null)
-          _DetailRow(
+          DetailRow(
               label: 'Pickup address ID', value: walk.pickupAddressId!),
         if (walk.notes != null)
-          _DetailRow(label: 'Notes', value: walk.notes!),
+          DetailRow(label: 'Notes', value: walk.notes!),
         const Divider(height: 32),
-        _DetailRow(label: 'Created', value: _formatDate(walk.createdAt)),
-        _DetailRow(label: 'Updated', value: _formatDate(walk.updatedAt)),
+        DetailRow(label: 'Created', value: formatDetailDate(walk.createdAt)),
+        DetailRow(label: 'Updated', value: formatDetailDate(walk.updatedAt)),
       ],
-    );
-  }
-
-  String _formatDate(String iso) {
-    try {
-      final dt = DateTime.parse(iso).toLocal();
-      return '${dt.day.toString().padLeft(2, '0')}/'
-          '${dt.month.toString().padLeft(2, '0')}/'
-          '${dt.year}  '
-          '${dt.hour.toString().padLeft(2, '0')}:'
-          '${dt.minute.toString().padLeft(2, '0')}';
-    } catch (_) {
-      return iso;
-    }
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160,
-            child: Text(
-              label,
-              style: theme.textTheme.labelLarge,
-            ),
-          ),
-          Expanded(
-            child: Text(value),
-          ),
-        ],
-      ),
     );
   }
 }

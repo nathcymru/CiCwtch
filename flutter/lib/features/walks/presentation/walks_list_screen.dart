@@ -5,6 +5,8 @@ import 'package:cicwtch/features/walks/data/walks_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/empty_state_block.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
 
 import 'walk_create_screen.dart';
 import 'walk_detail_screen.dart';
@@ -154,49 +156,22 @@ class _WalksListScreenState extends State<WalksListScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_walks.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.directions_walk_outlined, size: 64),
-            SizedBox(height: 16),
-            Text('No walks found.'),
-          ],
-        ),
+      return const EmptyStateBlock(
+        icon: Icons.directions_walk_outlined,
+        message: 'No walks found.',
       );
     }
 
     final filtered = _filteredWalks;
 
     if (filtered.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.search_off, size: 64),
-            SizedBox(height: 16),
-            Text('No walks match the current search or filter.'),
-          ],
-        ),
+      return const EmptyStateBlock(
+        icon: Icons.search_off,
+        message: 'No walks match the current search or filter.',
       );
     }
 

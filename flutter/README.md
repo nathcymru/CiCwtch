@@ -169,3 +169,29 @@ If the loaded data is non-empty but no items match the current search or filter,
 - Filtering is client-side only. The existing list fetch behaviour is unchanged.
 - No new packages were introduced.
 - Existing CRUD flows (create, detail, edit, archive) are unaffected.
+
+## Shared UX polish (Task 18)
+
+Shared presentation widgets were extracted to `lib/shared/presentation/` to eliminate duplication and ensure consistent UX across all four CRUD feature areas.
+
+### Shared widgets
+
+| Widget / helper | File | Purpose |
+|-----------------|------|---------|
+| `DetailRow` | `detail_row.dart` | Two-column label/value row for detail screens (label width 160, `labelLarge` style) |
+| `FormErrorBanner` | `form_error_banner.dart` | Themed error banner shown above form fields on submit failure |
+| `EmptyStateBlock` | `empty_state_block.dart` | Centred icon + message for empty list and no-matches states |
+| `ErrorStateBlock` | `error_state_block.dart` | Centred error message + Retry button for load failure states |
+| `SectionHeading` | `section_heading.dart` | Small titled section heading for grouping form fields |
+| `formatDetailDate` | `form_date_helper.dart` | Formats an ISO datetime string to `dd/MM/yyyy HH:mm` local time |
+
+### Changes applied
+
+- All four detail screens (`client_detail_screen.dart`, `dog_detail_screen.dart`, `walk_detail_screen.dart`, `walker_detail_screen.dart`) now use `DetailRow` and `formatDetailDate` from shared, and `ErrorStateBlock` for load errors. The private `_DetailRow` class and `_formatDate` method have been removed from each file.
+- All four form screens (`client_form_screen.dart`, `dog_form_screen.dart`, `walk_form_screen.dart`, `walker_form_screen.dart`) now use `FormErrorBanner` from shared instead of the inline error container.
+- All four list screens (`clients_list_screen.dart`, `dogs_list_screen.dart`, `walks_list_screen.dart`, `walkers_list_screen.dart`) now use `EmptyStateBlock` and `ErrorStateBlock` from shared.
+- Dogs list search was added to match the existing Clients and Walkers pattern, searching by name, breed, and client ID.
+- Dog form now has section headings: **Basic details** (before Name), **Health & identity** (before Breed), and **Notes** (before Medical notes), providing visual grouping of the long form.
+- Walk form now has section headings: **Booking details** (before Client ID) and **Optional details** (before Walker ID).
+- Spacing inconsistencies around `SwitchListTile` in Dog form and Walker form were fixed: the `SizedBox` after the toggle was changed from `height: 8` to `height: 16` to match surrounding field spacing.
+- Walkers list empty state icon changed from `Icons.directions_walk_outlined` to `Icons.badge_outlined` to match the navigation section icon for Walkers.

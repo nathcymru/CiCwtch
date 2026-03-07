@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/form_error_banner.dart';
+import 'package:cicwtch/shared/presentation/section_heading.dart';
 
 class WalkFormScreen extends StatefulWidget {
   const WalkFormScreen({
@@ -112,23 +114,8 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_submitError != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Material(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        _submitError!,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onErrorContainer,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                FormErrorBanner(message: _submitError!),
+              const SectionHeading(title: 'Booking details'),
               TextFormField(
                 controller: _clientId,
                 decoration: const InputDecoration(
@@ -202,7 +189,8 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
                 validator: (v) =>
                     (v == null || v.isEmpty) ? 'Required' : null,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const SectionHeading(title: 'Optional details'),
               TextFormField(
                 controller: _walkerId,
                 decoration: const InputDecoration(

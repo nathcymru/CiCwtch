@@ -5,6 +5,9 @@ import 'package:cicwtch/features/clients/data/clients_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/detail_row.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/form_date_helper.dart';
 
 import 'client_edit_screen.dart';
 
@@ -124,22 +127,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_client == null) return const SizedBox.shrink();
@@ -148,68 +136,25 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _DetailRow(label: 'Full name', value: client.fullName),
+        DetailRow(label: 'Full name', value: client.fullName),
         if (client.preferredName != null)
-          _DetailRow(label: 'Preferred name', value: client.preferredName!),
+          DetailRow(label: 'Preferred name', value: client.preferredName!),
         if (client.phone != null)
-          _DetailRow(label: 'Phone', value: client.phone!),
+          DetailRow(label: 'Phone', value: client.phone!),
         if (client.email != null)
-          _DetailRow(label: 'Email', value: client.email!),
+          DetailRow(label: 'Email', value: client.email!),
         if (client.emergencyContactName != null)
-          _DetailRow(
+          DetailRow(
               label: 'Emergency contact', value: client.emergencyContactName!),
         if (client.emergencyContactPhone != null)
-          _DetailRow(
+          DetailRow(
               label: 'Emergency phone', value: client.emergencyContactPhone!),
         if (client.notes != null)
-          _DetailRow(label: 'Notes', value: client.notes!),
+          DetailRow(label: 'Notes', value: client.notes!),
         const Divider(height: 32),
-        _DetailRow(label: 'Created', value: _formatDate(client.createdAt)),
-        _DetailRow(label: 'Updated', value: _formatDate(client.updatedAt)),
+        DetailRow(label: 'Created', value: formatDetailDate(client.createdAt)),
+        DetailRow(label: 'Updated', value: formatDetailDate(client.updatedAt)),
       ],
-    );
-  }
-
-  String _formatDate(String iso) {
-    try {
-      final dt = DateTime.parse(iso).toLocal();
-      return '${dt.day.toString().padLeft(2, '0')}/'
-          '${dt.month.toString().padLeft(2, '0')}/'
-          '${dt.year}  '
-          '${dt.hour.toString().padLeft(2, '0')}:'
-          '${dt.minute.toString().padLeft(2, '0')}';
-    } catch (_) {
-      return iso;
-    }
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160,
-            child: Text(
-              label,
-              style: theme.textTheme.labelLarge,
-            ),
-          ),
-          Expanded(
-            child: Text(value),
-          ),
-        ],
-      ),
     );
   }
 }

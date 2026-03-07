@@ -5,6 +5,8 @@ import 'package:cicwtch/features/walkers/data/walkers_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/empty_state_block.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
 
 import 'walker_detail_screen.dart';
 import 'walker_create_screen.dart';
@@ -119,49 +121,22 @@ class _WalkersListScreenState extends State<WalkersListScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_walkers.isEmpty) {
-      return const Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.directions_walk_outlined, size: 64),
-            SizedBox(height: 16),
-            Text('No walkers yet. Tap + to add one.'),
-          ],
-        ),
+      return const EmptyStateBlock(
+        icon: Icons.badge_outlined,
+        message: 'No walkers yet. Tap + to add one.',
       );
     }
 
     final filtered = _filteredWalkers;
 
     if (filtered.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.search_off, size: 64),
-            const SizedBox(height: 16),
-            Text('No walkers match "$_searchQuery".'),
-          ],
-        ),
+      return EmptyStateBlock(
+        icon: Icons.search_off,
+        message: 'No walkers match "$_searchQuery".',
       );
     }
 
