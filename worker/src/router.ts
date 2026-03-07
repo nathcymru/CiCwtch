@@ -7,6 +7,13 @@ import {
   updateClient,
   deleteClient,
 } from "./handlers/clients";
+import {
+  listDogs,
+  getDog,
+  createDog,
+  updateDog,
+  deleteDog,
+} from "./handlers/dogs";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -59,5 +66,21 @@ export async function route(
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
   }
 
+  if (pathname === "/api/v1/dogs") {
+    if (method === "GET") return listDogs(request, env);
+    if (method === "POST") return createDog(request, env);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const dogMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)$/);
+  if (dogMatch) {
+    const params = { id: dogMatch[1] };
+    if (method === "GET") return getDog(request, env, params);
+    if (method === "PUT") return updateDog(request, env, params);
+    if (method === "DELETE") return deleteDog(request, env, params);
+    return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
   return jsonError("Not found", "not_found", 404);
 }
+
