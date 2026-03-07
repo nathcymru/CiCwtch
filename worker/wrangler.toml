@@ -1,0 +1,33 @@
+# CiCwtch — Cloudflare Worker configuration
+# See: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "cicwtch-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# ── D1 database (local dev / preview) ──────────────────────────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "cicwtch-db"
+database_id = "LOCAL"
+migrations_dir = "../migrations"
+
+# ── Staging environment ────────────────────────────────────────────────
+[env.staging]
+name = "cicwtch-api-staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "cicwtch-db-staging"
+database_id = "REPLACE_WITH_STAGING_D1_ID"
+migrations_dir = "../migrations"
+
+# ── Production environment ─────────────────────────────────────────────
+[env.production]
+name = "cicwtch-api-production"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "cicwtch-db-production"
+database_id = "REPLACE_WITH_PRODUCTION_D1_ID"
+migrations_dir = "../migrations"
