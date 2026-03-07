@@ -25,10 +25,29 @@ class _DogsListScreenState extends State<DogsListScreen> {
   bool _loading = true;
   String? _error;
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  List<Dog> get _filteredDogs {
+    final q = _searchQuery.toLowerCase().trim();
+    if (q.isEmpty) return _dogs;
+    return _dogs.where((d) {
+      return d.name.toLowerCase().contains(q) ||
+          (d.breed?.toLowerCase().contains(q) ?? false) ||
+          d.clientId.toLowerCase().contains(q);
+    }).toList();
+  }
+
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -64,7 +83,32 @@ class _DogsListScreenState extends State<DogsListScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search dogs...',
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _searchQuery = '');
+                        },
+                      )
+                    : null,
+              ),
+              onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Expanded(child: _buildBody()),
+        ],
+      ),
     );
   }
 
@@ -105,12 +149,27 @@ class _DogsListScreenState extends State<DogsListScreen> {
       );
     }
 
+    final filtered = _filteredDogs;
+
+    if (filtered.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.search_off, size: 64),
+            const SizedBox(height: 16),
+            Text('No dogs match "$_searchQuery".'),
+          ],
+        ),
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView.builder(
-        itemCount: _dogs.length,
+        itemCount: filtered.length,
         itemBuilder: (context, index) {
-          final dog = _dogs[index];
+          final dog = filtered[index];
           return ListTile(
             title: Text(dog.name),
             subtitle: Text(dog.breed ?? ''),

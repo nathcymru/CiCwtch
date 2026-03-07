@@ -138,3 +138,34 @@ Primary navigation destinations (in order):
 **Detail, create, and edit screens:**
 
 These screens are pushed on top of the shell via `Navigator.push` / `Navigator.pushNamed` as before. They are full-screen `MaterialPageRoute` pushes and are not embedded in the shell.
+
+## List search and filtering
+
+All four core list screens support lightweight client-side search and filtering. Filtering works against already-loaded data and does not trigger additional API calls.
+
+### Search
+
+Each list screen has a search input at the top of the list area. Results narrow as you type.
+
+| Screen | Fields searched |
+|--------|----------------|
+| Clients | Full name, preferred name, phone, email |
+| Dogs | Name, breed, client ID |
+| Walkers | Full name, phone, email, role title |
+| Walks | Scheduled date, status, service type, dog ID, walker ID |
+
+Clearing the search field restores the full list.
+
+### Walk status filter
+
+The Walks list also includes a row of status filter chips (`All`, `Scheduled`, `In progress`, `Completed`, `Cancelled`). Selecting a chip narrows the list to walks with that status. The search field and status filter work together.
+
+### No-matches state
+
+If the loaded data is non-empty but no items match the current search or filter, a clear "no matches" message is shown. The existing empty-data state (shown when no records exist at all) is unchanged.
+
+### Notes
+
+- Filtering is client-side only. The existing list fetch behaviour is unchanged.
+- No new packages were introduced.
+- Existing CRUD flows (create, detail, edit, archive) are unaffected.
