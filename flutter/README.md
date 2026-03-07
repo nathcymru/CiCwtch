@@ -97,3 +97,15 @@ Walkers CRUD is implemented at `lib/features/walkers/`. Screens:
 - **Archive walker** — confirmation dialog; calls `DELETE /api/v1/walkers/:id`; returns to list on success.
 
 API dependency: `/api/v1/walkers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+### Dashboard
+
+The dashboard overview screen is implemented at `lib/features/dashboard/`. It provides a summary view of active resources and quick navigation to core areas of the app.
+
+- **Overview metric cards** — active counts for Clients, Dogs, Walks, and Walkers, derived from live API data.
+- **Upcoming walks** — a short list of the 5 most recently scheduled non-archived walks, sorted by `scheduled_date` descending.
+- **Quick navigation** — `ListTile` links to Clients, Dogs, Walks, and Walkers list screens.
+
+API dependencies: `/api/v1/clients`, `/api/v1/dogs`, `/api/v1/walks`, `/api/v1/walkers` (GET list endpoints only).
+
+All four endpoints are called in parallel on screen load. Partial failure is surfaced with an error message and a Retry button.
