@@ -4,10 +4,22 @@ This is the CiCwtch Cloudflare Workers backend API workspace.
 
 ## Contents
 
-- `src/index.ts` — Worker entry point with health endpoints
+- `src/index.ts` — Worker entry point; delegates to router, catches errors
+- `src/router.ts` — URL routing; maps paths to handlers
+- `src/response.ts` — Standard JSON response helpers
+- `src/errors.ts` — ApiError class and typed error helpers
 - `wrangler.toml` — Wrangler configuration with D1 bindings
 - `package.json` — Node.js dependencies and scripts
 - `tsconfig.json` — TypeScript configuration
+
+## Internal structure
+
+The worker is split into four modules with clear separation of concerns:
+
+- **`index.ts`** is the Cloudflare Worker entry point. It delegates all routing to `router.ts` and wraps errors in structured JSON responses: `ApiError` instances produce their own status/type; unhandled errors produce a 500.
+- **`router.ts`** matches incoming request paths and dispatches to handlers. It receives `env` (including `env.DB`) so future handlers can access D1.
+- **`response.ts`** provides two helpers — `jsonOk()` for success responses and `jsonError()` for structured error responses — to keep response shaping consistent across the codebase.
+- **`errors.ts`** defines `ApiError`, a typed error class carrying an HTTP status and a machine-readable `type` string. Use `ApiError.notFound()` (and similar future factories) to throw errors from anywhere in the handler chain.
 
 Business API routes are versioned under `/api/v1/`.
 For operational simplicity, the Worker also exposes both `/health` and `/api/v1/health` for health checks.
