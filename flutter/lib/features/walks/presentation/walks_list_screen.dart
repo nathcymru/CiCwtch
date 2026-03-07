@@ -25,10 +25,42 @@ class _WalksListScreenState extends State<WalksListScreen> {
   bool _loading = true;
   String? _error;
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  String? _statusFilter;
+
+  static const _statusOptions = [
+    (value: 'scheduled', label: 'Scheduled'),
+    (value: 'in_progress', label: 'In progress'),
+    (value: 'completed', label: 'Completed'),
+    (value: 'cancelled', label: 'Cancelled'),
+  ];
+
+  List<Walk> get _filteredWalks {
+    final q = _searchQuery.toLowerCase().trim();
+    return _walks.where((w) {
+      final matchesSearch = q.isEmpty ||
+          w.scheduledDate.toLowerCase().contains(q) ||
+          w.status.toLowerCase().contains(q) ||
+          w.serviceType.toLowerCase().contains(q) ||
+          w.dogId.toLowerCase().contains(q) ||
+          (w.walkerId?.toLowerCase().contains(q) ?? false);
+      final matchesStatus =
+          _statusFilter == null || w.status == _statusFilter;
+      return matchesSearch && matchesStatus;
+    }).toList();
+  }
+
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -64,7 +96,55 @@ class _WalksListScreenState extends State<WalksListScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search walks...',
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _searchQuery = '');
+                        },
+                      )
+                    : null,
+              ),
+              onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Wrap(
+              spacing: 8,
+              children: [
+                FilterChip(
+                  label: const Text('All'),
+                  selected: _statusFilter == null,
+                  onSelected: (_) => setState(() => _statusFilter = null),
+                ),
+                for (final option in _statusOptions)
+                  FilterChip(
+                    label: Text(option.label),
+                    selected: _statusFilter == option.value,
+                    onSelected: (_) => setState(() {
+                      _statusFilter = _statusFilter == option.value
+                          ? null
+                          : option.value;
+                    }),
+                  ),
+              ],
+            ),
+          ),
+          Expanded(child: _buildBody()),
+        ],
+      ),
     );
   }
 
@@ -105,12 +185,27 @@ class _WalksListScreenState extends State<WalksListScreen> {
       );
     }
 
+    final filtered = _filteredWalks;
+
+    if (filtered.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.search_off, size: 64),
+            SizedBox(height: 16),
+            Text('No walks match the current search or filter.'),
+          ],
+        ),
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView.builder(
-        itemCount: _walks.length,
+        itemCount: filtered.length,
         itemBuilder: (context, index) {
-          final walk = _walks[index];
+          final walk = filtered[index];
           return ListTile(
             title: Text(walk.scheduledDate),
             subtitle: Text('${walk.serviceType} — ${walk.status}'),

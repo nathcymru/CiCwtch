@@ -25,10 +25,30 @@ class _WalkersListScreenState extends State<WalkersListScreen> {
   bool _loading = true;
   String? _error;
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  List<Walker> get _filteredWalkers {
+    final q = _searchQuery.toLowerCase().trim();
+    if (q.isEmpty) return _walkers;
+    return _walkers.where((w) {
+      return w.fullName.toLowerCase().contains(q) ||
+          (w.phone?.toLowerCase().contains(q) ?? false) ||
+          (w.email?.toLowerCase().contains(q) ?? false) ||
+          (w.roleTitle?.toLowerCase().contains(q) ?? false);
+    }).toList();
+  }
+
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -64,7 +84,32 @@ class _WalkersListScreenState extends State<WalkersListScreen> {
         },
         child: const Icon(Icons.add),
       ),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search walkers...',
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(),
+                suffixIcon: _searchQuery.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _searchQuery = '');
+                        },
+                      )
+                    : null,
+              ),
+              onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Expanded(child: _buildBody()),
+        ],
+      ),
     );
   }
 
@@ -105,12 +150,27 @@ class _WalkersListScreenState extends State<WalkersListScreen> {
       );
     }
 
+    final filtered = _filteredWalkers;
+
+    if (filtered.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.search_off, size: 64),
+            const SizedBox(height: 16),
+            Text('No walkers match "$_searchQuery".'),
+          ],
+        ),
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView.builder(
-        itemCount: _walkers.length,
+        itemCount: filtered.length,
         itemBuilder: (context, index) {
-          final walker = _walkers[index];
+          final walker = filtered[index];
           return ListTile(
             title: Text(walker.fullName),
             subtitle: Text(walker.phone ?? walker.email ?? ''),
