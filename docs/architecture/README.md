@@ -30,6 +30,16 @@ Health endpoints: `GET /health` and `GET /api/v1/health` → `{"status":"ok","se
 Error response shape: `{"error":{"message":"...","type":"..."}}`  
 All business routes are versioned under `/api/v1/`.
 
+#### Clients CRUD (live)
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/v1/clients` | List non-archived clients, sorted by `full_name ASC` |
+| GET | `/api/v1/clients/:id` | Get single non-archived client |
+| POST | `/api/v1/clients` | Create client (`full_name` required) |
+| PUT | `/api/v1/clients/:id` | Update client (`full_name` required) |
+| DELETE | `/api/v1/clients/:id` | Soft-delete (sets `archived_at`) |
+
 ---
 
 ## 2) Personas & access
