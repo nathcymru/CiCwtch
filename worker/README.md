@@ -99,3 +99,22 @@ All responses are JSON. All routes are versioned under `/api/v1/`.
 - `service_type` defaults to `walk` on create.
 - All SQL uses parameterised D1 prepared statements only.
 - Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
+
+### Walkers
+
+| Method | Path                   | Description          |
+|--------|------------------------|----------------------|
+| GET    | /api/v1/walkers        | List all walkers     |
+| GET    | /api/v1/walkers/:id    | Get a walker         |
+| POST   | /api/v1/walkers        | Create a walker      |
+| PUT    | /api/v1/walkers/:id    | Update a walker      |
+| DELETE | /api/v1/walkers/:id    | Soft-delete a walker |
+
+#### Walkers: notes
+
+- All responses are JSON only.
+- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
+- `full_name` is required on create and update.
+- `active` must be `0` or `1` (integer); defaults to `1` on create if omitted.
+- All SQL uses parameterised D1 prepared statements only.
+- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
