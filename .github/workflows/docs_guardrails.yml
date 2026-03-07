@@ -32,20 +32,18 @@ jobs:
           list-files: shell
           filters: |
             arch_sensitive:
-              - 'flutter/lib/domain/**'
-              - 'flutter/lib/application/**'
-              - 'flutter/lib/data/**'
-              - 'flutter/lib/presentation/**'
+              - 'flutter/lib/app/**'
+              - 'flutter/lib/features/**'
               - 'flutter/lib/shared/**'
               - 'flutter/lib/main.dart'
               - 'flutter/pubspec.yaml'
               - 'flutter/analysis_options.yaml'
-              - 'flutter/tools/**'
+              - 'worker/**'
+              - 'migrations/**'
               - 'docs/schema/**'
               - 'docs/openapi/**'
               - 'docs/migrations/**'
               - 'db/**'
-              - 'migrations/**'
               - 'schema/**'
               - 'openapi/**'
               - '**/*.sql'
@@ -53,6 +51,8 @@ jobs:
               - 'docs/**'
               - 'README.md'
               - 'flutter/README.md'
+              - 'worker/README.md'
+              - 'migrations/README.md'
               - '.github/PULL_REQUEST_TEMPLATE.md'
 
       - name: Fail if docs not updated for architecture-sensitive changes
@@ -63,7 +63,7 @@ jobs:
           echo "What changed (arch-sensitive):"
           echo "${{ steps.changes.outputs.arch_sensitive_files }}"
           echo ""
-          echo "Expected: update at least one doc under /docs (or README / flutter/README.md)."
+          echo "Expected: update at least one doc under /docs (or README / flutter/README.md / worker/README.md / migrations/README.md)."
           echo ""
           echo "If docs genuinely do not need updating, add PR label: docs-not-required"
           exit 1

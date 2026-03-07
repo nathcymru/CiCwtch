@@ -4,12 +4,13 @@ This is the CiCwtch Cloudflare Workers backend API workspace.
 
 ## Contents
 
-- `src/index.ts` — Worker entry point (health endpoint)
+- `src/index.ts` — Worker entry point with health endpoints
 - `wrangler.toml` — Wrangler configuration with D1 bindings
 - `package.json` — Node.js dependencies and scripts
 - `tsconfig.json` — TypeScript configuration
 
-All API routes will be versioned under `/api/v1/`.
+Business API routes are versioned under `/api/v1/`.
+For operational simplicity, the Worker also exposes both `/health` and `/api/v1/health` for health checks.
 
 ## Getting started
 
@@ -19,8 +20,10 @@ npm install
 npm run dev
 ```
 
-This starts a local dev server using Wrangler. The health endpoint is
-available at `http://localhost:8787/health`.
+This starts a local dev server using Wrangler. Health is available at both:
+
+- `http://localhost:8787/health`
+- `http://localhost:8787/api/v1/health`
 
 ## Environments
 
@@ -30,13 +33,12 @@ available at `http://localhost:8787/health`.
 | Staging     | cicwtch-api-staging      | cicwtch-db-staging       |
 | Production  | cicwtch-api-production   | cicwtch-db-production    |
 
-Replace the placeholder `database_id` values in `wrangler.toml` with
-actual D1 database IDs after creating them via `wrangler d1 create`.
+Replace the placeholder `database_id` values in `wrangler.toml` with actual D1 database IDs after creating them via `wrangler d1 create`.
 
 ## Scripts
 
-| Command          | Description                       |
-|------------------|-----------------------------------|
-| `npm run dev`    | Start local dev server            |
-| `npm run deploy` | Deploy to Cloudflare Workers      |
-| `npm run typecheck` | Run TypeScript type checking  |
+| Command             | Description                  |
+|---------------------|------------------------------|
+| `npm run dev`       | Start local dev server       |
+| `npm run deploy`    | Deploy to Cloudflare Workers |
+| `npm run typecheck` | Run TypeScript type checking |
