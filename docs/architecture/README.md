@@ -17,6 +17,19 @@ CiCwtch provides a single, coherent workflow from:
 
 All of this must work reliably in **low connectivity** conditions typical of rural trails and field work.
 
+### Worker API module structure
+
+The Cloudflare Worker API layer is structured as four modules:
+
+- `src/index.ts` — entry point; delegates to router, catches `ApiError` and unhandled errors
+- `src/router.ts` — routes requests to handlers; passes `env` (including `env.DB`) through for D1 access
+- `src/response.ts` — `jsonOk()` / `jsonError()` helpers; all responses use `Content-Type: application/json`
+- `src/errors.ts` — `ApiError` class with `status`, `message`, and `type` fields
+
+Health endpoints: `GET /health` and `GET /api/v1/health` → `{"status":"ok","service":"cicwtch-api"}`  
+Error response shape: `{"error":{"message":"...","type":"..."}}`  
+All business routes are versioned under `/api/v1/`.
+
 ---
 
 ## 2) Personas & access
