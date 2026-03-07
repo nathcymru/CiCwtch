@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/app/routing/app_router.dart';
-import 'package:cicwtch/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:cicwtch/app/shell/app_shell.dart';
 
 void main() {
   runApp(const CiCwtchApp());
@@ -20,7 +20,7 @@ class CiCwtchApp extends StatelessWidget {
         useMaterial3: true,
       ),
       onGenerateRoute: AppRouter.generateRoute,
-      home: const DashboardScreen(),
+      home: const AppShell(),
     );
   }
 }
