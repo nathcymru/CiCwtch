@@ -52,6 +52,7 @@ lib/
     invoices/
     compliance/
     auth/
+    clients/        ← added Task 08
   shared/
     presentation/
     application/
