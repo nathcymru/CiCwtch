@@ -109,3 +109,32 @@ The dashboard overview screen is implemented at `lib/features/dashboard/`. It pr
 API dependencies: `/api/v1/clients`, `/api/v1/dogs`, `/api/v1/walks`, `/api/v1/walkers` (GET list endpoints only).
 
 All four endpoints are called in parallel on screen load. Partial failure is surfaced with an error message and a Retry button.
+
+## App shell and navigation
+
+The shared navigation shell lives at `lib/app/shell/app_shell.dart`.
+
+`AppShell` is the app entry point (set as `home:` in `MaterialApp`). The old `HomePage` starter has been removed.
+
+Primary navigation destinations (in order):
+
+| # | Section | Icon |
+|---|---------|------|
+| 1 | Dashboard | `Icons.dashboard` |
+| 2 | Clients | `Icons.people` |
+| 3 | Dogs | `Icons.pets` |
+| 4 | Walks | `Icons.directions_walk` |
+| 5 | Walkers | `Icons.badge` |
+
+**Responsive behaviour:**
+
+- Screens ≥ 600 px wide: `NavigationRail` on the left with a `VerticalDivider`, content in an `Expanded` area.
+- Screens < 600 px wide: `BottomNavigationBar` with `type: BottomNavigationBarType.fixed` (keeps all labels visible).
+
+**State preservation:**
+
+`IndexedStack` is used to render all five section screens simultaneously, showing only the selected one. This preserves each section's internal navigation state (scroll position, loaded data) when switching tabs.
+
+**Detail, create, and edit screens:**
+
+These screens are pushed on top of the shell via `Navigator.push` / `Navigator.pushNamed` as before. They are full-screen `MaterialPageRoute` pushes and are not embedded in the shell.
