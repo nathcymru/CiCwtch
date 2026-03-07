@@ -8,6 +8,10 @@ import 'package:cicwtch/features/dogs/presentation/dog_create_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dog_detail_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dog_edit_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dogs_list_screen.dart';
+import 'package:cicwtch/features/walkers/presentation/walker_create_screen.dart';
+import 'package:cicwtch/features/walkers/presentation/walker_detail_screen.dart';
+import 'package:cicwtch/features/walkers/presentation/walker_edit_screen.dart';
+import 'package:cicwtch/features/walkers/presentation/walkers_list_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_create_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_detail_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_edit_screen.dart';
@@ -28,6 +32,10 @@ class AppRoutes {
   static const walkDetail = '/walks/detail';
   static const walkCreate = '/walks/create';
   static const walkEdit = '/walks/edit';
+  static const walkersList = '/walkers';
+  static const walkerDetail = '/walkers/detail';
+  static const walkerCreate = '/walkers/create';
+  static const walkerEdit = '/walkers/edit';
 }
 
 class AppRouter {
@@ -97,6 +105,28 @@ class AppRouter {
         final walk = settings.arguments as Walk;
         return MaterialPageRoute(
           builder: (_) => WalkEditScreen(walk: walk),
+          settings: settings,
+        );
+      case AppRoutes.walkersList:
+        return MaterialPageRoute(
+          builder: (_) => const WalkersListScreen(),
+          settings: settings,
+        );
+      case AppRoutes.walkerDetail:
+        final walkerId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => WalkerDetailScreen(walkerId: walkerId),
+          settings: settings,
+        );
+      case AppRoutes.walkerCreate:
+        return MaterialPageRoute(
+          builder: (_) => const WalkerCreateScreen(),
+          settings: settings,
+        );
+      case AppRoutes.walkerEdit:
+        final walker = settings.arguments as Walker;
+        return MaterialPageRoute(
+          builder: (_) => WalkerEditScreen(walker: walker),
           settings: settings,
         );
       default:

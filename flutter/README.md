@@ -85,3 +85,15 @@ Walks CRUD is implemented at `lib/features/walks/`. Screens:
 - **Archive walk** — confirmation dialog; calls `DELETE /api/v1/walks/:id`; returns to list on success.
 
 API dependency: `/api/v1/walks` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+### Walkers
+
+Walkers CRUD is implemented at `lib/features/walkers/`. Screens:
+
+- **Walkers list** — `WalkersListScreen` — lists active walkers; FAB to create; tap to view detail.
+- **Walker detail** — `WalkerDetailScreen` — shows full walker record including name, phone, email, role, start date, active status, and notes; edit and archive actions.
+- **Create walker** — `WalkerCreateScreen` / `WalkerFormScreen` — form with required `full_name`; optional phone, email, role title, start date, active toggle, and notes.
+- **Edit walker** — `WalkerEditScreen` / `WalkerFormScreen` — pre-populated form; saves via `PUT /api/v1/walkers/:id`.
+- **Archive walker** — confirmation dialog; calls `DELETE /api/v1/walkers/:id`; returns to list on success.
+
+API dependency: `/api/v1/walkers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
