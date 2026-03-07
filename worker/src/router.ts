@@ -14,6 +14,13 @@ import {
   updateDog,
   deleteDog,
 } from "./handlers/dogs";
+import {
+  listWalks,
+  getWalk,
+  createWalk,
+  updateWalk,
+  deleteWalk,
+} from "./handlers/walks";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -78,6 +85,21 @@ export async function route(
     if (method === "GET") return getDog(request, env, params);
     if (method === "PUT") return updateDog(request, env, params);
     if (method === "DELETE") return deleteDog(request, env, params);
+    return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  if (pathname === "/api/v1/walks") {
+    if (method === "GET") return listWalks(request, env);
+    if (method === "POST") return createWalk(request, env);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const walkMatch = pathname.match(/^\/api\/v1\/walks\/([^/]+)$/);
+  if (walkMatch) {
+    const params = { id: walkMatch[1] };
+    if (method === "GET") return getWalk(request, env, params);
+    if (method === "PUT") return updateWalk(request, env, params);
+    if (method === "DELETE") return deleteWalk(request, env, params);
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
   }
 
