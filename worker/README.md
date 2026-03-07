@@ -54,3 +54,48 @@ Replace the placeholder `database_id` values in `wrangler.toml` with actual D1 d
 | `npm run dev`       | Start local dev server       |
 | `npm run deploy`    | Deploy to Cloudflare Workers |
 | `npm run typecheck` | Run TypeScript type checking |
+
+## API endpoints
+
+All responses are JSON. All routes are versioned under `/api/v1/`.
+
+### Clients
+
+| Method | Path                  | Description          |
+|--------|-----------------------|----------------------|
+| GET    | /api/v1/clients       | List all clients     |
+| GET    | /api/v1/clients/:id   | Get a client         |
+| POST   | /api/v1/clients       | Create a client      |
+| PUT    | /api/v1/clients/:id   | Update a client      |
+| DELETE | /api/v1/clients/:id   | Soft-delete a client |
+
+### Dogs
+
+| Method | Path               | Description       |
+|--------|--------------------|-------------------|
+| GET    | /api/v1/dogs       | List all dogs     |
+| GET    | /api/v1/dogs/:id   | Get a dog         |
+| POST   | /api/v1/dogs       | Create a dog      |
+| PUT    | /api/v1/dogs/:id   | Update a dog      |
+| DELETE | /api/v1/dogs/:id   | Soft-delete a dog |
+
+### Walks
+
+| Method | Path                | Description        |
+|--------|---------------------|--------------------|
+| GET    | /api/v1/walks       | List all walks     |
+| GET    | /api/v1/walks/:id   | Get a walk         |
+| POST   | /api/v1/walks       | Create a walk      |
+| PUT    | /api/v1/walks/:id   | Update a walk      |
+| DELETE | /api/v1/walks/:id   | Soft-delete a walk |
+
+#### Walks: notes
+
+- All responses are JSON only.
+- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
+- `dog_id` and `walker_id` references are validated against their respective tables on create and update. Referenced records must exist and must not be archived.
+- `walker_id` is optional; it may be `null` or omitted.
+- `status` must be one of: `planned`, `in_progress`, `completed`, `cancelled`. Defaults to `planned` on create.
+- `service_type` defaults to `walk` on create.
+- All SQL uses parameterised D1 prepared statements only.
+- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
