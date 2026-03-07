@@ -91,6 +91,24 @@ Server responses return a `revision` (or `updatedAt`) value used to:
 
 ---
 
+## 5) Domain model layer (Task 06)
+
+Shared domain models live at `flutter/lib/shared/domain/models/`.
+
+- Models are pure Dart — no Flutter imports.
+- Each model maps 1:1 to the D1 schema defined in `migrations/0001_initial_schema.sql`.
+- JSON field names are snake_case, matching the database column names exactly.
+- No code generators — all `fromJson`/`toJson` is explicit.
+- This layer constitutes the shared API contract between the Cloudflare Worker and the Flutter client.
+
+Import all models via the barrel file:
+
+```dart
+import 'package:cicwtch/shared/domain/models/models.dart';
+```
+
+---
+
 ## 4) Trade-offs (explicit)
 
 - **Offline-first adds complexity**: conflict resolution and sync ordering must be designed carefully.

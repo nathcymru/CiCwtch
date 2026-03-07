@@ -29,3 +29,22 @@ flutter analyze
 flutter test
 flutter run -d chrome
 ```
+
+## Domain models
+
+Plain Dart models live in `lib/shared/domain/models/`. Import them all via the barrel file:
+
+```dart
+import 'package:cicwtch/shared/domain/models/models.dart';
+```
+
+Key points:
+
+- Each model corresponds directly to a table in the D1 database (`migrations/0001_initial_schema.sql`).
+- JSON keys in `fromJson` / `toJson` are **snake_case**, matching the database column names exactly.
+- Dart property names are the **camelCase** equivalents (e.g. `full_name` → `fullName`).
+- SQLite `INTEGER` boolean columns (stored as `0`/`1`) are mapped to Dart `bool`:
+  - `fromJson`: `(json['field'] as int) == 1`
+  - `toJson`: `value ? 1 : 0`
+- No code generators are used — all `fromJson` / `toJson` implementations are explicit plain Dart.
+- No Flutter imports — model files are pure Dart.
