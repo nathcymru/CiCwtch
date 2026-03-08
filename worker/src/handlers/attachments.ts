@@ -1,6 +1,6 @@
 import type { Env } from "../index";
 import { jsonOk, jsonError } from "../response";
-import { putAttachment } from "../storage";
+import { putAttachment, deleteAttachment } from "../storage";
 
 interface AttachmentRow {
   id: string;
@@ -75,25 +75,30 @@ export async function createAttachment(
     updated_at: now,
   };
 
-  await env.DB.prepare(
-    `INSERT INTO attachments (
-      id, entity_type, entity_id, storage_provider, object_key,
-      original_filename, mime_type, file_size_bytes, created_at, updated_at
-    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
-  )
-    .bind(
-      attachment.id,
-      attachment.entity_type,
-      attachment.entity_id,
-      attachment.storage_provider,
-      attachment.object_key,
-      attachment.original_filename,
-      attachment.mime_type,
-      attachment.file_size_bytes,
-      attachment.created_at,
-      attachment.updated_at,
+  try {
+    await env.DB.prepare(
+      `INSERT INTO attachments (
+        id, entity_type, entity_id, storage_provider, object_key,
+        original_filename, mime_type, file_size_bytes, created_at, updated_at
+      ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
     )
-    .run();
+      .bind(
+        attachment.id,
+        attachment.entity_type,
+        attachment.entity_id,
+        attachment.storage_provider,
+        attachment.object_key,
+        attachment.original_filename,
+        attachment.mime_type,
+        attachment.file_size_bytes,
+        attachment.created_at,
+        attachment.updated_at,
+      )
+      .run();
+  } catch (err) {
+    await deleteAttachment(env, objectKey);
+    throw err;
+  }
 
   return jsonOk(attachment, 201);
 }
