@@ -96,9 +96,9 @@ This runs `wrangler deploy --env staging`, which targets `cicwtch-api-staging`.
 
 | Environment | Worker name          | URL                                              |
 |-------------|----------------------|--------------------------------------------------|
-| Local dev   | (local)              | `http://localhost:8787`                           |
-| Staging     | `cicwtch-api-staging`| `cicwtch-api-staging.nathcymru.workers.dev`       |
-| Production  | `cicwtch-api`        | `cicwtch-api.nathcymru.workers.dev`               |
+| Local dev   | (local)              | http://localhost:8787                             |
+| Staging     | `cicwtch-api-staging`| https://cicwtch-api-staging.nathcymru.workers.dev |
+| Production  | `cicwtch-api`        | https://cicwtch-api.nathcymru.workers.dev         |
 
 ## Security note
 
