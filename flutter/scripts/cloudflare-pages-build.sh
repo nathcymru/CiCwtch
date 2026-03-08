@@ -24,6 +24,11 @@ echo "==> Installing dependencies..."
 flutter pub get
 
 echo "==> Building web release..."
-flutter build web --release
+BUILD_ARGS=(--release)
+if [ -n "${API_BASE_URL:-}" ]; then
+  echo "    API_BASE_URL=$API_BASE_URL"
+  BUILD_ARGS+=(--dart-define="API_BASE_URL=$API_BASE_URL")
+fi
+flutter build web "${BUILD_ARGS[@]}"
 
 echo "==> Build complete. Output in build/web"
