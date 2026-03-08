@@ -31,13 +31,13 @@ export async function getAttachmentById(
   }
 
   if (!row.object_key) {
-    return jsonError("Attachment object not found", "not_found", 404);
+    return jsonError("Attachment storage reference missing", "not_found", 404);
   }
 
   const r2Object = await getAttachment(env, row.object_key);
 
   if (!r2Object) {
-    return jsonError("Attachment object not found", "not_found", 404);
+    return jsonError("Attachment file not found in storage", "not_found", 404);
   }
 
   const headers = new Headers();
