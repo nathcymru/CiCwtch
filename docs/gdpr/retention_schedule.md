@@ -39,7 +39,7 @@ This schedule is a working draft and must be refined before production use.
 | Walkers | D1 `walkers` | soft delete | retain according to employment/contractual need and compliance obligations |
 | Invoice headers | D1 `invoice_headers` | soft delete | retain according to financial record obligations |
 | Invoice lines | D1 `invoice_lines` | hard delete | linked to invoice retention; avoid ad hoc deletion in production |
-| Attachments | D1 metadata + future R2 objects | not yet implemented | do not enable live attachment handling without explicit retention rules |
+| Attachments | D1 metadata + R2 objects | not yet implemented | upload and retrieval endpoints are active; do not process live personal data without explicit retention rules and access controls |
 
 ## Engineering rule
 

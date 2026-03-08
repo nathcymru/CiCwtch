@@ -61,6 +61,14 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 - **Data subjects:** clients.
 - **Storage:** D1 `invoice_headers`, `invoice_lines`.
 
+### Attachment handling
+- **Purpose:** store and retrieve operational files (e.g. photos, documents) linked to business entities such as dogs, clients, or walks.
+- **Data subjects:** clients, walkers, dogs (indirectly — attachments may contain user-related or pet-related records).
+- **Categories of data:** original filenames, MIME types, file content.
+- **Storage:** D1 `attachments` (metadata), R2 `CICWTCH_ATTACHMENTS` (file objects).
+- **Processing flow:** upload stores metadata in D1 and object in R2; retrieval resolves attachment ID → D1 metadata → R2 object and returns file content.
+- **Access:** currently unauthenticated; authentication must be added before production use.
+
 ## International transfer and hosting note
 
 The project uses Cloudflare services. Deployment geography, transfer tooling, and any future R2 object storage usage must be reviewed before production processing of live customer data.
