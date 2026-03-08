@@ -1,27 +1,31 @@
-# Infrastructure Architecture
+# Infrastructure
 
-## Current deployed components (intended / configured)
+## Current repository tooling
 
-- Flutter front-end application
-- Cloudflare Worker API
-- Cloudflare D1 database
+### GitHub Actions
+Current workflows in `.github/workflows/`:
+- `ci.yml` — Flutter analyze/test/build-web and Worker typecheck
+- `docs_guardrails.yml` — requires docs updates for architecture-sensitive changes
+- `scorecard.yml` — OpenSSF Scorecard analysis
+- `privacy_compliance.yml` — Fides manifest validation and privacy guardrails
 
-## Current code-level reality
+### Cloudflare
+Current backend target:
+- Cloudflare Workers runtime
+- Cloudflare D1 database binding via Wrangler
 
-Configured in repo:
+R2 is part of the intended platform design but is not yet active in the current code.
 
-- Worker entrypoint and router
-- D1 binding in `worker/wrangler.toml`
-- local/staging/production D1 placeholders
-- CI for Flutter analyze/test/build and Worker typecheck
+## Current maturity assessment
 
-Not yet implemented in application code:
+Implemented:
+- CI for Flutter and Worker basics
+- docs guardrails
+- privacy manifest validation scaffold
 
-- Cloudflare R2 storage integration
-- Cloudflare Pages deployment configuration in repo
-- authentication provider integration
-- scheduled jobs / retention workers
-
-## Environment notes
-
-`worker/wrangler.toml` still contains placeholder D1 IDs for staging and production. Those must be replaced before real deployment.
+Not yet implemented:
+- staged deployment automation
+- production release workflow
+- secrets governance beyond standard GitHub/Cloudflare practices
+- attachment lifecycle jobs
+- retention automation jobs

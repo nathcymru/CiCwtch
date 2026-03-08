@@ -1,0 +1,137 @@
+- fides_key: cicwtch_d1_dataset
+  name: CiCwtch D1 Dataset
+  organization_fides_key: cicwtch
+  description: Primary Cloudflare D1 relational schema for CiCwtch.
+  collections:
+    - name: clients
+      data_categories:
+        - user.provided.identifiable
+      fields:
+        - name: id
+          data_categories: [system.operations]
+        - name: full_name
+          data_categories: [user.name]
+        - name: preferred_name
+          data_categories: [user.name]
+        - name: phone
+          data_categories: [user.contact.phone_number]
+        - name: email
+          data_categories: [user.contact.email]
+        - name: address_id
+          data_categories: [user.contact.address]
+        - name: emergency_contact_name
+          data_categories: [user.contact.emergency_contact]
+        - name: emergency_contact_phone
+          data_categories: [user.contact.phone_number]
+        - name: notes
+          data_categories: [user.provided.identifiable]
+    - name: addresses
+      data_categories:
+        - user.contact.address
+      fields:
+        - name: line_1
+          data_categories: [user.contact.address.street]
+        - name: line_2
+          data_categories: [user.contact.address.street]
+        - name: city
+          data_categories: [user.contact.address.city]
+        - name: county
+          data_categories: [user.contact.address.state]
+        - name: postcode
+          data_categories: [user.contact.address.postal_code]
+        - name: country_code
+          data_categories: [user.contact.address.country]
+        - name: access_notes
+          data_categories: [user.location.precise]
+    - name: dogs
+      data_categories:
+        - user.provided.identifiable
+      fields:
+        - name: client_id
+          data_categories: [system.operations]
+        - name: name
+          data_categories: [user.provided.identifiable]
+        - name: breed
+          data_categories: [user.provided.identifiable]
+        - name: microchip_number
+          data_categories: [user.provided.identifiable]
+        - name: medical_notes
+          data_categories: [user.health_and_medical]
+        - name: behavioural_notes
+          data_categories: [user.behavior]
+        - name: feeding_notes
+          data_categories: [user.health_and_medical]
+    - name: walkers
+      data_categories:
+        - user.provided.identifiable
+      fields:
+        - name: full_name
+          data_categories: [user.name]
+        - name: phone
+          data_categories: [user.contact.phone_number]
+        - name: email
+          data_categories: [user.contact.email]
+        - name: notes
+          data_categories: [user.provided.identifiable]
+    - name: walks
+      data_categories:
+        - system.operations
+      fields:
+        - name: client_id
+          data_categories: [system.operations]
+        - name: dog_id
+          data_categories: [system.operations]
+        - name: walker_id
+          data_categories: [system.operations]
+        - name: notes
+          data_categories: [user.behavior]
+        - name: scheduled_date
+          data_categories: [system.operations]
+        - name: scheduled_start_time
+          data_categories: [system.operations]
+        - name: scheduled_end_time
+          data_categories: [system.operations]
+    - name: walk_reports
+      data_categories:
+        - system.operations
+      fields:
+        - name: summary
+          data_categories: [user.behavior]
+        - name: incident_notes
+          data_categories: [user.behavior]
+    - name: invoice_headers
+      data_categories:
+        - user.financial
+      fields:
+        - name: client_id
+          data_categories: [system.operations]
+        - name: invoice_number
+          data_categories: [user.financial]
+        - name: status
+          data_categories: [user.financial]
+        - name: notes
+          data_categories: [user.financial]
+    - name: invoice_lines
+      data_categories:
+        - user.financial
+      fields:
+        - name: description
+          data_categories: [user.financial]
+        - name: quantity
+          data_categories: [user.financial]
+        - name: unit_price_minor
+          data_categories: [user.financial]
+        - name: line_total_minor
+          data_categories: [user.financial]
+    - name: attachments
+      data_categories:
+        - user.content
+      fields:
+        - name: object_key
+          data_categories: [system.operations]
+        - name: original_filename
+          data_categories: [user.content]
+        - name: mime_type
+          data_categories: [user.content]
+        - name: file_size_bytes
+          data_categories: [system.operations]

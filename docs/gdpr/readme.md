@@ -1,20 +1,21 @@
-# GDPR / Privacy Engineering
+# GDPR and privacy pack
 
-This folder now documents the **current** CiCwtch privacy posture and the work needed to move from Phase 1 CRUD into a GDPR-ready service.
+This directory contains the working privacy documentation for CiCwtch.
 
-## Files in this folder
+## Included
 
-- `ropa.md` — Record of Processing Activities draft
-- `dpia.md` — DPIA draft for the current architecture and likely next-step risks
-- `data-retention-schedule.md` — proposed retention schedule and operational rules
-- `dsar-erasure-playbook.md` — current gap analysis and target design for rights handling
-- `cnil-gap-audit.md` — repo checked against CNIL developer/privacy expectations
-- `privacy-first-checklist.md` — checklist to apply to every future feature/PR
+- `ropa.md` — record of processing activities
+- `dpia.md` — data protection impact assessment draft
+- `retention_schedule.md` — retention expectations by record type
+- `dsar_and_erasure.md` — subject-rights and deletion handling playbook
+- `cnil_gap_audit.md` — current gap analysis against CNIL-aligned expectations
+- `consent_and_trackers.md` — tracker and consent rules for future frontend changes
+- `privacy_first_checklist.md` — feature checklist to use as the build progresses
 
-## Accuracy note
+## Status
 
-These files distinguish between:
-
-- what is **implemented now**
-- what is **required before production**
-- what is **planned for later phases**
+This pack reflects the current repository state and should be updated whenever:
+- schema changes
+- new sensitive fields are introduced
+- tracking/analytics are added
+- authentication or storage architecture changes

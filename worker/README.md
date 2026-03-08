@@ -2,6 +2,20 @@
 
 This is the CiCwtch Cloudflare Workers backend API workspace.
 
+## Current implementation status
+
+As of the current repository state, the Worker exposes:
+
+- `GET /health`
+- `GET /api/v1/health`
+- `GET /api/v1/clients`
+- `GET /api/v1/clients/:id`
+- `POST /api/v1/clients`
+- `PUT /api/v1/clients/:id`
+- `DELETE /api/v1/clients/:id`
+
+Clients are soft-deleted via `archived_at`.
+
 ## Contents
 
 - `src/index.ts` — Worker entry point; delegates to router, catches errors
@@ -14,15 +28,15 @@ This is the CiCwtch Cloudflare Workers backend API workspace.
 
 ## Internal structure
 
-The worker is split into four modules with clear separation of concerns:
+The worker is intentionally small at this stage:
 
-- **`index.ts`** is the Cloudflare Worker entry point. It delegates all routing to `router.ts` and wraps errors in structured JSON responses: `ApiError` instances produce their own status/type; unhandled errors produce a 500.
-- **`router.ts`** matches incoming request paths and dispatches to handlers. It receives `env` (including `env.DB`) so future handlers can access D1.
-- **`response.ts`** provides two helpers — `jsonOk()` for success responses and `jsonError()` for structured error responses — to keep response shaping consistent across the codebase.
-- **`errors.ts`** defines `ApiError`, a typed error class carrying an HTTP status and a machine-readable `type` string. Use `ApiError.notFound()` (and similar future factories) to throw errors from anywhere in the handler chain.
+- **`index.ts`** is the Cloudflare Worker entry point. It delegates all routing to `router.ts` and wraps errors in structured JSON responses.
+- **`router.ts`** matches incoming request paths and dispatches to handlers. It currently supports a health route and the Clients CRUD slice. Unsupported methods on known routes return `405 Method Not Allowed`.
+- **`response.ts`** provides `jsonOk()` and `jsonError()` helpers so all responses remain JSON.
+- **`errors.ts`** defines `ApiError`, a typed error class carrying an HTTP status and machine-readable `type` string.
+- **`handlers/clients.ts`** contains the current D1-backed clients CRUD implementation.
 
 Business API routes are versioned under `/api/v1/`.
-For operational simplicity, the Worker also exposes both `/health` and `/api/v1/health` for health checks.
 
 ## Getting started
 
@@ -39,11 +53,11 @@ This starts a local dev server using Wrangler. Health is available at both:
 
 ## Environments
 
-| Environment | Worker name              | D1 database              |
-|-------------|--------------------------|--------------------------|
-| Local dev   | cicwtch-api              | cicwtch-db (local)       |
-| Staging     | cicwtch-api-staging      | cicwtch-db-staging       |
-| Production  | cicwtch-api-production   | cicwtch-db-production    |
+| Environment | Worker name            | D1 database            |
+|-------------|------------------------|------------------------|
+| Local dev   | `cicwtch-api`          | local D1 binding       |
+| Staging     | `cicwtch-api-staging`  | staging D1 binding     |
+| Production  | `cicwtch-api-production` | production D1 binding |
 
 Replace the placeholder `database_id` values in `wrangler.toml` with actual D1 database IDs after creating them via `wrangler d1 create`.
 
@@ -55,110 +69,8 @@ Replace the placeholder `database_id` values in `wrangler.toml` with actual D1 d
 | `npm run deploy`    | Deploy to Cloudflare Workers |
 | `npm run typecheck` | Run TypeScript type checking |
 
-## API endpoints
+## Privacy and security notes
 
-All responses are JSON. All routes are versioned under `/api/v1/`.
-
-### Clients
-
-| Method | Path                  | Description          |
-|--------|-----------------------|----------------------|
-| GET    | /api/v1/clients       | List all clients     |
-| GET    | /api/v1/clients/:id   | Get a client         |
-| POST   | /api/v1/clients       | Create a client      |
-| PUT    | /api/v1/clients/:id   | Update a client      |
-| DELETE | /api/v1/clients/:id   | Soft-delete a client |
-
-### Dogs
-
-| Method | Path               | Description       |
-|--------|--------------------|-------------------|
-| GET    | /api/v1/dogs       | List all dogs     |
-| GET    | /api/v1/dogs/:id   | Get a dog         |
-| POST   | /api/v1/dogs       | Create a dog      |
-| PUT    | /api/v1/dogs/:id   | Update a dog      |
-| DELETE | /api/v1/dogs/:id   | Soft-delete a dog |
-
-### Walks
-
-| Method | Path                | Description        |
-|--------|---------------------|--------------------|
-| GET    | /api/v1/walks       | List all walks     |
-| GET    | /api/v1/walks/:id   | Get a walk         |
-| POST   | /api/v1/walks       | Create a walk      |
-| PUT    | /api/v1/walks/:id   | Update a walk      |
-| DELETE | /api/v1/walks/:id   | Soft-delete a walk |
-
-#### Walks: notes
-
-- All responses are JSON only.
-- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
-- `dog_id` and `walker_id` references are validated against their respective tables on create and update. Referenced records must exist and must not be archived.
-- `walker_id` is optional; it may be `null` or omitted.
-- `status` must be one of: `planned`, `in_progress`, `completed`, `cancelled`. Defaults to `planned` on create.
-- `service_type` defaults to `walk` on create.
-- All SQL uses parameterised D1 prepared statements only.
-- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
-
-### Walkers
-
-| Method | Path                   | Description          |
-|--------|------------------------|----------------------|
-| GET    | /api/v1/walkers        | List all walkers     |
-| GET    | /api/v1/walkers/:id    | Get a walker         |
-| POST   | /api/v1/walkers        | Create a walker      |
-| PUT    | /api/v1/walkers/:id    | Update a walker      |
-| DELETE | /api/v1/walkers/:id    | Soft-delete a walker |
-
-#### Walkers: notes
-
-- All responses are JSON only.
-- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
-- `full_name` is required on create and update.
-- `active` must be `0` or `1` (integer); defaults to `1` on create if omitted.
-- All SQL uses parameterised D1 prepared statements only.
-- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
-
-### Invoice Headers
-
-| Method | Path                           | Description                   |
-|--------|--------------------------------|-------------------------------|
-| GET    | /api/v1/invoice-headers        | List all invoice headers       |
-| GET    | /api/v1/invoice-headers/:id    | Get an invoice header          |
-| POST   | /api/v1/invoice-headers        | Create an invoice header       |
-| PUT    | /api/v1/invoice-headers/:id    | Update an invoice header       |
-| DELETE | /api/v1/invoice-headers/:id    | Soft-delete an invoice header  |
-
-#### Invoice Headers: notes
-
-- All responses are JSON only.
-- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
-- `client_id` is required on create and is validated against the `clients` table; the client must exist and must not be archived.
-- `invoice_number` is required on create and must be unique.
-- `status` must be one of: `draft`, `issued`, `paid`, `cancelled`. Defaults to `draft` on create.
-- `currency_code` defaults to `GBP` on create if omitted.
-- All SQL uses parameterised D1 prepared statements only.
-- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
-- Payment processing, PDF generation, and email sending are out of scope for this task.
-
-### Invoice Lines
-
-| Method | Path                        | Description              |
-|--------|-----------------------------|--------------------------|
-| GET    | /api/v1/invoice-lines       | List all invoice lines   |
-| GET    | /api/v1/invoice-lines/:id   | Get an invoice line      |
-| POST   | /api/v1/invoice-lines       | Create an invoice line   |
-| PUT    | /api/v1/invoice-lines/:id   | Update an invoice line   |
-| DELETE | /api/v1/invoice-lines/:id   | Delete an invoice line   |
-
-#### Invoice Lines: notes
-
-- All responses are JSON only.
-- Invoice lines do not have `archived_at`; DELETE performs a hard delete.
-- `invoice_header_id` is required on create and is validated against the `invoice_headers` table; the header must exist and must not be archived.
-- `description` is required on create.
-- If `walk_id` is provided, it is validated against the `walks` table; the walk must exist and must not be archived.
-- `quantity` must be a positive number; defaults to `1` on create.
-- `unit_price_minor` and `line_total_minor` must be non-negative integers; default to `0` on create.
-- All SQL uses parameterised D1 prepared statements only.
-- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
+- All queries must use prepared statements.
+- Sensitive data lives in D1 and must be reflected in `.fides/` and `docs/gdpr/` when the schema changes.
+- Authentication, RBAC, DSAR automation, retention enforcement, and R2 attachment controls are **not yet fully implemented** in code and remain Phase 2 work.

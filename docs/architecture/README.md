@@ -1,44 +1,46 @@
-# Architecture — Current State
+# CiCwtch Architecture (current repository truth)
 
-This folder documents the **actual implemented architecture** of CiCwtch after Phase 1.
-It intentionally separates **implemented now** from **planned later**, so the docs do not wander off into science-fiction cosplay.
+This folder documents the **current implemented architecture** and, where useful, the intended direction.
+If the code and these docs disagree, the docs must be updated.
 
 ## Implemented today
 
+### Frontend
 - Flutter application in `flutter/`
-- Cloudflare Workers TypeScript API in `worker/`
-- Cloudflare D1 schema in `migrations/0001_initial_schema.sql`
-- CRUD flows implemented for:
-  - clients
-  - dogs
-  - walks
-  - walkers
-  - invoice headers
-  - invoice lines
-- Dashboard overview screen
-- Shared navigation shell
-- Basic client-side search/filtering across core lists
-- Shared UI consistency helpers
+- Material 3 theme path only
+- Named routing via `lib/app/routing/app_router.dart`
+- Implemented feature slice: **Clients**
+- Shared plain-Dart models under `flutter/lib/shared/domain/models/`
+- Simple HTTP API client under `flutter/lib/shared/data/api_client.dart`
 
-## Not yet implemented
+### Backend
+- Cloudflare Worker in `worker/`
+- D1-backed **Clients CRUD** only
+- Health endpoints:
+  - `GET /health`
+  - `GET /api/v1/health`
+- JSON response helper + typed API errors
 
-- authentication and authorisation
-- persistent sessions
-- client portal / role-based access
-- booking slot inventory and approvals
-- rewards / vouchers / campaigns
-- Stripe integration
-- PDF export
-- Cloudflare R2 file handling in production code
-- DSAR automation / erasure workflow in code
-- offline queue / sync engine
-- full audit logging in application logic
+### Database
+- D1 migration `migrations/0001_initial_schema.sql` defines the wider intended schema for addresses, clients, dogs, walkers, walks, invoices, attachments, and audit records.
+- Only a subset of that schema is currently exercised by application code.
 
-## Read this next
+## Intended direction (not yet fully implemented)
 
-- [Application structure](application.md)
-- [Data architecture](data.md)
-- [Infrastructure](infrastructure.md)
-- [Security and privacy status](security.md)
-- [Diagrams](diagrams.md)
-- [Architecture decisions](decisions.md)
+The URS describes a much larger system including:
+- authentication and RBAC
+- dogs, walkers, walks, invoices, compliance, bookings, rewards, vouchers
+- offline queueing and sync
+- R2-backed attachments/media
+- client self-service portal
+
+Those capabilities should be treated as **planned architecture**, not current runtime fact, unless corresponding code exists in this repository.
+
+## Architecture file map
+
+- `application.md` — current Flutter and Worker structure
+- `data.md` — schema reality, current data flows, and privacy inventory linkages
+- `infrastructure.md` — current CI/CD and Cloudflare setup
+- `security.md` — current controls and known gaps
+- `decisions.md` — architectural decisions and explicit deferred items
+- `diagrams.md` — diagrams kept aligned to current repository reality

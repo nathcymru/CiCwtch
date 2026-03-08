@@ -1,53 +1,53 @@
 # Application Architecture
 
-## Flutter app
+## Current Flutter structure
 
-Current app structure:
+```text
+flutter/lib/
+  app/
+    routing/
+  features/
+    auth/      (placeholder only)
+    clients/   (implemented)
+  shared/
+    data/
+    domain/models/
+```
 
-- `lib/app/`
-  - routing
-  - shell
-- `lib/features/`
-  - clients
-  - dashboard
-  - dogs
-  - invoices
-  - walkers
-  - walks
-  - auth (placeholder only)
-- `lib/shared/`
-  - data
-  - domain models
-  - presentation helpers
+### Observed implementation notes
 
-## Current interaction pattern
+- Routing is handled centrally in `app_router.dart`.
+- The app currently uses a simple service/repository arrangement rather than a full clean-architecture use-case stack.
+- The `auth` feature directories exist only as placeholders.
+- The home screen is still a starter-style launch point rather than a full application shell.
 
-The Flutter app currently uses a straightforward service/repository/API-client pattern:
+## Current Worker structure
 
-- screen
-- feature service
-- feature repository
-- shared `ApiClient`
-- Workers API
+```text
+worker/src/
+  index.ts
+  router.ts
+  response.ts
+  errors.ts
+  handlers/
+    clients.ts
+```
 
-This is intentionally lightweight and suitable for solo development.
+### Observed implementation notes
 
-## Current UX shell
+- The Worker is intentionally lightweight.
+- Only the Clients resource is implemented.
+- JSON responses are returned directly, without a `data` wrapper.
+- Known-route unsupported methods now return `405 Method Not Allowed`.
 
-Implemented:
+## URS alignment summary
 
-- Material 3 app shell
-- dashboard
-- responsive navigation rail / bottom navigation
-- CRUD flows for the Phase 1 resources above
+The URS target architecture is broader than the current implementation.
+At present the repository is best described as:
 
-Not yet implemented:
+- a real project scaffold
+- a complete domain-model layer for the initial schema
+- an implemented Clients vertical slice
+- a partial foundation for future feature expansion
 
-- Cupertino app shell parity on iOS
-- authenticated app state
-- offline-first write queue
-- domain-level state management beyond feature-local async loading
-
-## Important accuracy note
-
-The URS describes a broader Clean Architecture ambition and iOS-adaptive theming. The current codebase is **not yet at that full target state**. Documentation must therefore treat those elements as roadmap items until implemented.
+It is **not yet** a full clean-architecture, offline-first, multi-role production application.

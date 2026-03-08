@@ -1,92 +1,37 @@
-# Audit & Integration Report — 2026-03-08
+# Audit and Integration Report — 2026-03-08
 
-## Executive summary
+## Summary
 
-The repository is in a credible **Phase 1 CRUD** state. The Worker typecheck passes, the schema is coherent, and the Flutter app implements a substantial set of CRUD flows. However, the codebase is **not yet production-ready** for privacy, security, or full URS compliance.
+This repo is **not yet aligned** with a claim that Phase 1 Tasks 1–22 are fully implemented. The actual codebase currently contains:
+- Flutter starter + Clients feature slice
+- Worker health + Clients CRUD
+- broad D1 schema for future entities
+- initial CI + docs guardrails
 
-The main documentation issue before this patch was drift: several architecture/privacy statements described future-state capabilities as though they already existed.
+## Code corrections applied in this patch
 
-## What the audit confirmed
+- fixed Flutter `ClientsRepository` to match the Worker's actual JSON response shape
+- added `405 Method Not Allowed` handling for valid Worker routes with unsupported methods
+- tightened soft-delete/update SQL guards for clients
+- removed `__MACOSX` cruft from the packaged repo output
 
-### Implemented and broadly coherent
-- Worker routing and CRUD handlers for clients, dogs, walks, walkers, invoice headers, and invoice lines
-- D1 schema is explicit and relationally coherent
-- Flutter app includes CRUD screens, dashboard, shell, and shared UI helpers
-- Docs guardrail workflow is operating
+## Documentation corrections applied in this patch
 
-### Key gaps / discrepancies
-1. **Authentication and RBAC are not implemented** despite being present in the URS vision.
-2. **Cupertino/iOS-adaptive theming is not implemented**; the app currently uses a `MaterialApp` shell only.
-3. **R2 is not implemented in production code** despite being mentioned in high-level docs.
-4. **DSAR export/erasure is not implemented**.
-5. **Retention is documented here as policy draft only, not enforced in code**.
-6. **API docs were incomplete** and did not fully reflect the actual implemented routes.
-7. **Primary invoices navigation is still weaker than the other core entities**; the shell focuses on Dashboard, Clients, Dogs, Walks, and Walkers.
+- rewrote architecture docs to describe current implemented reality
+- added API docs for the currently live Clients API
+- populated the GDPR folder with a working privacy pack
+- added Fides manifests and a privacy workflow
 
-## Specific code observations
+## Remaining major gaps
 
-### Good
-- Worker handlers use prepared/bound statements.
-- Foreign key validation is performed in several CRUD handlers.
-- Error response shape is consistent.
+- authentication and authorization
+- DSAR / erasure orchestration
+- retention automation
+- R2 object lifecycle controls
+- broader Worker resources (dogs, walkers, walks, invoices)
+- matching Flutter feature slices for those resources
+- stronger automated tests
 
-### Caution / follow-up
-- Worker handlers currently have no auth guards, rate limiting, or audit-log writes.
-- Invoice semantics in product language (“invoices”) are implemented as `invoice_headers` plus `invoice_lines`; docs must keep that explicit.
-- Some architecture docs previously implied `/ready`, auth, sessions, and R2 flows that are not present.
+## Release framing recommendation
 
-## URS reconciliation
-
-The current repo matches only the **early operational CRUD/dashboard slice** of the URS. It does **not** yet match the URS for:
-
-- secure login/logout and persistent sessions
-- password reset
-- role-based access
-- booking slot inventory and approval workflows
-- GPS route tracking
-- client self-service portal
-- rewards / vouchers / campaigns
-- payments and PDF export
-- notifications
-- offline write queue
-
-That is not a failure of the code; it is a reminder that the URS is broader than the completed Phase 1 task set.
-
-## Files added / updated by this patch
-
-- `docs/api/README.md`
-- `docs/api/health.md`
-- `docs/api/clients.md`
-- `docs/api/dogs.md`
-- `docs/api/walks.md`
-- `docs/api/walkers.md`
-- `docs/api/invoice_headers.md`
-- `docs/api/invoice_lines.md`
-- `docs/architecture/README.md`
-- `docs/architecture/application.md`
-- `docs/architecture/data.md`
-- `docs/architecture/infrastructure.md`
-- `docs/architecture/security.md`
-- `docs/architecture/diagrams.md`
-- `docs/architecture/decisions.md`
-- `docs/gdpr/readme.md`
-- `docs/gdpr/ropa.md`
-- `docs/gdpr/dpia.md`
-- `docs/gdpr/data-retention-schedule.md`
-- `docs/gdpr/dsar-erasure-playbook.md`
-- `docs/gdpr/cnil-gap-audit.md`
-- `docs/gdpr/privacy-first-checklist.md`
-- `.fides/README.md`
-- `.fides/fides.toml`
-- `.fides/systems.yml`
-- `.fides/dataset.yml`
-- `.github/workflows/privacy_compliance.yml`
-
-## Recommended next engineering tasks
-
-1. Implement authentication and RBAC.
-2. Add DSAR export + erasure orchestration for D1.
-3. Design R2 attachment model with signed access.
-4. Add retention enforcement jobs.
-5. Add Worker tests.
-6. Decide whether invoices should be first-class in the shell navigation.
+A milestone release is reasonable if described honestly as a **foundation / current-state milestone**, not as a complete implementation of the full URS.

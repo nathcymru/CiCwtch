@@ -1,19 +1,32 @@
-# Architecture Decisions
+# Architectural Decisions
 
-## Accepted and reflected in code
+## Accepted
 
-1. Use Flutter as the single app codebase.
-2. Use Cloudflare Workers + D1 for the first backend slice.
-3. Keep Worker routing framework-free for now.
-4. Keep Flutter feature code explicit rather than heavily abstracted.
-5. Use soft delete via `archived_at` for most core entities.
-6. Keep the repo documentation-guarded so architecture-sensitive changes must update docs.
+### ADR-001 — Flutter is the only UI stack
+The application uses Flutter widgets only. No HTML/CSS UI framework wrappers are permitted.
 
-## Deferred / not yet accepted into implementation
+### ADR-002 — Cloudflare Worker + D1 for the first backend slice
+The backend begins as a simple Worker with D1 prepared statements and minimal dependencies.
 
-1. Authentication design
-2. Authorisation model and tenancy rules
-3. R2 object storage patterns
-4. Retention job strategy
-5. DSAR automation strategy
-6. Production audit logging strategy
+### ADR-003 — Domain models are explicit plain Dart
+No model code generation is used. JSON mapping stays visible and reviewable.
+
+### ADR-004 — Documentation guardrails are mandatory
+Architecture-sensitive code changes must update docs in the same PR.
+
+### ADR-005 — Privacy inventory lives in the repo
+Fides manifests and GDPR documents live close to the code so schema changes can be reviewed together with privacy changes.
+
+## Deferred
+
+### ADR-D01 — Authentication and RBAC
+Required by the URS but not yet implemented.
+
+### ADR-D02 — Offline sync and outbox
+Planned architecture only; not yet in runtime code.
+
+### ADR-D03 — R2 attachments lifecycle
+Schema support exists via `attachments`; runtime attachment flows do not yet exist.
+
+### ADR-D04 — DSAR and retention automation
+Documented as compliance requirements; not yet automated in code.

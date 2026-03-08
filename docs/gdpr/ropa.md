@@ -1,46 +1,38 @@
-# Record of Processing Activities (Draft)
+# Record of Processing Activities (RoPA)
 
-## Controller / system context
+## Controller
+CiCwtch project owner / maintainer.
 
-Project: CiCwtch
+## Current processing activities reflected by the repo
 
-Current repository stage: internal development / Phase 1 CRUD prototype.
+### 1. Client administration
+- **Purpose:** operate client records for pet-care administration.
+- **Data subjects:** customers.
+- **Data categories:** name, phone, email, address linkage, emergency contact details, notes.
+- **System:** Cloudflare Worker + D1.
+- **Lawful basis:** contract / pre-contract steps; legitimate interests for operational administration.
 
-## Processing inventory
+### 2. Pet administration
+- **Purpose:** maintain dog profiles.
+- **Data categories:** dog name, breed, microchip number, medical notes, behavioural notes, feeding notes.
+- **Status:** schema exists; runtime feature not yet fully implemented.
 
-| Processing area | Data subjects | Main data | Purpose | Storage |
-|---|---|---|---|---|
-| Client management | clients / pet owners | names, phone, email, address link, emergency contact data, notes | manage customer records and service delivery | D1 |
-| Dog management | client pets | dog identity, breed, sex, DOB, microchip, vet, medical and behavioural notes | manage pet records and operational suitability | D1 |
-| Walker management | staff / contractors | names, phone, email, role, start date, notes | manage worker records | D1 |
-| Walk scheduling | clients, dogs, walkers | assignments, dates, times, status, service notes | run scheduled services | D1 |
-| Invoice headers | clients | invoice number, client linkage, issue/due dates, status, notes | operational billing records | D1 |
-| Invoice lines | clients, walks | descriptions, quantities, monetary values, walk linkage | itemised billing records | D1 |
-| Attachments (schema only) | clients / dogs / walkers / walks | metadata for files, object keys, mime types | future attachment support | D1 + future R2 |
-| Audit log (schema only) | actors tied to system actions | actor and change summary metadata | future traceability | D1 |
+### 3. Walker administration
+- **Purpose:** manage worker profiles and compliance.
+- **Data categories:** name, email, phone, employment/compliance notes.
+- **Status:** schema exists; runtime feature not yet fully implemented.
 
-## Special-category / higher-risk data present
+### 4. Walk scheduling and reporting
+- **Purpose:** schedule and record pet-care services.
+- **Data categories:** schedule metadata, notes, incident information.
+- **Status:** schema exists; runtime feature not yet fully implemented.
 
-Potentially sensitive data is already represented in schema/design, especially:
+### 5. Billing and invoicing
+- **Purpose:** issue and track invoices.
+- **Data categories:** invoice numbers, dates, status, financial line items.
+- **Status:** schema exists; runtime feature not yet fully implemented.
 
-- dog medical notes
-- dog behavioural notes
-- access notes on addresses
-- free-text notes across multiple entities
-
-These are not special-category personal data in every case, but they can carry sensitive operational or household details and should be treated with care.
-
-## Recipients / processors
-
-Current technical processors:
-
-- Cloudflare Workers / D1
-- GitHub (source code and CI)
-
-Future likely processor:
-
-- Cloudflare R2 for attachments
-
-## International transfer note
-
-Cloudflare is a global provider. Before production, the deployment and storage regions, contractual safeguards, and transfer-risk position must be explicitly documented.
+### 6. Attachments and object storage
+- **Purpose:** future storage of uploaded files or visit-related objects.
+- **Data categories:** filenames, object keys, MIME type, file size; potentially photos or documents.
+- **Status:** schema exists; R2 runtime flows not yet implemented.

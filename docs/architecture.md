@@ -1,8 +1,17 @@
 # CiCwtch Architecture Overview
 
-This file is a **high-level index only**.
+This file is a high-level index.
 
-The authoritative architecture documentation for CiCwtch is maintained in:
+The detailed architecture documents live in `docs/architecture/` and are written to reflect the **current repository reality first**, with planned target direction called out explicitly.
+
+## Current implementation snapshot
+
+- Flutter app starter with a Clients feature slice
+- Cloudflare Worker with Clients CRUD and health endpoints
+- D1 schema covering a wider planned domain model than is currently implemented in runtime code
+- in-repo privacy documentation and Fides manifests
+
+## Detailed documents
 
 - [docs/architecture/README.md](architecture/README.md)
 - [docs/architecture/application.md](architecture/application.md)
@@ -11,16 +20,3 @@ The authoritative architecture documentation for CiCwtch is maintained in:
 - [docs/architecture/security.md](architecture/security.md)
 - [docs/architecture/decisions.md](architecture/decisions.md)
 - [docs/architecture/diagrams.md](architecture/diagrams.md)
-
-## Platform direction
-
-CiCwtch is being built as a **Flutter application for Web, iOS, and Android**, with a backend platform centred on:
-
-- **Cloudflare Workers** for server-side runtime and APIs
-- **Cloudflare D1** for relational data storage
-- **Cloudflare R2** for object and media storage
-- **SQLite** for lightweight local persistence and offline-first behaviour inside the app where required
-
-## Documentation rule
-
-If this overview and the detailed architecture documents ever disagree, treat the files under `docs/architecture/` as the source of truth and update this page immediately.

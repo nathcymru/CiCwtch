@@ -1,31 +1,29 @@
 # Diagrams
 
-## Current implemented runtime
+## Current runtime diagram
 
 ```mermaid
 flowchart LR
-  U[Flutter App] --> API[Cloudflare Worker API]
-  API --> D1[(Cloudflare D1)]
+  UI[Flutter app] --> Router[App router]
+  Router --> ClientsUI[Clients screens]
+  ClientsUI --> ApiClient[Shared API client]
+  ApiClient --> Worker[Cloudflare Worker]
+  Worker --> ClientsHandler[clients.ts handler]
+  ClientsHandler --> D1[(Cloudflare D1)]
 ```
 
-## Current app layering
-
-```mermaid
-flowchart TD
-  Screen[Flutter Screen] --> Service[Feature Service]
-  Service --> Repo[Feature Repository]
-  Repo --> ApiClient[Shared ApiClient]
-  ApiClient --> Worker[Worker API]
-  Worker --> D1[(D1)]
-```
-
-## Planned but not yet implemented
+## Planned target diagram
 
 ```mermaid
 flowchart LR
-  U[Flutter App] --> API[Cloudflare Worker API]
-  API --> D1[(Cloudflare D1)]
-  API -. future .-> R2[(Cloudflare R2)]
-  API -. future .-> Auth[Auth / Session Layer]
-  API -. future .-> DSAR[Erasure / Export Jobs]
+  UI[Flutter app] --> Shell[Navigation shell]
+  Shell --> Clients
+  Shell --> Dogs
+  Shell --> Walks
+  Shell --> Walkers
+  Shell --> Invoices
+  UI --> Offline[(local cache / outbox)]
+  UI --> Worker[Cloudflare Worker]
+  Worker --> D1[(Cloudflare D1)]
+  Worker --> R2[(Cloudflare R2)]
 ```

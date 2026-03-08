@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/shared/domain/models/models.dart';
-import 'package:cicwtch/shared/presentation/form_error_banner.dart';
 
 class ClientFormScreen extends StatefulWidget {
   const ClientFormScreen({
@@ -108,7 +107,23 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_submitError != null)
-                FormErrorBanner(message: _submitError!),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Material(
+                    color: Theme.of(context).colorScheme.errorContainer,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        _submitError!,
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).colorScheme.onErrorContainer,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               TextFormField(
                 controller: _fullName,
                 decoration: const InputDecoration(

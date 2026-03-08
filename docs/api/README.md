@@ -1,18 +1,13 @@
-# API Documentation
+# API documentation
 
-This folder documents the **currently implemented** Cloudflare Workers API surface for CiCwtch Phase 1.
+## Current live endpoints
 
-## Current API resources
+- `GET /health`
+- `GET /api/v1/health`
+- `GET /api/v1/clients`
+- `GET /api/v1/clients/:id`
+- `POST /api/v1/clients`
+- `PUT /api/v1/clients/:id`
+- `DELETE /api/v1/clients/:id`
 
-- [Health](health.md)
-- [Clients](clients.md)
-- [Dogs](dogs.md)
-- [Walks](walks.md)
-- [Walkers](walkers.md)
-- [Invoice Headers](invoice_headers.md)
-- [Invoice Lines](invoice_lines.md)
-
-## Important note
-
-The source of truth is the code in `worker/src/` and the schema in `migrations/0001_initial_schema.sql`.
-This folder documents what is actually implemented today, not the full long-term product vision in the URS.
+At the current repository state, no other business endpoints are implemented in the Worker.

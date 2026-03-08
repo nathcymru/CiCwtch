@@ -1,61 +1,60 @@
 # Data Architecture
 
-## Primary datastore
+## Canonical stores
 
-Current primary datastore: **Cloudflare D1**.
+### Currently implemented
+- **Cloudflare D1** is the intended canonical relational store.
+- The active application code currently reads/writes only the `clients` table.
 
-The implemented schema lives in:
+### Planned but not yet implemented in code
+- **Cloudflare R2** for attachments/media
+- local offline storage and sync queue in Flutter
 
-- `migrations/0001_initial_schema.sql`
+## Current schema reality
 
-## Current implemented entities in code or schema
+`migrations/0001_initial_schema.sql` defines these top-level tables:
 
-Schema exists for:
-
-- addresses
-- clients
-- client_contacts
-- dogs
-- dog_notes
-- walkers
-- walker_compliance_items
-- walks
-- walk_reports
-- invoice_headers
-- invoice_lines
-- attachments
-- audit_log
-
-Implemented CRUD API handlers currently cover:
-
-- clients
-- dogs
-- walks
-- walkers
-- invoice_headers
-- invoice_lines
-
-## Data handling status
-
-Implemented today:
-
-- parameterised D1 statements in Worker handlers
-- soft delete on most core entities via `archived_at`
-- explicit Dart models matching D1 column names
-
-Not yet implemented in application logic:
-
-- DSAR traversal/export
-- DSAR erasure orchestration
-- retention enforcement jobs
-- audit log writes on CRUD actions
-- attachment uploads to R2
-
-## Invoice terminology note
-
-The current schema and API use:
-
+- `addresses`
+- `clients`
+- `client_contacts`
+- `dogs`
+- `dog_notes`
+- `walkers`
+- `walker_compliance_items`
+- `walks`
+- `walk_reports`
 - `invoice_headers`
 - `invoice_lines`
+- `attachments`
+- `audit_log`
 
-The product language may say “invoices”, but the implemented API surface is split into header and line resources.
+This schema expresses the intended data model, but most of these entities are not yet wired into the current frontend/backend runtime.
+
+## Data privacy inventory linkage
+
+The privacy inventory lives alongside the code in:
+- `.fides/`
+- `docs/gdpr/`
+
+Whenever a table or sensitive field changes, update:
+- `migrations/0001_initial_schema.sql` or a later migration
+- `.fides/dataset.yml`
+- relevant docs in `docs/gdpr/`
+
+## Current live data flow
+
+```mermaid
+flowchart LR
+  Flutter[Flutter app] -->|HTTP JSON| Worker[Cloudflare Worker]
+  Worker -->|prepared statements| D1[(Cloudflare D1)]
+```
+
+## Future data flow direction
+
+```mermaid
+flowchart LR
+  Flutter[Flutter app] -->|HTTP JSON| Worker[Cloudflare Worker]
+  Worker --> D1[(Cloudflare D1)]
+  Worker --> R2[(Cloudflare R2)]
+  Flutter -. planned .-> LocalDB[(offline cache / outbox)]
+```

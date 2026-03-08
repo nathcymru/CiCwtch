@@ -1,39 +1,27 @@
-# DPIA Draft — CiCwtch Phase 1 / Next-Step Architecture
+# DPIA draft
 
 ## Why a DPIA is relevant
 
-The platform is intended to process household contact data, scheduling data, staff data, potentially sensitive free-text notes, and later attachments/photos. That combination gives this project enough privacy teeth to justify structured DPIA work before production.
+CiCwtch processes personal data including contact data, home-address-linked operational data, emergency contacts, financial records, and potentially special-category-adjacent free text such as medical notes for pets that may still indirectly identify households.
 
-## Current architecture assessed
+## Key risk themes
 
-- Flutter client application
-- Cloudflare Worker API
-- Cloudflare D1 relational data store
-- planned future R2 object storage for attachments
+1. **Home and schedule visibility**
+   - addresses and scheduling data can expose when households are occupied or unattended.
+2. **Free-text operational notes**
+   - notes fields can accumulate excessive or sensitive content.
+3. **Future mobile app expansion**
+   - mobile builds raise tracker, device-permission, and local-storage risks.
+4. **Future object storage**
+   - attachments in R2 could introduce image/document leakage risks.
+5. **Role separation not yet implemented**
+   - current repo has no production auth/RBAC enforcement.
 
-## Primary risks identified
+## Required mitigations before production use
 
-1. **No authentication or RBAC yet implemented**
-   - Current app/API are not ready for live personal-data exposure.
-2. **Free-text note fields may collect excess or sensitive data**
-   - medical, behavioural, and access notes can expand unpredictably.
-3. **No DSAR erasure/export automation**
-   - rights handling cannot yet be executed reliably end-to-end.
-4. **No retention enforcement mechanism**
-   - soft delete is not the same thing as compliant retention management.
-5. **Future attachment handling will amplify risk**
-   - pet photos, invoices, and incident media need strict access control and expiry.
-6. **Cloud / edge deployment clarity is incomplete**
-   - region, residency, and transfer controls need documenting before production.
-
-## Required controls before production
-
-- authenticated API access
-- role-based authorisation
-- minimum-necessary logging with no sensitive payload dumping
-- DSAR export path
-- DSAR erasure path for D1 and future R2
-- retention schedule with operational deletion jobs
-- secure attachment design using private buckets and time-limited access
-- documented legal basis and privacy notice
-- audit trail for privileged actions
+- implement authentication and RBAC
+- implement DSAR/erasure workflows across D1 and R2
+- implement retention automation
+- constrain and review free-text fields
+- document Cloudflare region/jurisdiction choices and subprocessors
+- introduce privileged-action audit logging

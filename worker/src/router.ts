@@ -7,41 +7,6 @@ import {
   updateClient,
   deleteClient,
 } from "./handlers/clients";
-import {
-  listDogs,
-  getDog,
-  createDog,
-  updateDog,
-  deleteDog,
-} from "./handlers/dogs";
-import {
-  listWalks,
-  getWalk,
-  createWalk,
-  updateWalk,
-  deleteWalk,
-} from "./handlers/walks";
-import {
-  listWalkers,
-  getWalker,
-  createWalker,
-  updateWalker,
-  deleteWalker,
-} from "./handlers/walkers";
-import {
-  listInvoiceHeaders,
-  getInvoiceHeader,
-  createInvoiceHeader,
-  updateInvoiceHeader,
-  deleteInvoiceHeader,
-} from "./handlers/invoice_headers";
-import {
-  listInvoiceLines,
-  getInvoiceLine,
-  createInvoiceLine,
-  updateInvoiceLine,
-  deleteInvoiceLine,
-} from "./handlers/invoice_lines";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -49,19 +14,14 @@ function handleHealth(): Response {
   return jsonOk(HEALTH_RESPONSE);
 }
 
-function methodNotAllowed(allowedMethods: string[]): Response {
+function methodNotAllowed(allowed: string[]): Response {
   return new Response(
-    JSON.stringify({
-      error: {
-        message: "Method not allowed",
-        type: "method_not_allowed",
-      },
-    }),
+    JSON.stringify({ error: { message: "Method not allowed", type: "method_not_allowed" } }),
     {
       status: 405,
       headers: {
         "Content-Type": "application/json",
-        Allow: allowedMethods.join(", "),
+        Allow: allowed.join(", "),
       },
     },
   );
@@ -94,81 +54,5 @@ export async function route(
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
   }
 
-  if (pathname === "/api/v1/dogs") {
-    if (method === "GET") return listDogs(request, env);
-    if (method === "POST") return createDog(request, env);
-    return methodNotAllowed(["GET", "POST"]);
-  }
-
-  const dogMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)$/);
-  if (dogMatch) {
-    const params = { id: dogMatch[1] };
-    if (method === "GET") return getDog(request, env, params);
-    if (method === "PUT") return updateDog(request, env, params);
-    if (method === "DELETE") return deleteDog(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
-  }
-
-  if (pathname === "/api/v1/walks") {
-    if (method === "GET") return listWalks(request, env);
-    if (method === "POST") return createWalk(request, env);
-    return methodNotAllowed(["GET", "POST"]);
-  }
-
-  const walkMatch = pathname.match(/^\/api\/v1\/walks\/([^/]+)$/);
-  if (walkMatch) {
-    const params = { id: walkMatch[1] };
-    if (method === "GET") return getWalk(request, env, params);
-    if (method === "PUT") return updateWalk(request, env, params);
-    if (method === "DELETE") return deleteWalk(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
-  }
-
-  if (pathname === "/api/v1/walkers") {
-    if (method === "GET") return listWalkers(request, env);
-    if (method === "POST") return createWalker(request, env);
-    return methodNotAllowed(["GET", "POST"]);
-  }
-
-  const walkerMatch = pathname.match(/^\/api\/v1\/walkers\/([^/]+)$/);
-  if (walkerMatch) {
-    const params = { id: walkerMatch[1] };
-    if (method === "GET") return getWalker(request, env, params);
-    if (method === "PUT") return updateWalker(request, env, params);
-    if (method === "DELETE") return deleteWalker(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
-  }
-
-  if (pathname === "/api/v1/invoice-headers") {
-    if (method === "GET") return listInvoiceHeaders(request, env);
-    if (method === "POST") return createInvoiceHeader(request, env);
-    return methodNotAllowed(["GET", "POST"]);
-  }
-
-  const invoiceHeaderMatch = pathname.match(/^\/api\/v1\/invoice-headers\/([^/]+)$/);
-  if (invoiceHeaderMatch) {
-    const params = { id: invoiceHeaderMatch[1] };
-    if (method === "GET") return getInvoiceHeader(request, env, params);
-    if (method === "PUT") return updateInvoiceHeader(request, env, params);
-    if (method === "DELETE") return deleteInvoiceHeader(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
-  }
-
-  if (pathname === "/api/v1/invoice-lines") {
-    if (method === "GET") return listInvoiceLines(request, env);
-    if (method === "POST") return createInvoiceLine(request, env);
-    return methodNotAllowed(["GET", "POST"]);
-  }
-
-  const invoiceLineMatch = pathname.match(/^\/api\/v1\/invoice-lines\/([^/]+)$/);
-  if (invoiceLineMatch) {
-    const params = { id: invoiceLineMatch[1] };
-    if (method === "GET") return getInvoiceLine(request, env, params);
-    if (method === "PUT") return updateInvoiceLine(request, env, params);
-    if (method === "DELETE") return deleteInvoiceLine(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
-  }
-
   return jsonError("Not found", "not_found", 404);
 }
-

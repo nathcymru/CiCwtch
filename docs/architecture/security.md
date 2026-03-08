@@ -1,29 +1,35 @@
-# Security and Privacy Status
+# Security and Privacy Architecture
 
-## Current security posture
+## Current controls in code
 
-Implemented now:
+Implemented today:
+- JSON-only API responses
+- typed API error handling
+- prepared SQL statements in the Worker
+- soft deletion for clients via `archived_at`
+- CI checks for Flutter analysis/tests and Worker typecheck
+- privacy documentation + Fides manifest scaffolding in-repo
 
-- parameterised SQL in Worker handlers
-- typed JSON error responses
-- soft delete for most core entities
-- CI guardrails for docs and basic code health
+## Current gaps
 
-Not yet implemented:
+Not yet fully implemented in code:
+- end-user authentication
+- role-based authorization enforcement
+- secure session lifecycle
+- DSAR automation
+- hard deletion / erasure workflows across all stores
+- automated retention enforcement
+- R2 object access controls and signed URL lifecycle
+- attachment malware/content scanning
+- audit logging of privileged actions
 
-- authentication
-- authorisation / RBAC
-- session management
-- secure password storage
-- token rotation
-- request correlation IDs
-- R2 signed URL strategy
-- DSAR export/erasure logic
-- retention enforcement
-- webhook idempotency
+## CNIL / GDPR direction for this repo
 
-## Practical interpretation
+This project should continue to follow privacy-by-design principles:
+- data minimisation
+- purpose limitation
+- explicit retention rules
+- rights handling for access, export, rectification, and erasure
+- no analytics/tracking SDKs without a documented legal basis and consent flow where required
 
-The repo is at a **Phase 1 internal CRUD prototype** stage, not a production-ready privacy or security posture.
-
-Any documentation claiming completed auth, RBAC, session handling, right-to-erasure automation, or live R2 access would currently be ahead of the code and therefore a fib in a nice jacket.
+Refer to `docs/gdpr/` for the operational privacy pack.
