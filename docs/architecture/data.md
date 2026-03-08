@@ -1,60 +1,121 @@
 # Data Architecture
 
-## Canonical stores
+CiCwtch treats data as a first-class product: it must be consistent, auditable (where needed), and resilient offline.
 
-### Currently implemented
-- **Cloudflare D1** is the intended canonical relational store.
-- The active application code currently reads/writes only the `clients` table.
+---
 
-### Planned but not yet implemented in code
-- **Cloudflare R2** for attachments/media
-- local offline storage and sync queue in Flutter
+## 1) Canonical data stores
 
-## Current schema reality
+### Server-side (system of record)
+- **Cloudflare D1 (SQL)**: canonical relational store
+- **Cloudflare R2 (objects)**: photos, PDFs, media attachments
 
-`migrations/0001_initial_schema.sql` defines these top-level tables:
+### Client-side (offline capability)
+- **SQLite**: cached reads + offline writes + outbox queue
 
-- `addresses`
-- `clients`
-- `client_contacts`
-- `dogs`
-- `dog_notes`
-- `walkers`
-- `walker_compliance_items`
-- `walks`
-- `walk_reports`
-- `invoice_headers`
-- `invoice_lines`
-- `attachments`
-- `audit_log`
+---
 
-This schema expresses the intended data model, but most of these entities are not yet wired into the current frontend/backend runtime.
+## 2) Core entities (conceptual)
 
-## Data privacy inventory linkage
+- `Client` (pet owner / billing contact)
+- `Pet` (belongs to a Client)
+- `Walker` (staff member / contractor)
+- `WalkSlot` (capacity inventory)
+- `BookingRequest` (client asks)
+- `Booking` (approved scheduled visit)
+- `Visit` (execution record + notes + GPS + media)
+- `Invoice` (financial record)
+- `ComplianceItem` (insurance/certs/vaccinations expiry etc.)
 
-The privacy inventory lives alongside the code in:
-- `.fides/`
-- `docs/gdpr/`
+---
 
-Whenever a table or sensitive field changes, update:
-- `migrations/0001_initial_schema.sql` or a later migration
-- `.fides/dataset.yml`
-- relevant docs in `docs/gdpr/`
-
-## Current live data flow
+## 3) Conceptual ER diagram (Mermaid)
 
 ```mermaid
-flowchart LR
-  Flutter[Flutter app] -->|HTTP JSON| Worker[Cloudflare Worker]
-  Worker -->|prepared statements| D1[(Cloudflare D1)]
+erDiagram
+  CLIENT ||--o{ PET : owns
+  WALKER ||--o{ WALKSLOT : has
+  WALKSLOT ||--o{ BOOKINGREQUEST : offers
+  BOOKINGREQUEST ||--o| BOOKING : becomes
+  BOOKING ||--o{ VISIT : produces
+  CLIENT ||--o{ INVOICE : billed
+  INVOICE ||--o{ INVOICE_LINE : contains
+  CLIENT ||--o{ COMPLIANCE_ITEM : tracks
+  PET ||--o{ COMPLIANCE_ITEM : tracks
+
+  CLIENT {
+    string id PK
+    string name
+    string email
+    string phone
+    string billingAddress
+    datetime createdAt
+  }
+
+  PET {
+    string id PK
+    string clientId FK
+    string name
+    string breed
+    string notes
+    datetime createdAt
+  }
+
+  BOOKINGREQUEST {
+    string id PK
+    string petId FK
+    string walkSlotId FK
+    string status
+    datetime requestedAt
+  }
+
+  BOOKING {
+    string id PK
+    string bookingRequestId FK
+    string walkerId FK
+    datetime startAt
+    datetime endAt
+    string status
+  }
+
+  VISIT {
+    string id PK
+    string bookingId FK
+    string summary
+    string gpsTrackRef
+    datetime startedAt
+    datetime completedAt
+  }
+
+  INVOICE {
+    string id PK
+    string clientId FK
+    string status
+    string stripeRef
+    datetime issuedAt
+    datetime paidAt
+  }
 ```
 
-## Future data flow direction
+---
 
-```mermaid
-flowchart LR
-  Flutter[Flutter app] -->|HTTP JSON| Worker[Cloudflare Worker]
-  Worker --> D1[(Cloudflare D1)]
-  Worker --> R2[(Cloudflare R2)]
-  Flutter -. planned .-> LocalDB[(offline cache / outbox)]
-```
+## 4) Consistency rules (server)
+
+- Capacity cannot be over-allocated:
+  - Approving a booking is a transaction: check capacity → allocate → commit.
+- A `Visit` must reference a valid `Booking`.
+- Invoice status is updated only by:
+  - Admin action (issue/cancel) and/or
+  - Stripe webhook reconciliation (paid/failed)
+
+---
+
+## 5) Offline sync rules (client)
+
+- Local SQLite is the source of truth while offline.
+- Outbox items are applied in deterministic order.
+- If the server rejects a write due to conflict:
+  - Store server response and mark item “NEEDS_ATTENTION”
+  - UI surfaces a “Resolve” action (policy varies by entity)
+
+**Principle:** silent data loss is forbidden.

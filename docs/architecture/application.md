@@ -1,53 +1,118 @@
-# Application Architecture
+# Internal Application Architecture (Flutter + Clean Architecture)
 
-## Current Flutter structure
+CiCwtch uses Clean Architecture to keep business rules stable even as UI frameworks, storage engines, and APIs evolve.
+
+---
+
+## 1) Layer responsibilities
+
+### Presentation (Flutter)
+- Material 3 / Cupertino widgets only (no web UI frameworks)
+- Screen/view composition, navigation, form validation, state management
+- **No business logic** (only orchestration and display)
+
+Recommended patterns:
+- BLoC / Cubit (preferred) or Provider/Riverpod if consistent
+- UI depends on `UseCases` only, never directly on repositories
+
+### Application (Use Cases)
+- “verbs” of the system: `RequestBooking`, `ApproveBooking`, `StartVisit`, `CompleteVisit`, `GenerateInvoice`
+- Orchestrates domain rules + repositories
+- Handles transactions, concurrency boundaries, retries (where appropriate)
+
+### Domain
+- Entities: `Client`, `Pet`, `Booking`, `Visit`, `Invoice`, `ComplianceItem`
+- Value objects: `Money`, `DateRange`, `GpsTrack`, `Role`
+- Interfaces: `BookingRepository`, `VisitRepository`, `InvoiceRepository`
+- Pure Dart only (no Flutter imports)
+
+### Data
+- Implements repositories:
+  - Remote: Workers API client
+  - Local: SQLite cache + Outbox queue
+- DTO mapping (remote ↔ domain), schema migrations, encryption at rest where required
+
+---
+
+## 2) Suggested folder layout (Flutter)
 
 ```text
-flutter/lib/
+lib/
   app/
+    bootstrap/
     routing/
+    theme/
   features/
-    auth/      (placeholder only)
-    clients/   (implemented)
+    bookings/
+      presentation/
+      application/
+      domain/
+      data/
+    visits/
+    invoices/
+    compliance/
+    auth/
+    clients/        ← added Task 08
   shared/
+    presentation/
+    application/
+    domain/
     data/
-    domain/models/
 ```
 
-### Observed implementation notes
+**Rule:** each feature is vertically sliced; shared code is minimal and intentional.
 
-- Routing is handled centrally in `app_router.dart`.
-- The app currently uses a simple service/repository arrangement rather than a full clean-architecture use-case stack.
-- The `auth` feature directories exist only as placeholders.
-- The home screen is still a starter-style launch point rather than a full application shell.
+---
 
-## Current Worker structure
+## 3) Key abstractions (non-negotiable)
 
-```text
-worker/src/
-  index.ts
-  router.ts
-  response.ts
-  errors.ts
-  handlers/
-    clients.ts
+### Repository pattern
+All persistence goes through repositories (domain interfaces).  
+This enables:
+- offline implementations
+- test doubles
+- future storage swaps (without rewriting the app)
+
+### Outbox pattern (offline sync)
+When offline, writes go to a local **Outbox** table with:
+- unique id
+- entity type
+- payload (json)
+- created timestamp
+- retry count
+- last error
+- dependency ordering (optional)
+
+This makes sync deterministic and testable.
+
+### Revisioning
+Server responses return a `revision` (or `updatedAt`) value used to:
+- avoid overwriting newer server state
+- detect conflicts cleanly
+
+---
+
+## 5) Domain model layer (Task 06)
+
+Shared domain models live at `flutter/lib/shared/domain/models/`.
+
+- Models are pure Dart — no Flutter imports.
+- Each model maps 1:1 to the D1 schema defined in `migrations/0001_initial_schema.sql`.
+- JSON field names are snake_case, matching the database column names exactly.
+- No code generators — all `fromJson`/`toJson` is explicit.
+- This layer constitutes the shared API contract between the Cloudflare Worker and the Flutter client.
+
+Import all models via the barrel file:
+
+```dart
+import 'package:cicwtch/shared/domain/models/models.dart';
 ```
 
-### Observed implementation notes
+---
 
-- The Worker is intentionally lightweight.
-- Only the Clients resource is implemented.
-- JSON responses are returned directly, without a `data` wrapper.
-- Known-route unsupported methods now return `405 Method Not Allowed`.
+## 4) Trade-offs (explicit)
 
-## URS alignment summary
-
-The URS target architecture is broader than the current implementation.
-At present the repository is best described as:
-
-- a real project scaffold
-- a complete domain-model layer for the initial schema
-- an implemented Clients vertical slice
-- a partial foundation for future feature expansion
-
-It is **not yet** a full clean-architecture, offline-first, multi-role production application.
+- **Offline-first adds complexity**: conflict resolution and sync ordering must be designed carefully.
+- **Workers edge runtime**: great latency, but requires disciplined runtime constraints (cold starts, CPU limits).
+- **D1**: excellent for edge SQL use cases, but not positioned as “write-heavy infinite scale” — design accordingly.
+- **Single codebase**: reduces feature drift across platforms, but requires careful UX decisions for web vs mobile.

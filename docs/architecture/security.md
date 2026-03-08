@@ -1,35 +1,70 @@
-# Security and Privacy Architecture
+# Security & Cross-Cutting Concerns
 
-## Current controls in code
+CiCwtch handles personal data. Security is not optional polish — it is part of the system.
 
-Implemented today:
-- JSON-only API responses
-- typed API error handling
-- prepared SQL statements in the Worker
-- soft deletion for clients via `archived_at`
-- CI checks for Flutter analysis/tests and Worker typecheck
-- privacy documentation + Fides manifest scaffolding in-repo
+---
 
-## Current gaps
+## 1) Authentication & sessions
 
-Not yet fully implemented in code:
-- end-user authentication
-- role-based authorization enforcement
-- secure session lifecycle
-- DSAR automation
-- hard deletion / erasure workflows across all stores
-- automated retention enforcement
-- R2 object access controls and signed URL lifecycle
-- attachment malware/content scanning
-- audit logging of privileged actions
+- Auth is implemented via Workers API.
+- Clients obtain a session/token after login.
+- Tokens are validated server-side for every request.
 
-## CNIL / GDPR direction for this repo
+**Never trust the client** (yes, even your own client).
 
-This project should continue to follow privacy-by-design principles:
-- data minimisation
-- purpose limitation
-- explicit retention rules
-- rights handling for access, export, rectification, and erasure
-- no analytics/tracking SDKs without a documented legal basis and consent flow where required
+---
 
-Refer to `docs/gdpr/` for the operational privacy pack.
+## 2) Authorization (RBAC)
+
+Roles:
+- ADMIN, WALKER, CLIENT
+
+Rules:
+- A CLIENT can only access their own pets, bookings, invoices, visits.
+- A WALKER can access assigned schedule and visit capture for assigned bookings.
+- ADMIN can access all tenant data.
+
+Enforce on the API. UI checks are UX only.
+
+---
+
+## 3) Data protection
+
+### In transit
+- HTTPS everywhere
+
+### At rest
+- D1: platform-managed storage security
+- R2: private buckets, signed URLs for controlled access
+- Local SQLite: store minimal sensitive data; consider encryption for:
+  - auth tokens
+  - addresses/phone numbers
+  - medical notes (pet)
+
+---
+
+## 4) Error handling strategy
+
+- API errors return:
+  - stable error code
+  - human-safe message
+  - correlation id
+
+Client:
+- show actionable error message
+- preserve offline writes rather than dropping them
+- retries with backoff for transient failures
+
+---
+
+## 5) Concurrency & race conditions
+
+Server must handle:
+- two admins approving the same slot concurrently
+- double-submission of booking requests
+- webhook retries from Stripe (idempotency required)
+
+Techniques:
+- idempotency keys
+- transactional checks in D1
+- unique constraints where appropriate

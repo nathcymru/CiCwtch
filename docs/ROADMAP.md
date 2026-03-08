@@ -1,29 +1,20 @@
 # Roadmap (CiCwtch)
 
-This roadmap is directional and now explicitly separates **implemented** from **planned** work.
+This roadmap is directional. Priorities may shift based on user feedback, risk, and technical constraints.
 
-## Implemented foundation
-- Flutter starter application
-- shared D1-aligned domain models
-- Clients frontend flow
-- Worker health endpoints
-- Clients Worker CRUD
-- CI, docs guardrails, and privacy documentation scaffolding
+## Near Term
+- Core booking and scheduling workflows
+- Client & pet profiles
+- Service catalog and pricing rules
+- Audit-friendly activity logging
 
-## Near term
-- authentication and RBAC
-- dogs, walkers, walks, and invoices feature slices in both Worker and Flutter
-- dashboard and app shell beyond the starter home screen
-- stronger automated tests
-- retention automation and DSAR tooling
+## Mid Term
+- Multi-walker scheduling and permissions
+- Reporting & exports
+- Welsh localisation (phase 1)
+- Pilot programme (controlled beta)
 
-## Mid term
-- R2-backed attachments
-- compliance workflows
-- Welsh localisation
-- pilot deployment hardening
-
-## Longer term
-- offline queueing and sync
-- production-grade audit logging
-- payments, messaging, and other integrations where justified
+## Longer Term
+- Performance hardening
+- Security maturity uplift
+- Integrations (payments, messaging, calendars) where appropriate

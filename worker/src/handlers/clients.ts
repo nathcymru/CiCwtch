@@ -152,7 +152,7 @@ export async function updateClient(
       emergency_contact_phone = ?7,
       notes = ?8,
       updated_at = ?9
-    WHERE id = ?10 AND archived_at IS NULL`,
+    WHERE id = ?10`,
   )
     .bind(
       fullName.trim(),
@@ -169,7 +169,7 @@ export async function updateClient(
     .run();
 
   const updated = await env.DB.prepare(
-    "SELECT * FROM clients WHERE id = ?1 AND archived_at IS NULL",
+    "SELECT * FROM clients WHERE id = ?1",
   )
     .bind(params.id)
     .first<ClientRow>();
@@ -199,7 +199,7 @@ export async function deleteClient(
   const now = new Date().toISOString();
 
   await env.DB.prepare(
-    "UPDATE clients SET archived_at = ?1, updated_at = ?2 WHERE id = ?3 AND archived_at IS NULL",
+    "UPDATE clients SET archived_at = ?1, updated_at = ?2 WHERE id = ?3",
   )
     .bind(now, now, params.id)
     .run();

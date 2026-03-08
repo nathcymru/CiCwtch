@@ -14,19 +14,6 @@ function handleHealth(): Response {
   return jsonOk(HEALTH_RESPONSE);
 }
 
-function methodNotAllowed(allowed: string[]): Response {
-  return new Response(
-    JSON.stringify({ error: { message: "Method not allowed", type: "method_not_allowed" } }),
-    {
-      status: 405,
-      headers: {
-        "Content-Type": "application/json",
-        Allow: allowed.join(", "),
-      },
-    },
-  );
-}
-
 export async function route(
   request: Request,
   env: Env,
@@ -42,7 +29,6 @@ export async function route(
   if (pathname === "/api/v1/clients") {
     if (method === "GET") return listClients(request, env);
     if (method === "POST") return createClient(request, env);
-    return methodNotAllowed(["GET", "POST"]);
   }
 
   const clientMatch = pathname.match(/^\/api\/v1\/clients\/([^/]+)$/);
@@ -51,7 +37,6 @@ export async function route(
     if (method === "GET") return getClient(request, env, params);
     if (method === "PUT") return updateClient(request, env, params);
     if (method === "DELETE") return deleteClient(request, env, params);
-    return methodNotAllowed(["GET", "PUT", "DELETE"]);
   }
 
   return jsonError("Not found", "not_found", 404);
