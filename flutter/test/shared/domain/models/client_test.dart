@@ -119,7 +119,7 @@ void main() {
       expect(json['updated_at'], '2024-02-01T00:00:00.000Z');
     });
 
-    test('null optional fields serialise as null', () {
+    test('null optional fields serialize as null', () {
       const client = Client(
         id: 'id',
         fullName: 'Name',
