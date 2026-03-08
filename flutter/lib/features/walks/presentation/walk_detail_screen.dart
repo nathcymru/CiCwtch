@@ -8,6 +8,8 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/form_date_helper.dart';
+import 'package:cicwtch/shared/presentation/section_heading.dart';
+import 'package:cicwtch/shared/presentation/walk_status_badge.dart';
 
 import 'walk_edit_screen.dart';
 
@@ -136,28 +138,36 @@ class _WalkDetailScreenState extends State<WalkDetailScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        const SectionHeading(title: 'Schedule'),
         DetailRow(label: 'Scheduled date', value: walk.scheduledDate),
-        DetailRow(label: 'Status', value: walk.status),
-        DetailRow(label: 'Service type', value: walk.serviceType),
-        DetailRow(label: 'Client ID', value: walk.clientId),
-        DetailRow(label: 'Dog ID', value: walk.dogId),
-        if (walk.walkerId != null)
-          DetailRow(label: 'Walker ID', value: walk.walkerId!),
         if (walk.scheduledStartTime != null)
           DetailRow(
               label: 'Scheduled start', value: walk.scheduledStartTime!),
         if (walk.scheduledEndTime != null)
           DetailRow(label: 'Scheduled end', value: walk.scheduledEndTime!),
+        const SectionHeading(title: 'Status'),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: WalkStatusBadge(status: walk.status),
+        ),
         if (walk.actualStartTime != null)
           DetailRow(label: 'Actual start', value: walk.actualStartTime!),
         if (walk.actualEndTime != null)
           DetailRow(label: 'Actual end', value: walk.actualEndTime!),
+        const SectionHeading(title: 'Details'),
+        DetailRow(label: 'Service type', value: walk.serviceType),
+        DetailRow(label: 'Client ID', value: walk.clientId),
+        DetailRow(label: 'Dog ID', value: walk.dogId),
+        if (walk.walkerId != null)
+          DetailRow(label: 'Walker ID', value: walk.walkerId!),
         if (walk.pickupAddressId != null)
           DetailRow(
               label: 'Pickup address ID', value: walk.pickupAddressId!),
-        if (walk.notes != null)
+        if (walk.notes != null) ...[
+          const SectionHeading(title: 'Notes'),
           DetailRow(label: 'Notes', value: walk.notes!),
-        const Divider(height: 32),
+        ],
+        const SectionHeading(title: 'Record'),
         DetailRow(label: 'Created', value: formatDetailDate(walk.createdAt)),
         DetailRow(label: 'Updated', value: formatDetailDate(walk.updatedAt)),
       ],

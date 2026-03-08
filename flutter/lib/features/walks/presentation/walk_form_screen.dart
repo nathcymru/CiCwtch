@@ -27,9 +27,11 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
   late final TextEditingController _scheduledDate;
   late final TextEditingController _scheduledStartTime;
   late final TextEditingController _scheduledEndTime;
+  late final TextEditingController _actualStartTime;
+  late final TextEditingController _actualEndTime;
   late final TextEditingController _notes;
 
-  String _status = 'scheduled';
+  String _status = 'planned';
   String _serviceType = 'solo_walk';
 
   bool _submitting = false;
@@ -47,8 +49,12 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
         TextEditingController(text: w?.scheduledStartTime ?? '');
     _scheduledEndTime =
         TextEditingController(text: w?.scheduledEndTime ?? '');
+    _actualStartTime =
+        TextEditingController(text: w?.actualStartTime ?? '');
+    _actualEndTime =
+        TextEditingController(text: w?.actualEndTime ?? '');
     _notes = TextEditingController(text: w?.notes ?? '');
-    _status = w?.status ?? 'scheduled';
+    _status = w?.status ?? 'planned';
     _serviceType = w?.serviceType ?? 'solo_walk';
   }
 
@@ -60,6 +66,8 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
     _scheduledDate.dispose();
     _scheduledStartTime.dispose();
     _scheduledEndTime.dispose();
+    _actualStartTime.dispose();
+    _actualEndTime.dispose();
     _notes.dispose();
     super.dispose();
   }
@@ -84,6 +92,10 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
         'scheduled_start_time': _scheduledStartTime.text.trim(),
       if (_scheduledEndTime.text.trim().isNotEmpty)
         'scheduled_end_time': _scheduledEndTime.text.trim(),
+      if (_actualStartTime.text.trim().isNotEmpty)
+        'actual_start_time': _actualStartTime.text.trim(),
+      if (_actualEndTime.text.trim().isNotEmpty)
+        'actual_end_time': _actualEndTime.text.trim(),
       if (_notes.text.trim().isNotEmpty) 'notes': _notes.text.trim(),
     };
 
@@ -155,7 +167,7 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
                 ),
                 items: const [
                   DropdownMenuItem(
-                      value: 'scheduled', child: Text('Scheduled')),
+                      value: 'planned', child: Text('Planned')),
                   DropdownMenuItem(
                       value: 'in_progress', child: Text('In progress')),
                   DropdownMenuItem(
@@ -163,7 +175,7 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
                   DropdownMenuItem(
                       value: 'cancelled', child: Text('Cancelled')),
                 ],
-                onChanged: (v) => setState(() => _status = v ?? 'scheduled'),
+                onChanged: (v) => setState(() => _status = v ?? 'planned'),
                 validator: (v) =>
                     (v == null || v.isEmpty) ? 'Required' : null,
               ),
@@ -223,6 +235,27 @@ class _WalkFormScreenState extends State<WalkFormScreen> {
                 ),
                 maxLines: 3,
               ),
+              if (_status == 'in_progress' || _status == 'completed') ...[
+                const SizedBox(height: 24),
+                const SectionHeading(title: 'Completion recording'),
+                TextFormField(
+                  controller: _actualStartTime,
+                  decoration: const InputDecoration(
+                    labelText: 'Actual start time (HH:MM)',
+                    hintText: 'HH:MM',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _actualEndTime,
+                  decoration: const InputDecoration(
+                    labelText: 'Actual end time (HH:MM)',
+                    hintText: 'HH:MM',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
               const SizedBox(height: 24),
               FilledButton(
                 onPressed: _submitting ? null : _submit,

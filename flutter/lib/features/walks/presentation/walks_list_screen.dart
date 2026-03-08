@@ -7,6 +7,7 @@ import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/walk_status_badge.dart';
 
 import 'walk_create_screen.dart';
 import 'walk_detail_screen.dart';
@@ -32,7 +33,7 @@ class _WalksListScreenState extends State<WalksListScreen> {
   String? _statusFilter;
 
   static const _statusOptions = [
-    (value: 'scheduled', label: 'Scheduled'),
+    (value: 'planned', label: 'Planned'),
     (value: 'in_progress', label: 'In progress'),
     (value: 'completed', label: 'Completed'),
     (value: 'cancelled', label: 'Cancelled'),
@@ -183,7 +184,14 @@ class _WalksListScreenState extends State<WalksListScreen> {
           final walk = filtered[index];
           return ListTile(
             title: Text(walk.scheduledDate),
-            subtitle: Text('${walk.serviceType} — ${walk.status}'),
+            subtitle: Row(
+              children: [
+                WalkStatusBadge(status: walk.status),
+                const SizedBox(width: 8),
+                Text(walk.serviceType,
+                    style: Theme.of(context).textTheme.bodySmall),
+              ],
+            ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               final changed = await Navigator.push<bool>(

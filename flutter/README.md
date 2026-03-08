@@ -80,11 +80,35 @@ Walks CRUD is implemented at `lib/features/walks/`. Screens:
 
 - **Walks list** — `WalksListScreen` — lists active walks; FAB to create; tap to view detail.
 - **Walk detail** — `WalkDetailScreen` — shows full walk record including scheduled date/times, status, service type, dog ID, walker ID, and notes; edit and archive actions.
-- **Create walk** — `WalkCreateScreen` / `WalkFormScreen` — form with required `client_id`, `dog_id`, `scheduled_date`, `status`, and `service_type`; optional walker ID, start/end times, and notes.
+- **Create walk** — `WalkCreateScreen` / `WalkFormScreen` — form with required `client_id`, `dog_id`, `scheduled_date`, `status` (defaults to `planned`), and `service_type`; optional walker ID, start/end times, and notes.
 - **Edit walk** — `WalkEditScreen` / `WalkFormScreen` — pre-populated form; saves via `PUT /api/v1/walks/:id`.
 - **Archive walk** — confirmation dialog; calls `DELETE /api/v1/walks/:id`; returns to list on success.
 
 API dependency: `/api/v1/walks` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+#### Walk status presentation and completion recording (Task 22)
+
+Walk status is presented using `WalkStatusBadge`, a shared widget at `lib/shared/presentation/walk_status_badge.dart`.
+
+- **`planned`** — grey badge
+- **`in_progress`** — amber badge
+- **`completed`** — green badge
+- **`cancelled`** — red badge
+
+The badge is used in the walks list (subtitle area), the walk detail screen (status section), and the status dropdown in the create/edit form.
+
+#### Completion recording fields (Task 22)
+
+When a walk status is set to **In progress** or **Completed**, the create/edit form surfaces a **Completion recording** section exposing:
+
+- `actual_start_time` — actual time the walk started (HH:MM)
+- `actual_end_time` — actual time the walk ended (HH:MM)
+
+These fields are already present on the `Walk` model and stored in the D1 schema. They are hidden when the status is `Planned` or `Cancelled` to keep the form clean.
+
+The `notes` field remains available for all statuses and is appropriate for recording cancellation context.
+
+**Out of scope:** GPS tracking, live telemetry, route replay, maps, media uploads, customer messaging, and walk report management are not implemented by this task.
 
 ### Walkers
 
@@ -187,7 +211,7 @@ Clearing the search field restores the full list.
 
 ### Walk status filter
 
-The Walks list also includes a row of status filter chips (`All`, `Scheduled`, `In progress`, `Completed`, `Cancelled`). Selecting a chip narrows the list to walks with that status. The search field and status filter work together.
+The Walks list also includes a row of status filter chips (`All`, `Planned`, `In progress`, `Completed`, `Cancelled`). Selecting a chip narrows the list to walks with that status. The search field and status filter work together.
 
 ### No-matches state
 
