@@ -118,3 +118,47 @@ All responses are JSON. All routes are versioned under `/api/v1/`.
 - `active` must be `0` or `1` (integer); defaults to `1` on create if omitted.
 - All SQL uses parameterised D1 prepared statements only.
 - Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
+
+### Invoice Headers
+
+| Method | Path                           | Description                   |
+|--------|--------------------------------|-------------------------------|
+| GET    | /api/v1/invoice-headers        | List all invoice headers       |
+| GET    | /api/v1/invoice-headers/:id    | Get an invoice header          |
+| POST   | /api/v1/invoice-headers        | Create an invoice header       |
+| PUT    | /api/v1/invoice-headers/:id    | Update an invoice header       |
+| DELETE | /api/v1/invoice-headers/:id    | Soft-delete an invoice header  |
+
+#### Invoice Headers: notes
+
+- All responses are JSON only.
+- Soft delete sets `archived_at` timestamp; records are never hard-deleted.
+- `client_id` is required on create and is validated against the `clients` table; the client must exist and must not be archived.
+- `invoice_number` is required on create and must be unique.
+- `status` must be one of: `draft`, `issued`, `paid`, `cancelled`. Defaults to `draft` on create.
+- `currency_code` defaults to `GBP` on create if omitted.
+- All SQL uses parameterised D1 prepared statements only.
+- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`
+- Payment processing, PDF generation, and email sending are out of scope for this task.
+
+### Invoice Lines
+
+| Method | Path                        | Description              |
+|--------|-----------------------------|--------------------------|
+| GET    | /api/v1/invoice-lines       | List all invoice lines   |
+| GET    | /api/v1/invoice-lines/:id   | Get an invoice line      |
+| POST   | /api/v1/invoice-lines       | Create an invoice line   |
+| PUT    | /api/v1/invoice-lines/:id   | Update an invoice line   |
+| DELETE | /api/v1/invoice-lines/:id   | Delete an invoice line   |
+
+#### Invoice Lines: notes
+
+- All responses are JSON only.
+- Invoice lines do not have `archived_at`; DELETE performs a hard delete.
+- `invoice_header_id` is required on create and is validated against the `invoice_headers` table; the header must exist and must not be archived.
+- `description` is required on create.
+- If `walk_id` is provided, it is validated against the `walks` table; the walk must exist and must not be archived.
+- `quantity` must be a positive number; defaults to `1` on create.
+- `unit_price_minor` and `line_total_minor` must be non-negative integers; default to `0` on create.
+- All SQL uses parameterised D1 prepared statements only.
+- Error responses follow the shape: `{ "error": { "message": "...", "type": "..." } }`

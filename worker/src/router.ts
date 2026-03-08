@@ -28,6 +28,20 @@ import {
   updateWalker,
   deleteWalker,
 } from "./handlers/walkers";
+import {
+  listInvoiceHeaders,
+  getInvoiceHeader,
+  createInvoiceHeader,
+  updateInvoiceHeader,
+  deleteInvoiceHeader,
+} from "./handlers/invoice_headers";
+import {
+  listInvoiceLines,
+  getInvoiceLine,
+  createInvoiceLine,
+  updateInvoiceLine,
+  deleteInvoiceLine,
+} from "./handlers/invoice_lines";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -122,6 +136,36 @@ export async function route(
     if (method === "GET") return getWalker(request, env, params);
     if (method === "PUT") return updateWalker(request, env, params);
     if (method === "DELETE") return deleteWalker(request, env, params);
+    return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  if (pathname === "/api/v1/invoice-headers") {
+    if (method === "GET") return listInvoiceHeaders(request, env);
+    if (method === "POST") return createInvoiceHeader(request, env);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const invoiceHeaderMatch = pathname.match(/^\/api\/v1\/invoice-headers\/([^/]+)$/);
+  if (invoiceHeaderMatch) {
+    const params = { id: invoiceHeaderMatch[1] };
+    if (method === "GET") return getInvoiceHeader(request, env, params);
+    if (method === "PUT") return updateInvoiceHeader(request, env, params);
+    if (method === "DELETE") return deleteInvoiceHeader(request, env, params);
+    return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  if (pathname === "/api/v1/invoice-lines") {
+    if (method === "GET") return listInvoiceLines(request, env);
+    if (method === "POST") return createInvoiceLine(request, env);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const invoiceLineMatch = pathname.match(/^\/api\/v1\/invoice-lines\/([^/]+)$/);
+  if (invoiceLineMatch) {
+    const params = { id: invoiceLineMatch[1] };
+    if (method === "GET") return getInvoiceLine(request, env, params);
+    if (method === "PUT") return updateInvoiceLine(request, env, params);
+    if (method === "DELETE") return deleteInvoiceLine(request, env, params);
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
   }
 
