@@ -1,4 +1,4 @@
-<img src="../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
+<img src="../../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
 <!-- HEADER BADGES -->
 <p align="right">
 <a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" /></a>
@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - Worker API
-## Cloudflare Workers backend for the current CiCwtch Phase 1 API surface
+# CiCwtch - Attachments API
+## Attachment upload endpoint
 
 <p align="left">
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
@@ -19,56 +19,45 @@
   <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-## Bindings
+Attachments link uploaded files (stored in R2) to business entities via metadata in D1.
 
-| Binding | Type | Purpose |
-|---|---|---|
-| `DB` | D1 Database | Relational data storage |
-| `CICWTCH_ATTACHMENTS` | R2 Bucket | Attachment/file object storage |
+## Endpoints
 
-## Current API modules
+- `POST /api/v1/attachments`
 
-- `src/index.ts` — Worker entrypoint and top-level error handling
-- `src/router.ts` — route dispatch and health endpoints
-- `src/response.ts` — JSON success/error helpers
-- `src/errors.ts` — typed API errors
-- `src/handlers/` — resource handlers for current endpoints
-- `src/storage.ts` — R2 attachment helpers (put, get, delete)
+## Upload
 
-## Current resources
+**Request:** `multipart/form-data`
 
-- clients
-- dogs
-- walks
-- walkers
-- invoice headers / invoices
-- invoice lines
-- attachments
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `file` | File | Yes | The file to upload |
+| `entity_type` | string | Yes | Entity kind the attachment belongs to (e.g. `dog`, `client`) |
+| `entity_id` | string | Yes | UUID of the parent entity |
 
-## Routing note
+**Response:** `201 Created`
 
-Invoice headers are the underlying data model and handler naming, but the API now also supports user-facing invoice alias routes:
-
-- `/api/v1/invoices`
-- `/api/v1/invoices/:id`
-
-Legacy compatibility remains for:
-
-- `/api/v1/invoice-headers`
-- `/api/v1/invoice-headers/:id`
-
-## Local checks
-
-```bash
-cd worker
-npm ci
-npm run typecheck
-npx wrangler dev
+```json
+{
+  "id": "uuid",
+  "entity_type": "dog",
+  "entity_id": "uuid",
+  "storage_provider": "r2",
+  "object_key": "attachments/uuid",
+  "original_filename": "photo.jpg",
+  "mime_type": "image/jpeg",
+  "file_size_bytes": 102400,
+  "created_at": "2025-01-01T00:00:00.000Z",
+  "updated_at": "2025-01-01T00:00:00.000Z"
+}
 ```
 
-## Security note
+## Notes
 
-This Worker is still pre-auth. Treat it as development-stage until authentication and authorisation are implemented.
+- Object keys follow the format `attachments/{uuid}`.
+- `storage_provider` is always `r2`.
+- `mime_type` and `original_filename` are derived from the uploaded file.
+- All SQL uses prepared statements in the Worker.
 
 ---
 <p align="center">
