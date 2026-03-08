@@ -14,12 +14,12 @@ export async function putAttachment(
   key: string,
   data: ReadableStream | ArrayBuffer | string,
   contentType?: string,
-): Promise<R2Object> {
+): Promise<R2Object | null> {
   const httpMetadata: R2HTTPMetadata = {};
   if (contentType) {
     httpMetadata.contentType = contentType;
   }
-  return env.CICWTCH_ATTACHMENTS.put(key, data, { httpMetadata });
+  return await env.CICWTCH_ATTACHMENTS.put(key, data, { httpMetadata });
 }
 
 /** Retrieve a blob from the attachments bucket. */

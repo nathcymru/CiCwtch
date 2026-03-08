@@ -13,6 +13,7 @@ database_id = "LOCAL"
 migrations_dir = "../migrations"
 
 # ── R2 object storage (local dev / preview) ────────────────────────────
+# Wrangler creates the local R2 bucket automatically during `wrangler dev`.
 [[r2_buckets]]
 binding = "CICWTCH_ATTACHMENTS"
 bucket_name = "cicwtch-attachments"
