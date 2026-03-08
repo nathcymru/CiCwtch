@@ -102,15 +102,30 @@ API dependency: `/api/v1/walkers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
 
 Invoices CRUD is implemented at `lib/features/invoices/`. Screens:
 
-- **Invoices list** — `InvoicesListScreen` — lists active invoice headers; FAB to create; tap to view detail; searchable by invoice number, client ID, and status.
-- **Invoice detail** — `InvoiceDetailScreen` — shows full invoice header record including invoice number, status, client ID, currency, issue and due dates, and notes; edit and archive actions.
-- **Create invoice** — `InvoiceCreateScreen` / `InvoiceFormScreen` — form with required `client_id`, `invoice_number`, and `currency_code`; status dropdown (draft/issued/paid/cancelled, defaults to draft); optional issue date, due date, and notes.
+- **Invoices list** — `InvoicesListScreen` — lists active invoice headers; FAB to create; tap to view detail; searchable by invoice number, client ID, and status. Each list item shows a colour-coded status badge and due date where available.
+- **Invoice detail** — `InvoiceDetailScreen` — shows full invoice header record; status is displayed as a colour-coded badge at the top of the detail view, followed by invoice number, client ID, currency, issue and due dates, and notes; edit and archive actions.
+- **Create invoice** — `InvoiceCreateScreen` / `InvoiceFormScreen` — form with required `client_id`, `invoice_number`, and `currency_code`; status dropdown shows colour-coded badges for each option (draft/issued/paid/cancelled, defaults to draft); optional issue date, due date, and notes (shown under a "Payment tracking" section heading).
 - **Edit invoice** — `InvoiceEditScreen` / `InvoiceFormScreen` — pre-populated form; saves via `PUT /api/v1/invoice-headers/:id`.
 - **Archive invoice** — confirmation dialog; calls `DELETE /api/v1/invoice-headers/:id`; returns to list on success.
 
 API dependency: `/api/v1/invoice-headers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
 
-**Out of scope for this task:** payment processing, PDF generation, email sending, invoice line management, and document generation are not included and remain future work.
+#### Invoice status presentation (Task 21)
+
+Invoice status is presented using `InvoiceStatusBadge`, a shared widget at `lib/shared/presentation/invoice_status_badge.dart`.
+
+- **`draft`** — grey badge
+- **`issued`** — blue badge
+- **`paid`** — green badge
+- **`cancelled`** — red badge
+
+The badge is used in the invoices list (subtitle area), the invoice detail screen (first row), and the status dropdown in the create/edit form.
+
+#### Payment tracking fields (Task 21)
+
+The notes field on invoice create/edit is surfaced under a **Payment tracking** section heading to make its use as an internal tracking field clear. This is a UX labelling improvement only.
+
+**Out of scope:** Payment processing, external payment gateways, PDF generation, email sending, invoice line management, paid_on date fields, payment reference fields, and document generation are not included and remain future work.
 
 ### Dashboard
 
