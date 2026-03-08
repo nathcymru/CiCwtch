@@ -8,6 +8,7 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/form_date_helper.dart';
+import 'package:cicwtch/shared/presentation/invoice_status_badge.dart';
 
 import 'invoice_edit_screen.dart';
 
@@ -135,11 +136,24 @@ class _InvoiceDetailScreenState extends State<InvoiceDetailScreen> {
     if (_invoice == null) return const SizedBox.shrink();
 
     final invoice = _invoice!;
+    final theme = Theme.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 160,
+                child: Text('Status', style: theme.textTheme.labelLarge),
+              ),
+              InvoiceStatusBadge(status: invoice.status),
+            ],
+          ),
+        ),
         DetailRow(label: 'Invoice number', value: invoice.invoiceNumber),
-        DetailRow(label: 'Status', value: invoice.status),
         DetailRow(label: 'Client ID', value: invoice.clientId),
         DetailRow(label: 'Currency', value: invoice.currencyCode),
         if (invoice.issueDate != null)

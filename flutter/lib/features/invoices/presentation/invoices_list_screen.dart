@@ -8,6 +8,8 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 
+import 'package:cicwtch/shared/presentation/invoice_status_badge.dart';
+
 import 'invoice_create_screen.dart';
 import 'invoice_detail_screen.dart';
 
@@ -148,7 +150,25 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
           final invoice = filtered[index];
           return ListTile(
             title: Text(invoice.invoiceNumber),
-            subtitle: Text('${invoice.clientId} — ${invoice.status}'),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(invoice.clientId),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    InvoiceStatusBadge(status: invoice.status),
+                    if (invoice.dueDate != null) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        'Due: ${invoice.dueDate}',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ],
+                ),
+              ],
+            ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               final changed = await Navigator.push<bool>(

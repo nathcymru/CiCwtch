@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/form_error_banner.dart';
+import 'package:cicwtch/shared/presentation/invoice_status_badge.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
 
 const _statusOptions = ['draft', 'issued', 'paid', 'cancelled'];
@@ -137,7 +138,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                   border: OutlineInputBorder(),
                 ),
                 items: _statusOptions
-                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                    .map((s) => DropdownMenuItem(value: s, child: InvoiceStatusBadge(status: s)))
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setState(() => _status = v);
@@ -177,6 +178,7 @@ class _InvoiceFormScreenState extends State<InvoiceFormScreen> {
                 keyboardType: TextInputType.datetime,
               ),
               const SizedBox(height: 16),
+              const SectionHeading(title: 'Payment tracking'),
               TextFormField(
                 controller: _notes,
                 decoration: const InputDecoration(
