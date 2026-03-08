@@ -46,7 +46,7 @@ cd flutter
 flutter pub get
 flutter analyze
 flutter test
-flutter run -d chrome
+flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:8787
 ```
 
 ## Cloudflare Pages deployment
@@ -69,24 +69,24 @@ The app uses Flutter's default hash-based URL strategy (`/#/route`). This works 
 
 ### Environment variables
 
-| Variable        | Purpose                              | Default                  |
-|-----------------|--------------------------------------|--------------------------|
-| `API_BASE_URL`  | API Worker root used by the Flutter app | `http://localhost:8787` |
+| Variable        | Purpose                              | Default                                          |
+|-----------------|--------------------------------------|--------------------------------------------------|
+| `API_BASE_URL`  | API Worker root used by the Flutter app | `https://cicwtch-api.nathcymru.workers.dev` |
 
-The API base URL is configured via `--dart-define=API_BASE_URL=...` at build time. The default value (`http://localhost:8787`) targets the local Wrangler dev server and requires no extra flags during development.
+The API base URL is configured via `--dart-define=API_BASE_URL=...` at build time. The default value targets the deployed Cloudflare Worker so that production and preview builds work without extra configuration.
 
-For Cloudflare Pages deployments, set the `API_BASE_URL` environment variable in the Pages project settings. The build script (`scripts/cloudflare-pages-build.sh`) forwards this value to the Flutter build automatically.
+For local development against the Wrangler dev server, override the URL:
 
-Example Cloudflare Pages environment variable:
-
+```bash
+flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:8787
 ```
-API_BASE_URL = https://cicwtch-api.nathcymru.workers.dev
-```
+
+For Cloudflare Pages deployments, the default already points to the production Worker. You can optionally set the `API_BASE_URL` environment variable in the Pages project settings to override it. The build script (`scripts/cloudflare-pages-build.sh`) forwards this value to the Flutter build automatically.
 
 You can also override the URL for a one-off local build:
 
 ```bash
-flutter build web --release --dart-define=API_BASE_URL=https://cicwtch-api.nathcymru.workers.dev
+flutter build web --release --dart-define=API_BASE_URL=http://localhost:8787
 ```
 
 ## Current limitations
