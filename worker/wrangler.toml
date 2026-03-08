@@ -12,6 +12,11 @@ database_name = "cicwtch-db"
 database_id = "LOCAL"
 migrations_dir = "../migrations"
 
+# ── R2 object storage (local dev / preview) ────────────────────────────
+[[r2_buckets]]
+binding = "CICWTCH_ATTACHMENTS"
+bucket_name = "cicwtch-attachments"
+
 # ── Staging environment ────────────────────────────────────────────────
 [env.staging]
 name = "cicwtch-api-staging"
@@ -22,6 +27,10 @@ database_name = "cicwtch-db-staging"
 database_id = "REPLACE_WITH_STAGING_D1_ID"
 migrations_dir = "../migrations"
 
+[[env.staging.r2_buckets]]
+binding = "CICWTCH_ATTACHMENTS"
+bucket_name = "cicwtch-attachments-staging"
+
 # ── Production environment ─────────────────────────────────────────────
 [env.production]
 name = "cicwtch-api-production"
@@ -31,3 +40,7 @@ binding = "DB"
 database_name = "cicwtch-db-production"
 database_id = "REPLACE_WITH_PRODUCTION_D1_ID"
 migrations_dir = "../migrations"
+
+[[env.production.r2_buckets]]
+binding = "CICWTCH_ATTACHMENTS"
+bucket_name = "cicwtch-attachments-production"

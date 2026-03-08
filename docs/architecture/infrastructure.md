@@ -26,7 +26,7 @@
 - **Flutter** for the client application
 - **Cloudflare Workers** for the API runtime
 - **Cloudflare D1** for relational data storage
-- **Cloudflare R2** is planned but not yet actively used in Phase 1 workflows
+- **Cloudflare R2** for object/file storage (binding `CICWTCH_ATTACHMENTS` configured; attachment endpoints pending)
 - **GitHub Actions** for CI and documentation/privacy guardrails
 
 ## Current repository-level automation

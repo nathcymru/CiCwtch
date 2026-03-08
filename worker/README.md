@@ -15,7 +15,16 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
+
+## Bindings
+
+| Binding | Type | Purpose |
+|---|---|---|
+| `DB` | D1 Database | Relational data storage |
+| `CICWTCH_ATTACHMENTS` | R2 Bucket | Attachment/file object storage |
 
 ## Current API modules
 
@@ -24,6 +33,7 @@
 - `src/response.ts` — JSON success/error helpers
 - `src/errors.ts` — typed API errors
 - `src/handlers/` — resource handlers for current endpoints
+- `src/storage.ts` — R2 attachment helpers (put, get, delete)
 
 ## Current resources
 
