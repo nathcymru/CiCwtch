@@ -53,15 +53,15 @@ flutter run -d chrome
 
 The Flutter web build is deployed via Cloudflare Pages using git-based integration.
 
-### Pages build assumptions
+### Pages project settings
 
-| Setting            | Value                  |
-|--------------------|------------------------|
-| Root directory     | `flutter`              |
-| Build command      | `flutter build web`    |
-| Build output dir   | `build/web`            |
+| Setting            | Value                                      |
+|--------------------|--------------------------------------------|
+| Root directory     | `flutter`                                  |
+| Build command      | `bash scripts/cloudflare-pages-build.sh`   |
+| Build output dir   | `build/web`                                |
 
-The default Cloudflare Pages build environment does not include the Flutter SDK. The repository provides `pages_build.sh` which installs the Flutter stable SDK and runs `flutter build web --release`. Set the Pages build command to `bash pages_build.sh` to use it.
+The default Cloudflare Pages build environment does not include the Flutter SDK. The repository provides `scripts/cloudflare-pages-build.sh` which installs the Flutter stable SDK into a temporary path, disables analytics, runs `flutter pub get`, and runs `flutter build web --release`.
 
 ### Routing
 

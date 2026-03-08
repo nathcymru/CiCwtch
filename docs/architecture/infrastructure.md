@@ -41,13 +41,13 @@
 
 The Flutter web app is deployed to Cloudflare Pages using git-based integration.
 
-| Setting            | Value                  |
-|--------------------|------------------------|
-| Root directory     | `flutter`              |
-| Build command      | `flutter build web`    |
-| Build output dir   | `build/web`            |
+| Setting            | Value                                      |
+|--------------------|--------------------------------------------|
+| Root directory     | `flutter`                                  |
+| Build command      | `bash scripts/cloudflare-pages-build.sh`   |
+| Build output dir   | `build/web`                                |
 
-Because the default Pages build environment does not include Flutter, the repository provides `pages_build.sh` which installs the SDK and runs the build. No additional redirect rules are required because the app uses hash-based routing.
+Because the default Pages build environment does not include Flutter, the repository provides `scripts/cloudflare-pages-build.sh` which installs the SDK and runs the build. No additional redirect rules are required because the app uses hash-based routing.
 
 ## Local development shape
 

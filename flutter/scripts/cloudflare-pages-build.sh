@@ -4,7 +4,7 @@
 #
 # Cloudflare Pages project settings:
 #   Root directory    : flutter
-#   Build command     : bash pages_build.sh
+#   Build command     : bash scripts/cloudflare-pages-build.sh
 #   Build output dir  : build/web
 
 set -euo pipefail
