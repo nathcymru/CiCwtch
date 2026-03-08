@@ -37,6 +37,21 @@
 - `scorecard.yml` provides repository security posture reporting
 - `privacy_compliance.yml` validates local Fides manifests and privacy documentation guardrails
 
+## Cloudflare Worker deployment
+
+The API backend is deployed as a Cloudflare Worker named **`cicwtch-api`**.
+
+| Setting             | Value                                          |
+|---------------------|------------------------------------------------|
+| Worker name         | `cicwtch-api`                                  |
+| Live URL            | `https://cicwtch-api.nathcymru.workers.dev`    |
+| Wrangler config     | `worker/wrangler.toml`                         |
+| Deploy command      | `cd worker && npm run deploy`                  |
+
+The `npm run deploy` script runs `wrangler deploy --env production`, which uses the `[env.production]` configuration in `wrangler.toml` to deploy to the `cicwtch-api` Worker with the correct D1 and R2 bindings.
+
+A staging environment (`cicwtch-api-staging`) is also defined in `wrangler.toml` and can be deployed via `npm run deploy:staging`.
+
 ## Cloudflare Pages deployment
 
 The Flutter web app is deployed to Cloudflare Pages using git-based integration.
