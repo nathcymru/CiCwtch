@@ -8,71 +8,56 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - worker
-## Cloudflare Workers Backend API
+# CiCwtch - Worker API
+## Cloudflare Workers backend for the current CiCwtch Phase 1 API surface
 
 <p align="left">
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
-  &nbsp;
-  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-This is the CiCwtch Cloudflare Workers backend API workspace.
+## Current API modules
 
-## Contents
+- `src/index.ts` — Worker entrypoint and top-level error handling
+- `src/router.ts` — route dispatch and health endpoints
+- `src/response.ts` — JSON success/error helpers
+- `src/errors.ts` — typed API errors
+- `src/handlers/` — resource handlers for current endpoints
 
-- `src/index.ts` — Worker entry point; delegates to router, catches errors
-- `src/router.ts` — URL routing; maps paths to handlers
-- `src/response.ts` — Standard JSON response helpers
-- `src/errors.ts` — ApiError class and typed error helpers
-- `wrangler.toml` — Wrangler configuration with D1 bindings
-- `package.json` — Node.js dependencies and scripts
-- `tsconfig.json` — TypeScript configuration
+## Current resources
 
-## Internal structure
+- clients
+- dogs
+- walks
+- walkers
+- invoice headers / invoices
+- invoice lines
 
-The worker is split into four modules with clear separation of concerns:
+## Routing note
 
-- **`index.ts`** is the Cloudflare Worker entry point. It delegates all routing to `router.ts` and wraps errors in structured JSON responses: `ApiError` instances produce their own status/type; unhandled errors produce a 500.
-- **`router.ts`** matches incoming request paths and dispatches to handlers. It receives `env` (including `env.DB`) so future handlers can access D1.
-- **`response.ts`** provides two helpers — `jsonOk()` for success responses and `jsonError()` for structured error responses — to keep response shaping consistent across the codebase.
-- **`errors.ts`** defines `ApiError`, a typed error class carrying an HTTP status and a machine-readable `type` string. Use `ApiError.notFound()` (and similar future factories) to throw errors from anywhere in the handler chain.
+Invoice headers are the underlying data model and handler naming, but the API now also supports user-facing invoice alias routes:
 
-Business API routes are versioned under `/api/v1/`.
-For operational simplicity, the Worker also exposes both `/health` and `/api/v1/health` for health checks.
+- `/api/v1/invoices`
+- `/api/v1/invoices/:id`
 
-## Getting started
+Legacy compatibility remains for:
+
+- `/api/v1/invoice-headers`
+- `/api/v1/invoice-headers/:id`
+
+## Local checks
 
 ```bash
 cd worker
-npm install
-npm run dev
+npm ci
+npm run typecheck
+npx wrangler dev
 ```
 
-This starts a local dev server using Wrangler. Health is available at both:
+## Security note
 
-- `http://localhost:8787/health`
-- `http://localhost:8787/api/v1/health`
-
-## Environments
-
-| Environment | Worker name              | D1 database              |
-|-------------|--------------------------|--------------------------|
-| Local dev   | cicwtch-api              | cicwtch-db (local)       |
-| Staging     | cicwtch-api-staging      | cicwtch-db-staging       |
-| Production  | cicwtch-api-production   | cicwtch-db-production    |
-
-Replace the placeholder `database_id` values in `wrangler.toml` with actual D1 database IDs after creating them via `wrangler d1 create`.
-
-## Scripts
-
-| Command             | Description                  |
-|---------------------|------------------------------|
-| `npm run dev`       | Start local dev server       |
-| `npm run deploy`    | Deploy to Cloudflare Workers |
-| `npm run typecheck` | Run TypeScript type checking |
+This Worker is still pre-auth. Treat it as development-stage until authentication and authorisation are implemented.
 
 ---
 <p align="center">

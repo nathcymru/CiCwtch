@@ -9,135 +9,48 @@
 </p clear="right">
 
 # CiCwtch - Data Architecture
-## Architecture & Engineering Source of Truth
+## Current D1 schema, relationships, and data handling rules
 
 <p align="left">
-  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
-  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://www.sqlite.org/index.html"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
 </p>
 
-CiCwtch treats data as a first-class product: it must be consistent, auditable (where needed), and resilient offline.
+## Primary data store
 
----
+CiCwtch currently uses **Cloudflare D1** as the source of truth for operational data.
 
-## 1) Canonical data stores
+## Core entity relationships
 
-### Server-side (system of record)
-- **Cloudflare D1 (SQL)**: canonical relational store
-- **Cloudflare R2 (objects)**: photos, PDFs, media attachments
+- A client may have one linked address and many dogs.
+- A dog belongs to one client.
+- A walk belongs to one client and one dog, and may optionally reference one walker.
+- A walker may hold many compliance items.
+- An invoice header belongs to one client.
+- An invoice line belongs to one invoice header and may optionally reference one walk.
 
-### Client-side (offline capability)
-- **SQLite**: cached reads + offline writes + outbox queue
+## Deletion model
 
----
+Operational top-level entities generally use `archived_at` for soft deletion:
 
-## 2) Core entities (conceptual)
+- clients
+- dogs
+- walkers
+- walks
+- invoice_headers
 
-- `Client` (pet owner / billing contact)
-- `Pet` (belongs to a Client)
-- `Walker` (staff member / contractor)
-- `WalkSlot` (capacity inventory)
-- `BookingRequest` (client asks)
-- `Booking` (approved scheduled visit)
-- `Visit` (execution record + notes + GPS + media)
-- `Invoice` (financial record)
-- `ComplianceItem` (insurance/certs/vaccinations expiry etc.)
+Invoice lines do not currently use soft deletion and are hard-deleted.
 
----
+## Attachments and audit log
 
-## 3) Conceptual ER diagram (Mermaid)
+The schema already includes `attachments` and `audit_log` tables, but Phase 1 does not yet expose full attachment handling or systematic audit-log writing from the Worker.
 
-```mermaid
-erDiagram
-  CLIENT ||--o{ PET : owns
-  WALKER ||--o{ WALKSLOT : has
-  WALKSLOT ||--o{ BOOKINGREQUEST : offers
-  BOOKINGREQUEST ||--o| BOOKING : becomes
-  BOOKING ||--o{ VISIT : produces
-  CLIENT ||--o{ INVOICE : billed
-  INVOICE ||--o{ INVOICE_LINE : contains
-  CLIENT ||--o{ COMPLIANCE_ITEM : tracks
-  PET ||--o{ COMPLIANCE_ITEM : tracks
+## Privacy note
 
-  CLIENT {
-    string id PK
-    string name
-    string email
-    string phone
-    string billingAddress
-    datetime createdAt
-  }
-
-  PET {
-    string id PK
-    string clientId FK
-    string name
-    string breed
-    string notes
-    datetime createdAt
-  }
-
-  BOOKINGREQUEST {
-    string id PK
-    string petId FK
-    string walkSlotId FK
-    string status
-    datetime requestedAt
-  }
-
-  BOOKING {
-    string id PK
-    string bookingRequestId FK
-    string walkerId FK
-    datetime startAt
-    datetime endAt
-    string status
-  }
-
-  VISIT {
-    string id PK
-    string bookingId FK
-    string summary
-    string gpsTrackRef
-    datetime startedAt
-    datetime completedAt
-  }
-
-  INVOICE {
-    string id PK
-    string clientId FK
-    string status
-    string stripeRef
-    datetime issuedAt
-    datetime paidAt
-  }
-```
-
----
-
-## 4) Consistency rules (server)
-
-- Capacity cannot be over-allocated:
-  - Approving a booking is a transaction: check capacity → allocate → commit.
-- A `Visit` must reference a valid `Booking`.
-- Invoice status is updated only by:
-  - Admin action (issue/cancel) and/or
-  - Stripe webhook reconciliation (paid/failed)
-
----
-
-## 5) Offline sync rules (client)
-
-- Local SQLite is the source of truth while offline.
-- Outbox items are applied in deterministic order.
-- If the server rejects a write due to conflict:
-  - Store server response and mark item “NEEDS_ATTENTION”
-  - UI surfaces a “Resolve” action (policy varies by entity)
-
-**Principle:** silent data loss is forbidden.
+The schema already stores personal data such as names, phones, emails, addresses, notes, and operational care notes. That is why `docs/gdpr/` and `.fides/` now exist and must be kept current when the schema changes.
 
 ---
 <p align="center">

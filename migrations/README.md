@@ -8,30 +8,41 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - migrations
-## Database Migrations & Schema Notes
+# CiCwtch - Database Migrations
+## Cloudflare D1 schema migration guidance
 
 <p align="left">
+  <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
   &nbsp;
-  <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+  <a href="https://www.sqlite.org/index.html"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
 </p>
 
-This directory contains Cloudflare D1 SQL migration files for CiCwtch.
+## Purpose
 
-## Details
+This directory contains D1-compatible SQL migration files.
 
-- Migration files are `.sql` files written in SQLite/D1-compatible syntax.
-- Naming convention: `NNNN_description.sql` (for example `0001_initial_schema.sql`).
-- For this new application, the first migration creates the schema from zero on a clean database.
-- Migrations are applied via:
+## Current schema baseline
+
+- `0001_initial_schema.sql` creates the full current Phase 1 schema.
+
+## Applying migrations
 
 ```bash
 cd worker
 npx wrangler d1 migrations apply cicwtch-db
 ```
 
-Use the staging or production environment flags when applying against non-local databases.
+Use the correct Wrangler environment flags for non-local targets.
+
+## Documentation rule
+
+If a migration changes personal data, storage structure, or deletion/retention behaviour, update:
+
+- `docs/architecture/data.md`
+- `docs/gdpr/`
+- `.fides/`
 
 ---
 <p align="center">

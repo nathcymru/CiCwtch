@@ -1,2 +1,5 @@
 [cli]
-local_mode = true
+organization = "cicwtch"
+
+[user]
+username = "local"

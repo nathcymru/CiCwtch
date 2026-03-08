@@ -8,48 +8,47 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - GDPR / DPIA Work Area
-## Privacy, Governance & Compliance
+# CiCwtch - GDPR & Privacy
+## Working privacy-by-design documentation for the current build
 
 <p align="left">
-<a href="readme.md"><img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="GDPR DPIA: In Progress" /></a>
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
+</p>
+
+<p align="left">
+<a href="https://github.com/nathcymru/CiCwtch/blob/main/docs/gdpr/readme.md"><img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="GDPR DPIA: In Progress" /></a>
 &nbsp;
 <a href="https://github.com/nathcymru/CiCwtch/security"><img src="https://img.shields.io/badge/GitHub%20Security-Open%20Dashboard-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Security" /></a>
 &nbsp;
 <a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch"><img src="https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge" alt="OpenSSF Scorecard" /></a>
 </p>
 
-This directory is the placeholder location for CiCwtch privacy, GDPR, and Data Protection Impact Assessment (DPIA) materials.
+This folder documents the **current privacy posture** of CiCwtch.
 
-## Status
+It is not a claim that the product is fully GDPR-complete. It is the place where the current truth, gaps, and next controls are recorded so the project does not drift into confident nonsense.
 
-**In progress.**
+## Included documents
 
-The repository link exists so documentation, badges, and project navigation resolve cleanly while formal privacy documentation is being drafted.
+- [Record of Processing Activities (RoPA)](ropa.md)
+- [DPIA working draft](dpia.md)
+- [Retention schedule](retention_schedule.md)
+- [DSAR and erasure handling notes](dsar_and_erasure.md)
+- [CNIL gap audit](cnil_gap_audit.md)
+- [Privacy-first checklist](privacy_first_checklist.md)
 
-## Intended contents
+## Current status
 
-This area is expected to hold, at minimum:
-
-- DPIA working draft
-- Records of processing activities summary
-- Privacy-by-design notes
-- Data retention and deletion rules
-- Data subject rights handling approach
-- International transfer considerations, if applicable
-- Security and incident-response references relevant to personal data
-
-## Current position
-
-Until the full pack is written, the main architectural privacy and security context should be read alongside:
-
-- [Architecture source of truth](../architecture/README.md)
-- [Security architecture](../architecture/security.md)
-- [User Requirements Specification](../CiCwtch_URS.md)
-
-## Note
-
-This placeholder should be replaced by proper project privacy documentation before production use or live processing of personal data.
+- personal data is already present in the D1 schema,
+- authentication is not yet implemented,
+- retention enforcement is not yet automated,
+- attachment/R2 workflows are not yet live,
+- DSAR operations are documented but not fully automated.
 
 ---
 <p align="center">

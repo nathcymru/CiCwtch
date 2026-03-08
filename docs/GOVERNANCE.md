@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - Governance (CiCwtch)
-## Project Documentation
+# CiCwtch - Governance
+## Repository governance, documentation rules, and delivery discipline
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -17,20 +17,43 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-## Maintainer
-CiCwtch is currently directed and maintained by the project founder.
+<p align="left">
+  <a href="https://github.com/nathcymru/CiCwtch/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-Proprietary%20%E2%80%94%20All%20Rights%20Reserved-lightgrey?style=for-the-badge" alt="License" /></a>
+</p>
 
-## Decision-Making
-- Architectural and strategic decisions are made by the maintainer.
-- Significant changes should begin with an Issue to align scope and intent.
+## Maintainer model
 
-## Roles
-As the project grows, roles may be introduced (e.g., module maintainers) with defined responsibilities and decision boundaries.
+CiCwtch is currently founder-led. Architectural, delivery, and release decisions are made by the maintainer.
 
-## Commercial Context
-CiCwtch is a proprietary product. Collaboration is managed to ensure continuity, quality, and legal clarity.
+## Working rules
+
+- One task per pull request where practical.
+- Architecture-sensitive changes must update documentation in the same PR.
+- Privacy-sensitive changes must update `docs/gdpr/` and `.fides/` where relevant.
+- Do not merge code that claims tests were run when they were not actually executed.
+- Do not silently introduce new frameworks, major state-management patterns, or storage systems.
+
+## Release discipline
+
+- `main` is the protected integration branch.
+- Milestone tags should describe the current implemented state honestly.
+- Documentation must reflect current reality, not planned mythology.
+
+## Privacy-first rule
+
+Any feature that changes personal data collection, storage, export, retention, or deletion must also consider:
+
+- lawful basis and transparency,
+- data minimisation,
+- retention period,
+- erasure/export handling,
+- auditability,
+- documentation updates,
+- Fides annotations.
 
 ---
 <p align="center">

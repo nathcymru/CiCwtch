@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord community support
+    url: https://discord.gg/w8SsYu9pUT
+    about: Use Discord for early discussion, support, and contributor coordination.
+  - name: Existing issues and bugs
+    url: https://github.com/nathcymru/CiCwtch/issues
+    about: Review existing issues before opening a new one.
+  - name: Project documentation
+    url: https://github.com/nathcymru/CiCwtch/tree/main/docs
+    about: Review project documentation and architecture notes.

@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - Infrastructure & Deployment
-## Architecture & Engineering Source of Truth
+# CiCwtch - Infrastructure Architecture
+## Current deployment and runtime topology
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -17,78 +17,33 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-CiCwtch uses Cloudflare as an edge-first BFF platform: low latency, simple ops, strong regional performance.
+## Current platform components
 
----
+- **Flutter** for the client application
+- **Cloudflare Workers** for the API runtime
+- **Cloudflare D1** for relational data storage
+- **Cloudflare R2** is planned but not yet actively used in Phase 1 workflows
+- **GitHub Actions** for CI and documentation/privacy guardrails
 
-## 1) Environments
+## Current repository-level automation
 
-- **Local**: Flutter dev + local mocks (optional), SQLite
-- **Staging**: Cloudflare Workers + D1 + R2 (separate accounts or namespaces)
-- **Production**: Cloudflare Workers + D1 + R2 (prod resources, strict secrets)
+- `ci.yml` runs Flutter analyze/test/build and Worker typecheck
+- `docs_guardrails.yml` enforces documentation updates on architecture-sensitive PRs
+- `scorecard.yml` provides repository security posture reporting
+- `privacy_compliance.yml` validates local Fides manifests and privacy documentation guardrails
 
-Environment parity matters. “Works on my laptop” is not a deployment strategy.
+## Local development shape
 
----
+Typical local developer flow:
 
-## 2) Deployment topology
-
-```mermaid
-flowchart TB
-  Dev[Developer Laptop] -->|git push| GH[GitHub Repo]
-  GH -->|CI| Actions[GitHub Actions]
-
-  Actions -->|deploy| CF[Cloudflare]
-  CF --> Worker[Workers API]
-  CF --> D1[(D1)]
-  CF --> R2[(R2)]
-
-  Users[Users] -->|HTTPS| Worker
-```
-
----
-
-## 3) CI/CD expectations
-
-CI should run at minimum:
-- format/lint
-- unit tests (domain + use cases)
-- integration tests (API contracts where possible)
-- build checks for Web/iOS/Android targets (as appropriate)
-
-CD should:
-- deploy Workers to staging on merge to main (or release branches)
-- promote to production via tagged release / manual approval gate
-
----
-
-## 4) Observability
-
-### Logging
-- Workers logs for API requests, errors, and key workflow events
-- Correlation IDs:
-  - generated per request, returned to client, logged server-side
-
-### Metrics (at minimum)
-- request latency (p50/p95)
-- error rate (4xx/5xx)
-- sync success/failure counts
-- webhook processing success/failure
-
-### Health checks
-- `/health` endpoint (no auth) for platform monitoring
-- `/ready` endpoint (internal) verifying D1 connectivity (if feasible)
-
----
-
-## 5) Backups & data retention (policy)
-
-- D1 backup/exports strategy documented here when implemented
-- R2 retention rules per object type:
-  - walk photos (retention policy)
-  - invoices (longer retention)
+1. Run Worker locally with Wrangler.
+2. Run Flutter locally against the Worker base URL.
+3. Apply D1 migrations from the `migrations/` directory.
+4. Use seeded test data where needed.
 
 ---
 <p align="center">

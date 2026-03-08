@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - CiCwtch — User Requirements Specification (URS)
-## Project Documentation
+# CiCwtch - User Requirements Specification
+## Authoritative URS baseline used to plan the product roadmap
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -17,8 +17,9 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-
 Product: CiCwtch Platforms: Web, iOS, Android Technology: Flutter (Dart)
 single codebase Architecture: Clean Architecture (Presentation /
 Application / Domain / Data) UI Requirement: Pure Flutter (Material 3 /
@@ -244,7 +245,6 @@ invoice → apply voucher → view rewards
 AI must: - generate a full Flutter project - enforce clean
 architecture - avoid non-Flutter UI frameworks - implement production
 grade routing, storage and authentication
-
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

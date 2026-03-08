@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - CiCwtch Architecture Overview
-## Project Documentation
+# CiCwtch - Architecture Overview
+## High-level index for the detailed architecture documents
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -17,32 +17,25 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-This file is a **high-level index only**.
+The detailed architecture documents are maintained under [`docs/architecture/`](architecture/README.md).
 
-The authoritative architecture documentation for CiCwtch is maintained in:
+## Read this next
 
-- [docs/architecture/README.md](architecture/README.md)
-- [docs/architecture/application.md](architecture/application.md)
-- [docs/architecture/data.md](architecture/data.md)
-- [docs/architecture/infrastructure.md](architecture/infrastructure.md)
-- [docs/architecture/security.md](architecture/security.md)
-- [docs/architecture/decisions.md](architecture/decisions.md)
-- [docs/architecture/diagrams.md](architecture/diagrams.md)
+- [Architecture source of truth](architecture/README.md)
+- [Application architecture](architecture/application.md)
+- [Data architecture](architecture/data.md)
+- [Infrastructure architecture](architecture/infrastructure.md)
+- [Security architecture](architecture/security.md)
+- [Architecture decisions](architecture/decisions.md)
+- [Architecture diagrams](architecture/diagrams.md)
 
-## Platform direction
+## Source-of-truth rule
 
-CiCwtch is being built as a **Flutter application for Web, iOS, and Android**, with a backend platform centred on:
-
-- **Cloudflare Workers** for server-side runtime and APIs
-- **Cloudflare D1** for relational data storage
-- **Cloudflare R2** for object and media storage
-- **SQLite** for lightweight local persistence and offline-first behaviour inside the app where required
-
-## Documentation rule
-
-If this overview and the detailed architecture documents ever disagree, treat the files under `docs/architecture/` as the source of truth and update this page immediately.
+If this overview and the detailed architecture pages ever disagree, the files under `docs/architecture/` win and this overview must be corrected immediately.
 
 ---
 <p align="center">

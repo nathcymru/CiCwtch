@@ -1,0 +1,67 @@
+name: Privacy compliance
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  fides-parse:
+    name: Fides manifest validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Fides CLI
+        run: pip install ethyca-fides
+
+      - name: Validate local Fides manifests
+        run: fides parse
+
+  privacy-guardrails:
+    name: Privacy docs guardrails
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect privacy-sensitive changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          list-files: shell
+          filters: |
+            privacy_sensitive:
+              - 'migrations/**'
+              - 'worker/src/handlers/**'
+              - 'worker/src/router.ts'
+              - 'flutter/lib/features/**'
+              - 'flutter/lib/shared/domain/models/**'
+            privacy_docs_changed:
+              - 'docs/gdpr/**'
+              - '.fides/**'
+              - '.github/PULL_REQUEST_TEMPLATE.md'
+              - '.github/workflows/privacy_compliance.yml'
+
+      - name: Fail if privacy-sensitive changes lack privacy doc updates
+        if: steps.changes.outputs.privacy_sensitive == 'true' && steps.changes.outputs.privacy_docs_changed != 'true'
+        run: |
+          echo "❌ Privacy-sensitive files changed, but docs/gdpr or .fides were not updated."
+          echo ""
+          echo "What changed (privacy-sensitive):"
+          echo "${{ steps.changes.outputs.privacy_sensitive_files }}"
+          exit 1
+
+      - name: Pass
+        if: steps.changes.outputs.privacy_sensitive != 'true' || steps.changes.outputs.privacy_docs_changed == 'true'
+        run: echo "✅ Privacy compliance guardrails passed."

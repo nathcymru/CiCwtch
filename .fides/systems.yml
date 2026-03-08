@@ -1,0 +1,43 @@
+system:
+  - fides_key: cicwtch_application
+    organization_fides_key: cicwtch
+    name: CiCwtch Application
+    description: Flutter client application for operational dog-walking workflows.
+    system_type: Service
+    administrating_department: Engineering
+    data_responsibility_title: Controller
+    privacy_declarations:
+      - name: Operate CiCwtch workflows
+        data_categories:
+          - user.name
+          - user.contact.email
+          - user.contact.phone_number
+          - user.contact.address
+          - user.financial
+          - user.behavioral
+          - user.employment
+        data_subjects:
+          - customer
+          - employee
+        data_use: essential.service
+  - fides_key: cicwtch_d1_database
+    organization_fides_key: cicwtch
+    name: CiCwtch D1 Database
+    description: Primary operational relational data store for CiCwtch.
+    system_type: Database
+    administrating_department: Engineering
+    data_responsibility_title: Controller
+    privacy_declarations:
+      - name: Store operational records
+        data_categories:
+          - user.name
+          - user.contact.email
+          - user.contact.phone_number
+          - user.contact.address
+          - user.financial
+          - user.behavioral
+          - user.employment
+        data_subjects:
+          - customer
+          - employee
+        data_use: essential.service

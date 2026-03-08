@@ -1,0 +1,189 @@
+name: Copilot Development Task
+description: Structured task for implementing a single CiCwtch feature using GitHub Copilot
+title: "[TASK] "
+labels:
+  - copilot
+  - development
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## CiCwtch Copilot Development Task
+
+        This issue is a **single isolated implementation task** intended for execution with GitHub Copilot.
+
+        ### Rules
+        - One task per PR
+        - Do not expand scope beyond this issue
+        - Follow the URS and architecture strictly
+        - Do not introduce unrelated refactors
+        - Do not add unnecessary dependencies
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Project Context
+
+        **Project:** CiCwtch
+
+        **Core References**
+        - URS: `/docs/URS.md`
+        - Architecture: `/docs/architecture.md`
+        - Copilot instructions: `/.github/copilot-instructions.md`
+
+        **Technology Stack (do not change)**
+
+        **Client**
+        - Flutter (Dart)
+        - Targets: Web, iOS, Android
+
+        **Backend**
+        - Cloudflare Workers
+        - REST API
+
+        **Database**
+        - Cloudflare D1 (SQLite)
+
+        **Storage (future)**
+        - Cloudflare R2
+
+        **Payments (future)**
+        - Stripe
+
+        ---
+        ## Development Principles
+
+        - Follow URS and architecture documents
+        - Do not introduce alternative frameworks
+        - Do not add UI frameworks or design systems
+        - Use stock Flutter Material/Cupertino widgets
+        - Keep dependencies minimal
+        - Prefer simple maintainable code
+        - Avoid unnecessary abstractions
+        - Output complete working changes, not partial sketches
+
+        ---
+        ## Architecture Constraints
+
+        **API**
+        - REST style
+        - Versioned routes `/api/v1/`
+        - JSON responses only
+
+        **Database**
+        - SQLite compatible SQL
+        - UUID text primary keys
+        - `created_at`, `updated_at`
+        - `archived_at` for soft deletes where appropriate
+
+        **Development**
+        - Feature isolated to this task
+        - No unrelated refactoring
+        - No speculative architecture changes
+
+        ---
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What this task must achieve
+      placeholder: |
+        Example:
+        Implement backend CRUD endpoints for the Clients resource.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What must be implemented in this task
+      placeholder: |
+        Example:
+        - Create API routes
+        - Implement database queries
+        - Return JSON responses
+        - Add validation
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Guardrails Copilot must follow
+      placeholder: |
+        Example:
+        - No new dependencies
+        - Follow REST conventions
+        - SQLite-compatible SQL only
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Notes
+      description: Helpful hints, field definitions, route notes, schema notes, or design guidance
+      placeholder: |
+        Example:
+        Client fields:
+        - id
+        - full_name
+        - phone
+        - email
+        - address_id
+        - created_at
+        - updated_at
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Conditions that must be satisfied before merging
+      placeholder: |
+        Example:
+        - All CRUD routes work
+        - API returns valid JSON
+        - Validation errors handled correctly
+        - Code compiles successfully
+    validations:
+      required: true
+
+  - type: textarea
+    id: demo
+    attributes:
+      label: Demo Steps
+      description: Short step-by-step proof that the feature works
+      placeholder: |
+        Example:
+        1. Run API locally
+        2. POST a new client
+        3. GET the client list
+        4. Verify returned data
+    validations:
+      required: true
+
+  - type: textarea
+    id: pr_notes
+    attributes:
+      label: Pull Request Notes for Copilot
+      description: Any specific points Copilot should mention when drafting the PR summary
+      placeholder: |
+        Example:
+        - Mention migration file added
+        - Mention no UI change
+        - Mention API is backwards-compatible
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification Checklist
+      options:
+        - label: URS reviewed
+        - label: Architecture reviewed
+        - label: Scope limited to this task
+        - label: No unnecessary dependencies added
+        - label: Code compiles successfully

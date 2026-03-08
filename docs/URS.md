@@ -8,8 +8,8 @@
   <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
 </p clear="right">
 
-# CiCwtch - URS — Pointer
-## Project Documentation
+# CiCwtch - URS Pointer
+## Stable pointer to the authoritative User Requirements Specification
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -17,13 +17,15 @@
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
 
-The User Requirements Specification for CiCwtch is maintained at:
+The authoritative User Requirements Specification for CiCwtch is maintained at:
 
-**[docs/CiCwtch_URS.md](CiCwtch_URS.md)**
+- [docs/CiCwtch_URS.md](CiCwtch_URS.md)
 
-This file exists so that references to `docs/URS.md` in tooling and documentation resolve correctly.
+This pointer file exists so internal references to `docs/URS.md` remain stable.
 
 ---
 <p align="center">
