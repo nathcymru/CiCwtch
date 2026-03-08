@@ -1,33 +1,20 @@
-# GDPR / DPIA Work Area
+# GDPR / Privacy Engineering
 
-This directory is the placeholder location for CiCwtch privacy, GDPR, and Data Protection Impact Assessment (DPIA) materials.
+This folder now documents the **current** CiCwtch privacy posture and the work needed to move from Phase 1 CRUD into a GDPR-ready service.
 
-## Status
+## Files in this folder
 
-**In progress.**
+- `ropa.md` — Record of Processing Activities draft
+- `dpia.md` — DPIA draft for the current architecture and likely next-step risks
+- `data-retention-schedule.md` — proposed retention schedule and operational rules
+- `dsar-erasure-playbook.md` — current gap analysis and target design for rights handling
+- `cnil-gap-audit.md` — repo checked against CNIL developer/privacy expectations
+- `privacy-first-checklist.md` — checklist to apply to every future feature/PR
 
-The repository link exists so documentation, badges, and project navigation resolve cleanly while formal privacy documentation is being drafted.
+## Accuracy note
 
-## Intended contents
+These files distinguish between:
 
-This area is expected to hold, at minimum:
-
-- DPIA working draft
-- Records of processing activities summary
-- Privacy-by-design notes
-- Data retention and deletion rules
-- Data subject rights handling approach
-- International transfer considerations, if applicable
-- Security and incident-response references relevant to personal data
-
-## Current position
-
-Until the full pack is written, the main architectural privacy and security context should be read alongside:
-
-- [Architecture source of truth](../architecture/README.md)
-- [Security architecture](../architecture/security.md)
-- [User Requirements Specification](../CiCwtch_URS.md)
-
-## Note
-
-This placeholder should be replaced by proper project privacy documentation before production use or live processing of personal data.
+- what is **implemented now**
+- what is **required before production**
+- what is **planned for later phases**

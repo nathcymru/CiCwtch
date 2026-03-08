@@ -1,70 +1,29 @@
-# Security & Cross-Cutting Concerns
+# Security and Privacy Status
 
-CiCwtch handles personal data. Security is not optional polish — it is part of the system.
+## Current security posture
 
----
+Implemented now:
 
-## 1) Authentication & sessions
+- parameterised SQL in Worker handlers
+- typed JSON error responses
+- soft delete for most core entities
+- CI guardrails for docs and basic code health
 
-- Auth is implemented via Workers API.
-- Clients obtain a session/token after login.
-- Tokens are validated server-side for every request.
+Not yet implemented:
 
-**Never trust the client** (yes, even your own client).
+- authentication
+- authorisation / RBAC
+- session management
+- secure password storage
+- token rotation
+- request correlation IDs
+- R2 signed URL strategy
+- DSAR export/erasure logic
+- retention enforcement
+- webhook idempotency
 
----
+## Practical interpretation
 
-## 2) Authorization (RBAC)
+The repo is at a **Phase 1 internal CRUD prototype** stage, not a production-ready privacy or security posture.
 
-Roles:
-- ADMIN, WALKER, CLIENT
-
-Rules:
-- A CLIENT can only access their own pets, bookings, invoices, visits.
-- A WALKER can access assigned schedule and visit capture for assigned bookings.
-- ADMIN can access all tenant data.
-
-Enforce on the API. UI checks are UX only.
-
----
-
-## 3) Data protection
-
-### In transit
-- HTTPS everywhere
-
-### At rest
-- D1: platform-managed storage security
-- R2: private buckets, signed URLs for controlled access
-- Local SQLite: store minimal sensitive data; consider encryption for:
-  - auth tokens
-  - addresses/phone numbers
-  - medical notes (pet)
-
----
-
-## 4) Error handling strategy
-
-- API errors return:
-  - stable error code
-  - human-safe message
-  - correlation id
-
-Client:
-- show actionable error message
-- preserve offline writes rather than dropping them
-- retries with backoff for transient failures
-
----
-
-## 5) Concurrency & race conditions
-
-Server must handle:
-- two admins approving the same slot concurrently
-- double-submission of booking requests
-- webhook retries from Stripe (idempotency required)
-
-Techniques:
-- idempotency keys
-- transactional checks in D1
-- unique constraints where appropriate
+Any documentation claiming completed auth, RBAC, session handling, right-to-erasure automation, or live R2 access would currently be ahead of the code and therefore a fib in a nice jacket.

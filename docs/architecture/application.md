@@ -1,118 +1,53 @@
-# Internal Application Architecture (Flutter + Clean Architecture)
+# Application Architecture
 
-CiCwtch uses Clean Architecture to keep business rules stable even as UI frameworks, storage engines, and APIs evolve.
+## Flutter app
 
----
+Current app structure:
 
-## 1) Layer responsibilities
+- `lib/app/`
+  - routing
+  - shell
+- `lib/features/`
+  - clients
+  - dashboard
+  - dogs
+  - invoices
+  - walkers
+  - walks
+  - auth (placeholder only)
+- `lib/shared/`
+  - data
+  - domain models
+  - presentation helpers
 
-### Presentation (Flutter)
-- Material 3 / Cupertino widgets only (no web UI frameworks)
-- Screen/view composition, navigation, form validation, state management
-- **No business logic** (only orchestration and display)
+## Current interaction pattern
 
-Recommended patterns:
-- BLoC / Cubit (preferred) or Provider/Riverpod if consistent
-- UI depends on `UseCases` only, never directly on repositories
+The Flutter app currently uses a straightforward service/repository/API-client pattern:
 
-### Application (Use Cases)
-- “verbs” of the system: `RequestBooking`, `ApproveBooking`, `StartVisit`, `CompleteVisit`, `GenerateInvoice`
-- Orchestrates domain rules + repositories
-- Handles transactions, concurrency boundaries, retries (where appropriate)
+- screen
+- feature service
+- feature repository
+- shared `ApiClient`
+- Workers API
 
-### Domain
-- Entities: `Client`, `Pet`, `Booking`, `Visit`, `Invoice`, `ComplianceItem`
-- Value objects: `Money`, `DateRange`, `GpsTrack`, `Role`
-- Interfaces: `BookingRepository`, `VisitRepository`, `InvoiceRepository`
-- Pure Dart only (no Flutter imports)
+This is intentionally lightweight and suitable for solo development.
 
-### Data
-- Implements repositories:
-  - Remote: Workers API client
-  - Local: SQLite cache + Outbox queue
-- DTO mapping (remote ↔ domain), schema migrations, encryption at rest where required
+## Current UX shell
 
----
+Implemented:
 
-## 2) Suggested folder layout (Flutter)
+- Material 3 app shell
+- dashboard
+- responsive navigation rail / bottom navigation
+- CRUD flows for the Phase 1 resources above
 
-```text
-lib/
-  app/
-    bootstrap/
-    routing/
-    theme/
-  features/
-    bookings/
-      presentation/
-      application/
-      domain/
-      data/
-    visits/
-    invoices/
-    compliance/
-    auth/
-    clients/        ← added Task 08
-  shared/
-    presentation/
-    application/
-    domain/
-    data/
-```
+Not yet implemented:
 
-**Rule:** each feature is vertically sliced; shared code is minimal and intentional.
+- Cupertino app shell parity on iOS
+- authenticated app state
+- offline-first write queue
+- domain-level state management beyond feature-local async loading
 
----
+## Important accuracy note
 
-## 3) Key abstractions (non-negotiable)
-
-### Repository pattern
-All persistence goes through repositories (domain interfaces).  
-This enables:
-- offline implementations
-- test doubles
-- future storage swaps (without rewriting the app)
-
-### Outbox pattern (offline sync)
-When offline, writes go to a local **Outbox** table with:
-- unique id
-- entity type
-- payload (json)
-- created timestamp
-- retry count
-- last error
-- dependency ordering (optional)
-
-This makes sync deterministic and testable.
-
-### Revisioning
-Server responses return a `revision` (or `updatedAt`) value used to:
-- avoid overwriting newer server state
-- detect conflicts cleanly
-
----
-
-## 5) Domain model layer (Task 06)
-
-Shared domain models live at `flutter/lib/shared/domain/models/`.
-
-- Models are pure Dart — no Flutter imports.
-- Each model maps 1:1 to the D1 schema defined in `migrations/0001_initial_schema.sql`.
-- JSON field names are snake_case, matching the database column names exactly.
-- No code generators — all `fromJson`/`toJson` is explicit.
-- This layer constitutes the shared API contract between the Cloudflare Worker and the Flutter client.
-
-Import all models via the barrel file:
-
-```dart
-import 'package:cicwtch/shared/domain/models/models.dart';
-```
-
----
-
-## 4) Trade-offs (explicit)
-
-- **Offline-first adds complexity**: conflict resolution and sync ordering must be designed carefully.
-- **Workers edge runtime**: great latency, but requires disciplined runtime constraints (cold starts, CPU limits).
-- **D1**: excellent for edge SQL use cases, but not positioned as “write-heavy infinite scale” — design accordingly.
-- **Single codebase**: reduces feature drift across platforms, but requires careful UX decisions for web vs mobile.
+The URS describes a broader Clean Architecture ambition and iOS-adaptive theming. The current codebase is **not yet at that full target state**. Documentation must therefore treat those elements as roadmap items until implemented.
