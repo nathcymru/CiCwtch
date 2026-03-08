@@ -98,6 +98,20 @@ Walkers CRUD is implemented at `lib/features/walkers/`. Screens:
 
 API dependency: `/api/v1/walkers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
 
+### Invoices
+
+Invoices CRUD is implemented at `lib/features/invoices/`. Screens:
+
+- **Invoices list** — `InvoicesListScreen` — lists active invoice headers; FAB to create; tap to view detail; searchable by invoice number, client ID, and status.
+- **Invoice detail** — `InvoiceDetailScreen` — shows full invoice header record including invoice number, status, client ID, currency, issue and due dates, and notes; edit and archive actions.
+- **Create invoice** — `InvoiceCreateScreen` / `InvoiceFormScreen` — form with required `client_id`, `invoice_number`, and `currency_code`; status dropdown (draft/issued/paid/cancelled, defaults to draft); optional issue date, due date, and notes.
+- **Edit invoice** — `InvoiceEditScreen` / `InvoiceFormScreen` — pre-populated form; saves via `PUT /api/v1/invoice-headers/:id`.
+- **Archive invoice** — confirmation dialog; calls `DELETE /api/v1/invoice-headers/:id`; returns to list on success.
+
+API dependency: `/api/v1/invoice-headers` (GET, POST, GET /:id, PUT /:id, DELETE /:id).
+
+**Out of scope for this task:** payment processing, PDF generation, email sending, invoice line management, and document generation are not included and remain future work.
+
 ### Dashboard
 
 The dashboard overview screen is implemented at `lib/features/dashboard/`. It provides a summary view of active resources and quick navigation to core areas of the app.

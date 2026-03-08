@@ -13,6 +13,10 @@ import 'package:cicwtch/features/walkers/presentation/walker_create_screen.dart'
 import 'package:cicwtch/features/walkers/presentation/walker_detail_screen.dart';
 import 'package:cicwtch/features/walkers/presentation/walker_edit_screen.dart';
 import 'package:cicwtch/features/walkers/presentation/walkers_list_screen.dart';
+import 'package:cicwtch/features/invoices/presentation/invoice_create_screen.dart';
+import 'package:cicwtch/features/invoices/presentation/invoice_detail_screen.dart';
+import 'package:cicwtch/features/invoices/presentation/invoice_edit_screen.dart';
+import 'package:cicwtch/features/invoices/presentation/invoices_list_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_create_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_detail_screen.dart';
 import 'package:cicwtch/features/walks/presentation/walk_edit_screen.dart';
@@ -38,6 +42,10 @@ class AppRoutes {
   static const walkerDetail = '/walkers/detail';
   static const walkerCreate = '/walkers/create';
   static const walkerEdit = '/walkers/edit';
+  static const invoicesList = '/invoices';
+  static const invoiceDetail = '/invoices/detail';
+  static const invoiceCreate = '/invoices/create';
+  static const invoiceEdit = '/invoices/edit';
 }
 
 class AppRouter {
@@ -134,6 +142,28 @@ class AppRouter {
         final walker = settings.arguments as Walker;
         return MaterialPageRoute(
           builder: (_) => WalkerEditScreen(walker: walker),
+          settings: settings,
+        );
+      case AppRoutes.invoicesList:
+        return MaterialPageRoute(
+          builder: (_) => const InvoicesListScreen(),
+          settings: settings,
+        );
+      case AppRoutes.invoiceDetail:
+        final invoiceId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => InvoiceDetailScreen(invoiceId: invoiceId),
+          settings: settings,
+        );
+      case AppRoutes.invoiceCreate:
+        return MaterialPageRoute(
+          builder: (_) => const InvoiceCreateScreen(),
+          settings: settings,
+        );
+      case AppRoutes.invoiceEdit:
+        final invoice = settings.arguments as InvoiceHeader;
+        return MaterialPageRoute(
+          builder: (_) => InvoiceEditScreen(invoice: invoice),
           settings: settings,
         );
       default:
