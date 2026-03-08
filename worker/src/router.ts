@@ -42,6 +42,7 @@ import {
   updateInvoiceLine,
   deleteInvoiceLine,
 } from "./handlers/invoice_lines";
+import { createAttachment } from "./handlers/attachments";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -167,6 +168,11 @@ export async function route(
     if (method === "PUT") return updateInvoiceLine(request, env, params);
     if (method === "DELETE") return deleteInvoiceLine(request, env, params);
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  if (pathname === "/api/v1/attachments") {
+    if (method === "POST") return createAttachment(request, env);
+    return methodNotAllowed(["POST"]);
   }
 
   return jsonError("Not found", "not_found", 404);
