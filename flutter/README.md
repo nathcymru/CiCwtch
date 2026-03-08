@@ -69,7 +69,25 @@ The app uses Flutter's default hash-based URL strategy (`/#/route`). This works 
 
 ### Environment variables
 
-No build-time environment variables are currently required. The API base URL defaults to `http://localhost:8787` for local development and can be overridden via `--dart-define=API_BASE_URL=...` at build time.
+| Variable        | Purpose                              | Default                  |
+|-----------------|--------------------------------------|--------------------------|
+| `API_BASE_URL`  | API Worker root used by the Flutter app | `http://localhost:8787` |
+
+The API base URL is configured via `--dart-define=API_BASE_URL=...` at build time. The default value (`http://localhost:8787`) targets the local Wrangler dev server and requires no extra flags during development.
+
+For Cloudflare Pages deployments, set the `API_BASE_URL` environment variable in the Pages project settings. The build script (`scripts/cloudflare-pages-build.sh`) forwards this value to the Flutter build automatically.
+
+Example Cloudflare Pages environment variable:
+
+```
+API_BASE_URL = https://cicwtch-api.nathcymru.workers.dev
+```
+
+You can also override the URL for a one-off local build:
+
+```bash
+flutter build web --release --dart-define=API_BASE_URL=https://cicwtch-api.nathcymru.workers.dev
+```
 
 ## Current limitations
 
