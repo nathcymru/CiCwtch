@@ -6,7 +6,7 @@
  */
 
 const ALLOWED_ORIGIN_PATTERNS: RegExp[] = [
-  /^https:\/\/[a-z0-9-]+\.cicwtch\.pages\.dev$/,
+  /^https:\/\/[a-z0-9]+(?:-[a-z0-9]+)*\.cicwtch\.pages\.dev$/,
   /^https:\/\/cicwtch\.pages\.dev$/,
   /^http:\/\/localhost(:\d+)?$/,
 ];
@@ -52,7 +52,5 @@ export function withCorsHeaders(
 
   const newResponse = new Response(response.body, response);
   newResponse.headers.set("Access-Control-Allow-Origin", origin);
-  newResponse.headers.set("Access-Control-Allow-Methods", CORS_METHODS);
-  newResponse.headers.set("Access-Control-Allow-Headers", CORS_HEADERS);
   return newResponse;
 }
