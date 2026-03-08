@@ -9,7 +9,7 @@
 </p clear="right">
 
 # CiCwtch - Attachments API
-## Attachment upload endpoint
+## Attachment upload and retrieval endpoints
 
 <p align="left">
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
@@ -24,6 +24,7 @@ Attachments link uploaded files (stored in R2) to business entities via metadata
 ## Endpoints
 
 - `POST /api/v1/attachments`
+- `GET /api/v1/attachments/:id`
 
 ## Upload
 
@@ -49,6 +50,28 @@ Attachments link uploaded files (stored in R2) to business entities via metadata
   "file_size_bytes": 102400,
   "created_at": "2025-01-01T00:00:00.000Z",
   "updated_at": "2025-01-01T00:00:00.000Z"
+}
+```
+
+## Retrieve
+
+**Request:** `GET /api/v1/attachments/:id`
+
+Returns the raw file content with the stored `Content-Type` header.
+
+| Status | Description |
+|---|---|
+| `200 OK` | File body returned with correct MIME type |
+| `404 Not Found` | Attachment record or R2 object not found |
+
+**Error response:**
+
+```json
+{
+  "error": {
+    "message": "Attachment not found",
+    "type": "not_found"
+  }
 }
 ```
 
