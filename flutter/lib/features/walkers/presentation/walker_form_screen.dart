@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/form_error_banner.dart';
 
 class WalkerFormScreen extends StatefulWidget {
   const WalkerFormScreen({
@@ -103,23 +104,7 @@ class _WalkerFormScreenState extends State<WalkerFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_submitError != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Material(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        _submitError!,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onErrorContainer,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                FormErrorBanner(message: _submitError!),
               TextFormField(
                 controller: _fullName,
                 decoration: const InputDecoration(
@@ -181,7 +166,7 @@ class _WalkerFormScreenState extends State<WalkerFormScreen> {
                 onChanged: (v) => setState(() => _active = v),
                 contentPadding: EdgeInsets.zero,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _notes,
                 decoration: const InputDecoration(

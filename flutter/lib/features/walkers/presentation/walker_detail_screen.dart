@@ -5,6 +5,9 @@ import 'package:cicwtch/features/walkers/data/walkers_repository.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/detail_row.dart';
+import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/form_date_helper.dart';
 
 import 'walker_edit_screen.dart';
 
@@ -124,22 +127,7 @@ class _WalkerDetailScreenState extends State<WalkerDetailScreen> {
     }
 
     if (_error != null) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(_error!, textAlign: TextAlign.center),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _load,
-                child: const Text('Retry'),
-              ),
-            ],
-          ),
-        ),
-      );
+      return ErrorStateBlock(message: _error!, onRetry: _load);
     }
 
     if (_walker == null) return const SizedBox.shrink();
@@ -148,65 +136,22 @@ class _WalkerDetailScreenState extends State<WalkerDetailScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _DetailRow(label: 'Full name', value: walker.fullName),
+        DetailRow(label: 'Full name', value: walker.fullName),
         if (walker.phone != null)
-          _DetailRow(label: 'Phone', value: walker.phone!),
+          DetailRow(label: 'Phone', value: walker.phone!),
         if (walker.email != null)
-          _DetailRow(label: 'Email', value: walker.email!),
+          DetailRow(label: 'Email', value: walker.email!),
         if (walker.roleTitle != null)
-          _DetailRow(label: 'Role', value: walker.roleTitle!),
+          DetailRow(label: 'Role', value: walker.roleTitle!),
         if (walker.startDate != null)
-          _DetailRow(label: 'Start date', value: walker.startDate!),
-        _DetailRow(label: 'Active', value: walker.active ? 'Yes' : 'No'),
+          DetailRow(label: 'Start date', value: walker.startDate!),
+        DetailRow(label: 'Active', value: walker.active ? 'Yes' : 'No'),
         if (walker.notes != null)
-          _DetailRow(label: 'Notes', value: walker.notes!),
+          DetailRow(label: 'Notes', value: walker.notes!),
         const Divider(height: 32),
-        _DetailRow(label: 'Created', value: _formatDate(walker.createdAt)),
-        _DetailRow(label: 'Updated', value: _formatDate(walker.updatedAt)),
+        DetailRow(label: 'Created', value: formatDetailDate(walker.createdAt)),
+        DetailRow(label: 'Updated', value: formatDetailDate(walker.updatedAt)),
       ],
-    );
-  }
-
-  String _formatDate(String iso) {
-    try {
-      final dt = DateTime.parse(iso).toLocal();
-      return '${dt.day.toString().padLeft(2, '0')}/'
-          '${dt.month.toString().padLeft(2, '0')}/'
-          '${dt.year}  '
-          '${dt.hour.toString().padLeft(2, '0')}:'
-          '${dt.minute.toString().padLeft(2, '0')}';
-    } catch (_) {
-      return iso;
-    }
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 160,
-            child: Text(
-              label,
-              style: theme.textTheme.labelLarge,
-            ),
-          ),
-          Expanded(
-            child: Text(value),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/shared/domain/models/models.dart';
+import 'package:cicwtch/shared/presentation/form_error_banner.dart';
+import 'package:cicwtch/shared/presentation/section_heading.dart';
 
 class DogFormScreen extends StatefulWidget {
   const DogFormScreen({
@@ -127,23 +129,8 @@ class _DogFormScreenState extends State<DogFormScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (_submitError != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Material(
-                    color: Theme.of(context).colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        _submitError!,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onErrorContainer,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                FormErrorBanner(message: _submitError!),
+              const SectionHeading(title: 'Basic details'),
               TextFormField(
                 controller: _name,
                 decoration: const InputDecoration(
@@ -164,7 +151,8 @@ class _DogFormScreenState extends State<DogFormScreen> {
                 validator: (v) =>
                     (v == null || v.trim().isEmpty) ? 'Required' : null,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const SectionHeading(title: 'Health & identity'),
               TextFormField(
                 controller: _breed,
                 decoration: const InputDecoration(
@@ -194,7 +182,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
                 title: const Text('Neutered'),
                 contentPadding: EdgeInsets.zero,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _dateOfBirth,
                 decoration: const InputDecoration(
@@ -229,7 +217,8 @@ class _DogFormScreenState extends State<DogFormScreen> {
                 ),
                 textCapitalization: TextCapitalization.words,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
+              const SectionHeading(title: 'Notes'),
               TextFormField(
                 controller: _medicalNotes,
                 decoration: const InputDecoration(
