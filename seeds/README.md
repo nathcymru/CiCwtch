@@ -1,4 +1,21 @@
-# seeds
+<img src="../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
+<!-- HEADER BADGES -->
+<p align="right">
+<a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" /></a>
+&nbsp;
+<a href="https://github.com/nathcymru/CiCwtch/releases"><img src="https://img.shields.io/github/v/tag/nathcymru/CiCwtch?sort=semver&style=for-the-badge&label=Release" alt="Release" /></a>
+&nbsp;
+  <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
+</p clear="right">
+
+# CiCwtch - seeds
+## Development Seed Data
+
+<p align="left">
+  <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+</p>
 
 Development and demo seed data for CiCwtch.
 
@@ -40,3 +57,9 @@ All foreign-key relationships are valid. Names and places are Welsh-themed to ma
 ## Important
 
 This data is for **local development only**. Do not apply seed data to staging or production environments.
+
+---
+<p align="center">
+  Built in Wales ❤️ Designed with Cwtch<br/>
+  Adeiladwyd yng Nghymru ❤️ Dyluniwyd gyda Cwtch
+</p>

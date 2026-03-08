@@ -1,4 +1,23 @@
-# Internal Application Architecture (Flutter + Clean Architecture)
+<img src="../../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
+<!-- HEADER BADGES -->
+<p align="right">
+<a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" /></a>
+&nbsp;
+<a href="https://github.com/nathcymru/CiCwtch/releases"><img src="https://img.shields.io/github/v/tag/nathcymru/CiCwtch?sort=semver&style=for-the-badge&label=Release" alt="Release" /></a>
+&nbsp;
+  <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
+</p clear="right">
+
+# CiCwtch - Internal Application Architecture (Flutter + Clean Architecture)
+## Architecture & Engineering Source of Truth
+
+<p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+</p>
 
 CiCwtch uses Clean Architecture to keep business rules stable even as UI frameworks, storage engines, and APIs evolve.
 
@@ -116,3 +135,9 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 - **Workers edge runtime**: great latency, but requires disciplined runtime constraints (cold starts, CPU limits).
 - **D1**: excellent for edge SQL use cases, but not positioned as “write-heavy infinite scale” — design accordingly.
 - **Single codebase**: reduces feature drift across platforms, but requires careful UX decisions for web vs mobile.
+
+---
+<p align="center">
+  Built in Wales ❤️ Designed with Cwtch<br/>
+  Adeiladwyd yng Nghymru ❤️ Dyluniwyd gyda Cwtch
+</p>

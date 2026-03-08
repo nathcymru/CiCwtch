@@ -1,21 +1,58 @@
-# GDPR and privacy pack
+<img src="../../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
+<!-- HEADER BADGES -->
+<p align="right">
+<a href="https://github.com/nathcymru/CiCwtch/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/nathcymru/CiCwtch/ci.yml?branch=main&style=for-the-badge" alt="Build Status" /></a>
+&nbsp;
+<a href="https://github.com/nathcymru/CiCwtch/releases"><img src="https://img.shields.io/github/v/tag/nathcymru/CiCwtch?sort=semver&style=for-the-badge&label=Release" alt="Release" /></a>
+&nbsp;
+  <a href="https://github.com/nathcymru/CiCwtch/commits/main"><img src="https://img.shields.io/github/last-commit/nathcymru/CiCwtch?style=for-the-badge" alt="Last Commit" /></a>
+</p clear="right">
 
-This directory contains the working privacy documentation for CiCwtch.
+# CiCwtch - GDPR / DPIA Work Area
+## Privacy, Governance & Compliance
 
-## Included
+<p align="left">
+<a href="readme.md"><img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="GDPR DPIA: In Progress" /></a>
+&nbsp;
+<a href="https://github.com/nathcymru/CiCwtch/security"><img src="https://img.shields.io/badge/GitHub%20Security-Open%20Dashboard-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Security" /></a>
+&nbsp;
+<a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch"><img src="https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge" alt="OpenSSF Scorecard" /></a>
+</p>
 
-- `ropa.md` — record of processing activities
-- `dpia.md` — data protection impact assessment draft
-- `retention_schedule.md` — retention expectations by record type
-- `dsar_and_erasure.md` — subject-rights and deletion handling playbook
-- `cnil_gap_audit.md` — current gap analysis against CNIL-aligned expectations
-- `consent_and_trackers.md` — tracker and consent rules for future frontend changes
-- `privacy_first_checklist.md` — feature checklist to use as the build progresses
+This directory is the placeholder location for CiCwtch privacy, GDPR, and Data Protection Impact Assessment (DPIA) materials.
 
 ## Status
 
-This pack reflects the current repository state and should be updated whenever:
-- schema changes
-- new sensitive fields are introduced
-- tracking/analytics are added
-- authentication or storage architecture changes
+**In progress.**
+
+The repository link exists so documentation, badges, and project navigation resolve cleanly while formal privacy documentation is being drafted.
+
+## Intended contents
+
+This area is expected to hold, at minimum:
+
+- DPIA working draft
+- Records of processing activities summary
+- Privacy-by-design notes
+- Data retention and deletion rules
+- Data subject rights handling approach
+- International transfer considerations, if applicable
+- Security and incident-response references relevant to personal data
+
+## Current position
+
+Until the full pack is written, the main architectural privacy and security context should be read alongside:
+
+- [Architecture source of truth](../architecture/README.md)
+- [Security architecture](../architecture/security.md)
+- [User Requirements Specification](../CiCwtch_URS.md)
+
+## Note
+
+This placeholder should be replaced by proper project privacy documentation before production use or live processing of personal data.
+
+---
+<p align="center">
+  Built in Wales ❤️ Designed with Cwtch<br/>
+  Adeiladwyd yng Nghymru ❤️ Dyluniwyd gyda Cwtch
+</p>
