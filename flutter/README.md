@@ -49,6 +49,28 @@ flutter test
 flutter run -d chrome
 ```
 
+## Cloudflare Pages deployment
+
+The Flutter web build is deployed via Cloudflare Pages using git-based integration.
+
+### Pages project settings
+
+| Setting            | Value                  |
+|--------------------|------------------------|
+| Root directory     | `flutter`              |
+| Build command      | `bash pages_build.sh`  |
+| Build output dir   | `build/web`            |
+
+The `pages_build.sh` script installs the Flutter SDK (stable channel) and runs `flutter build web --release`. This is necessary because the default Cloudflare Pages build environment does not include Flutter.
+
+### Routing
+
+The app uses Flutter's default hash-based URL strategy (`/#/route`). This works on static hosting without any server-side redirect rules or `_redirects` file.
+
+### Environment variables
+
+No build-time environment variables are currently required. The API base URL defaults to what is configured in the app and can be overridden via `--dart-define=API_BASE_URL=...` if needed in future.
+
 ## Current limitations
 
 - authentication is not yet implemented,

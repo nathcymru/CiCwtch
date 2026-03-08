@@ -28,6 +28,7 @@
 - **Cloudflare D1** for relational data storage
 - **Cloudflare R2** for object/file storage (binding `CICWTCH_ATTACHMENTS` configured; attachment endpoints pending)
 - **GitHub Actions** for CI and documentation/privacy guardrails
+- **Cloudflare Pages** for Flutter web hosting (git-based deployment from `flutter/` directory)
 
 ## Current repository-level automation
 
@@ -35,6 +36,18 @@
 - `docs_guardrails.yml` enforces documentation updates on architecture-sensitive PRs
 - `scorecard.yml` provides repository security posture reporting
 - `privacy_compliance.yml` validates local Fides manifests and privacy documentation guardrails
+
+## Cloudflare Pages deployment
+
+The Flutter web app is deployed to Cloudflare Pages using git-based integration.
+
+| Setting            | Value                  |
+|--------------------|------------------------|
+| Root directory     | `flutter`              |
+| Build command      | `bash pages_build.sh`  |
+| Build output dir   | `build/web`            |
+
+`pages_build.sh` installs the Flutter stable SDK into the build environment and runs `flutter build web --release`. No additional redirect rules are required because the app uses hash-based routing.
 
 ## Local development shape
 
