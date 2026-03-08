@@ -4,6 +4,7 @@ import { ApiError } from "./errors";
 
 export interface Env {
   DB: D1Database;
+  CICWTCH_ATTACHMENTS: R2Bucket;
 }
 
 export default {
