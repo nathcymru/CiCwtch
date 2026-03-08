@@ -1,6 +1,6 @@
 import type { Env } from "../index";
 import { jsonOk, jsonError } from "../response";
-import { putAttachment, deleteAttachment } from "../storage";
+import { putAttachment, getAttachment, deleteAttachment } from "../storage";
 
 interface AttachmentRow {
   id: string;
@@ -13,6 +13,37 @@ interface AttachmentRow {
   file_size_bytes: number | null;
   created_at: string;
   updated_at: string;
+}
+
+export async function getAttachmentById(
+  _request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  const row = await env.DB.prepare(
+    "SELECT id, object_key, mime_type FROM attachments WHERE id = ?1",
+  )
+    .bind(params.id)
+    .first<{ id: string; object_key: string | null; mime_type: string | null }>();
+
+  if (!row) {
+    return jsonError("Attachment not found", "not_found", 404);
+  }
+
+  if (!row.object_key) {
+    return jsonError("Attachment object not found", "not_found", 404);
+  }
+
+  const r2Object = await getAttachment(env, row.object_key);
+
+  if (!r2Object) {
+    return jsonError("Attachment object not found", "not_found", 404);
+  }
+
+  const headers = new Headers();
+  headers.set("Content-Type", row.mime_type ?? "application/octet-stream");
+
+  return new Response(r2Object.body, { headers });
 }
 
 export async function createAttachment(

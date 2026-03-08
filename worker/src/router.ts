@@ -42,7 +42,7 @@ import {
   updateInvoiceLine,
   deleteInvoiceLine,
 } from "./handlers/invoice_lines";
-import { createAttachment } from "./handlers/attachments";
+import { createAttachment, getAttachmentById } from "./handlers/attachments";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -173,6 +173,13 @@ export async function route(
   if (pathname === "/api/v1/attachments") {
     if (method === "POST") return createAttachment(request, env);
     return methodNotAllowed(["POST"]);
+  }
+
+  const attachmentMatch = pathname.match(/^\/api\/v1\/attachments\/([^/]+)$/);
+  if (attachmentMatch) {
+    const params = { id: attachmentMatch[1] };
+    if (method === "GET") return getAttachmentById(request, env, params);
+    return methodNotAllowed(["GET"]);
   }
 
   return jsonError("Not found", "not_found", 404);
