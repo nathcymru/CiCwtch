@@ -48,6 +48,15 @@ This is intentionally lightweight. It is not a large enterprise state-management
 5. Worker validates input and uses D1 prepared statements.
 6. Worker returns JSON to the app.
 
+## Live API integration status
+
+The following features are fully wired to the deployed Workers API for list, create, update, and archive operations:
+
+- Clients
+- Dogs
+
+Each feature's data layer (repository) uses the shared `ApiClient` with the configured API base URL. The presentation layer shows loading indicators during requests, displays error states on failure, and refreshes the list after mutations. Dog-to-client relationships are preserved through the `client_id` foreign key in the domain model and API payloads.
+
 ## Navigation
 
 The app currently uses a shared shell with primary navigation for:
