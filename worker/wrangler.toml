@@ -40,7 +40,7 @@ name = "cicwtch-api"
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "cicwtch-db-production"
-database_id = "REPLACE_WITH_PRODUCTION_D1_ID"
+database_id = "fd43dbe6-e426-4431-8422-bd98124053ca"
 migrations_dir = "../migrations"
 
 [[env.production.r2_buckets]]
