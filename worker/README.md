@@ -83,8 +83,11 @@ Legacy compatibility remains for:
 cd worker
 npm ci
 npm run typecheck
+npm test
 npx wrangler dev
 ```
+
+`npm test` runs the [Vitest](https://vitest.dev/) test suite (currently covering CORS origin validation and preflight handling).
 
 ## Deployment
 
