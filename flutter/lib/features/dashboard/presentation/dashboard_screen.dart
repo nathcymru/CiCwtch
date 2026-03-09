@@ -5,8 +5,7 @@ import 'package:cicwtch/features/dashboard/application/dashboard_service.dart';
 import 'package:cicwtch/features/dashboard/data/dashboard_repository.dart';
 import 'package:cicwtch/features/dashboard/domain/dashboard_data.dart';
 import 'package:cicwtch/features/dashboard/presentation/dashboard_card.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
 
@@ -27,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    final api = ApiClient(baseUrl: ApiConfig.baseUrl);
+    final api = buildApiClient();
     _service = DashboardService(DashboardRepository(api));
     _load();
   }

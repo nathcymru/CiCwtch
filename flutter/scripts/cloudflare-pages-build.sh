@@ -29,6 +29,10 @@ if [ -n "${API_BASE_URL:-}" ]; then
   echo "    API_BASE_URL=$API_BASE_URL"
   BUILD_ARGS+=(--dart-define="API_BASE_URL=$API_BASE_URL")
 fi
+if [ -n "${API_BEARER_TOKEN:-}" ]; then
+  echo "    API_BEARER_TOKEN is set"
+  BUILD_ARGS+=(--dart-define="API_BEARER_TOKEN=$API_BEARER_TOKEN")
+fi
 flutter build web "${BUILD_ARGS[@]}"
 
 echo "==> Build complete. Output in build/web"

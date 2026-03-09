@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/dogs/application/dogs_service.dart';
 import 'package:cicwtch/features/dogs/data/dogs_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 
 import 'dog_create_screen.dart';
 import 'dog_detail_screen.dart';
@@ -20,7 +20,7 @@ class DogsListScreen extends StatefulWidget {
 
 class _DogsListScreenState extends State<DogsListScreen> {
   final _service = DogsService(
-    DogsRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    DogsRepository(buildApiClient()),
   );
 
   List<Dog> _dogs = [];
@@ -106,6 +106,28 @@ class _DogsListScreenState extends State<DogsListScreen> {
                     : null,
               ),
               onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.pets,
+                    label: 'Total dogs',
+                    value: _dogs.length.toString(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.search,
+                    label: 'Showing',
+                    value: _filteredDogs.length.toString(),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(child: _buildBody()),

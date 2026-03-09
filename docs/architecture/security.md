@@ -48,7 +48,7 @@ A minimal environment-token authentication layer protects all `/api/v1/*` routes
 - Middleware in `worker/src/middleware/auth.ts` validates the `Authorization: Bearer <token>` header.
 - The expected token is read from the `API_BEARER_TOKEN` environment variable (never hardcoded).
 - Health endpoints (`/health` and `/api/v1/health`) remain public.
-- Missing, malformed, or invalid tokens return a `401` JSON error response.
+- Missing, malformed, unconfigured, or invalid tokens return a `401` JSON error response.
 
 **Scope and limitations:**
 
@@ -69,6 +69,8 @@ echo "<token>" | npx wrangler secret put API_BEARER_TOKEN --env production
 ```bash
 curl -H "Authorization: Bearer my-dev-token" http://localhost:8787/api/v1/clients
 ```
+
+The Flutter web client can be configured with the same token using `--dart-define=API_BEARER_TOKEN=...` or the Cloudflare Pages `API_BEARER_TOKEN` environment variable.
 
 For full details, see the [Worker README](../../worker/README.md#authentication).
 

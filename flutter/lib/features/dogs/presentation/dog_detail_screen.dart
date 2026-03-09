@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/dogs/application/dogs_service.dart';
 import 'package:cicwtch/features/dogs/data/dogs_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
@@ -22,7 +21,7 @@ class DogDetailScreen extends StatefulWidget {
 
 class _DogDetailScreenState extends State<DogDetailScreen> {
   final _service = DogsService(
-    DogsRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    DogsRepository(buildApiClient()),
   );
 
   Dog? _dog;

@@ -20,10 +20,10 @@ describe("requireBearerToken — missing token", () => {
   it("returns a JSON error body when no Authorization header is present", async () => {
     const req = new Request(API_URL);
     const result = requireBearerToken(req, EXPECTED_TOKEN);
-    const body = await result!.json() as { error: { message: string; type: string } };
+    const body = await result!.json() as { error: { message: string; code: string } };
 
-    expect(body.error.type).toBe("unauthorized");
-    expect(body.error.message).toBe("Missing Authorization header");
+    expect(body.error.code).toBe("unauthorized");
+    expect(body.error.message).toBe("Missing or invalid bearer token");
   });
 });
 
@@ -47,10 +47,10 @@ describe("requireBearerToken — invalid token", () => {
       headers: { Authorization: "Basic abc123" },
     });
     const result = requireBearerToken(req, EXPECTED_TOKEN);
-    const body = await result!.json() as { error: { message: string; type: string } };
+    const body = await result!.json() as { error: { message: string; code: string } };
 
-    expect(body.error.type).toBe("unauthorized");
-    expect(body.error.message).toBe("Invalid Authorization header format");
+    expect(body.error.code).toBe("unauthorized");
+    expect(body.error.message).toBe("Missing or invalid bearer token");
   });
 
   it("returns 401 when bearer token does not match", () => {
@@ -68,10 +68,10 @@ describe("requireBearerToken — invalid token", () => {
       headers: { Authorization: "Bearer wrong-token" },
     });
     const result = requireBearerToken(req, EXPECTED_TOKEN);
-    const body = await result!.json() as { error: { message: string; type: string } };
+    const body = await result!.json() as { error: { message: string; code: string } };
 
-    expect(body.error.type).toBe("unauthorized");
-    expect(body.error.message).toBe("Invalid bearer token");
+    expect(body.error.code).toBe("unauthorized");
+    expect(body.error.message).toBe("Missing or invalid bearer token");
   });
 
   it("returns 401 when Bearer prefix is missing the space", () => {
@@ -125,14 +125,14 @@ describe("requireBearerToken — token not configured", () => {
     expect(result!.status).toBe(401);
   });
 
-  it("returns auth_not_configured error type when token is undefined", async () => {
+  it("returns unauthorized error code when token is undefined", async () => {
     const req = new Request(API_URL, {
       headers: { Authorization: "Bearer some-token" },
     });
     const result = requireBearerToken(req, undefined);
-    const body = await result!.json() as { error: { message: string; type: string } };
+    const body = await result!.json() as { error: { message: string; code: string } };
 
-    expect(body.error.type).toBe("auth_not_configured");
-    expect(body.error.message).toBe("Authentication is not configured");
+    expect(body.error.code).toBe("unauthorized");
+    expect(body.error.message).toBe("Missing or invalid bearer token");
   });
 });

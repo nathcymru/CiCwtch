@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/invoices/application/invoices_service.dart';
 import 'package:cicwtch/features/invoices/data/invoices_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 
 import 'package:cicwtch/shared/presentation/invoice_status_badge.dart';
 
@@ -22,7 +22,7 @@ class InvoicesListScreen extends StatefulWidget {
 
 class _InvoicesListScreenState extends State<InvoicesListScreen> {
   final _service = InvoicesService(
-    InvoicesRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    InvoicesRepository(buildApiClient()),
   );
 
   List<InvoiceHeader> _invoices = [];
@@ -109,6 +109,28 @@ class _InvoicesListScreenState extends State<InvoicesListScreen> {
                     : null,
               ),
               onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.receipt_long,
+                    label: 'Total invoices',
+                    value: _invoices.length.toString(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.pending_actions,
+                    label: 'Outstanding',
+                    value: _invoices.where((invoice) => invoice.status == 'issued').length.toString(),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(child: _buildBody()),

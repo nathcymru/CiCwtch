@@ -47,17 +47,17 @@ The Worker uses a minimal bearer-token authentication layer to protect API route
 
 - The middleware in `src/middleware/auth.ts` validates the `Authorization` header on protected routes.
 - Health endpoints (`/health` and `/api/v1/health`) remain public and require no token.
-- A missing or invalid token returns a `401` JSON error response.
+- A missing, malformed, unconfigured, or invalid token returns a `401` JSON error response with code `unauthorized` and message `Missing or invalid bearer token`.
 - The expected token is read from the `API_BEARER_TOKEN` environment variable (never hardcoded).
 
 **Error responses:**
 
-| Scenario | HTTP status | Error type |
+| Scenario | HTTP status | Error code |
 |---|---|---|
 | No `Authorization` header | 401 | `unauthorized` |
 | Header not in `Bearer <token>` format | 401 | `unauthorized` |
 | Token does not match | 401 | `unauthorized` |
-| `API_BEARER_TOKEN` not set in environment | 401 | `auth_not_configured` |
+| `API_BEARER_TOKEN` not set in environment | 401 | `unauthorized` |
 
 **Local development:**
 
@@ -68,7 +68,7 @@ cd worker
 echo "my-dev-token" | npx wrangler secret put API_BEARER_TOKEN --local
 ```
 
-Or create a `.dev.vars` file in the `worker/` directory:
+Or copy `worker/.dev.vars.example` to `.dev.vars` in the `worker/` directory and set your local token:
 
 ```
 API_BEARER_TOKEN=my-dev-token

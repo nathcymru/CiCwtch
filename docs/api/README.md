@@ -39,7 +39,7 @@ All business API routes are versioned under `/api/v1/` and return JSON only.
 {
   "error": {
     "message": "...",
-    "type": "..."
+    "code": "..."
   }
 }
 ```

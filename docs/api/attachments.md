@@ -70,7 +70,7 @@ Returns the raw file content with the stored `Content-Type` header.
 {
   "error": {
     "message": "Attachment not found",
-    "type": "not_found"
+    "code": "not_found"
   }
 }
 ```

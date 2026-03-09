@@ -3,4 +3,9 @@ class ApiConfig {
     'API_BASE_URL',
     defaultValue: 'https://cicwtch-api.nathcymru.workers.dev',
   );
+
+  static const String bearerToken = String.fromEnvironment(
+    'API_BEARER_TOKEN',
+    defaultValue: '',
+  );
 }

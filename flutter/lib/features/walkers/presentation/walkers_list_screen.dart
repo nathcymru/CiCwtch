@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/walkers/application/walkers_service.dart';
 import 'package:cicwtch/features/walkers/data/walkers_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 
 import 'walker_detail_screen.dart';
 import 'walker_create_screen.dart';
@@ -20,7 +20,7 @@ class WalkersListScreen extends StatefulWidget {
 
 class _WalkersListScreenState extends State<WalkersListScreen> {
   final _service = WalkersService(
-    WalkersRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    WalkersRepository(buildApiClient()),
   );
 
   List<Walker> _walkers = [];
@@ -107,6 +107,28 @@ class _WalkersListScreenState extends State<WalkersListScreen> {
                     : null,
               ),
               onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.badge,
+                    label: 'Total walkers',
+                    value: _walkers.length.toString(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.search,
+                    label: 'Showing',
+                    value: _filteredWalkers.length.toString(),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(child: _buildBody()),

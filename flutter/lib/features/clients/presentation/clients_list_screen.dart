@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/clients/application/clients_service.dart';
 import 'package:cicwtch/features/clients/data/clients_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 
 import 'client_detail_screen.dart';
 import 'client_create_screen.dart';
@@ -20,7 +20,7 @@ class ClientsListScreen extends StatefulWidget {
 
 class _ClientsListScreenState extends State<ClientsListScreen> {
   final _service = ClientsService(
-    ClientsRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    ClientsRepository(buildApiClient()),
   );
 
   List<Client> _clients = [];
@@ -107,6 +107,28 @@ class _ClientsListScreenState extends State<ClientsListScreen> {
                     : null,
               ),
               onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.people,
+                    label: 'Total clients',
+                    value: _clients.length.toString(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.search,
+                    label: 'Showing',
+                    value: _filteredClients.length.toString(),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(child: _buildBody()),

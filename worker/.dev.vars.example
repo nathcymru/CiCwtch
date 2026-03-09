@@ -1,0 +1,3 @@
+# Local Wrangler development secrets for CiCwtch Worker
+# Copy to .dev.vars and replace with a real local-only secret.
+API_BEARER_TOKEN=replace-with-a-long-random-local-dev-token

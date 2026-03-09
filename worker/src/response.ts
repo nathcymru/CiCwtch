@@ -9,11 +9,11 @@ export function jsonOk(body: unknown, status = 200): Response {
 
 export function jsonError(
   message: string,
-  type: string,
+  code: string,
   status: number,
 ): Response {
   return new Response(
-    JSON.stringify({ error: { message, type } }),
+    JSON.stringify({ error: { code, message } }),
     { status, headers: JSON_HEADERS },
   );
 }

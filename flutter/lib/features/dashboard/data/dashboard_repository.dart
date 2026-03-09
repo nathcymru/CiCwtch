@@ -7,8 +7,7 @@ class DashboardRepository {
   final ApiClient _api;
 
   Future<DashboardData> getDashboard() async {
-    final json =
-        await _api.get('/api/v1/dashboard') as Map<String, dynamic>;
+    final json = await _api.get('/api/v1/dashboard') as Map<String, dynamic>;
     return DashboardData.fromJson(json);
   }
 }

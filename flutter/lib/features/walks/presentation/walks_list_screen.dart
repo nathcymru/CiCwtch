@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/walks/application/walks_service.dart';
 import 'package:cicwtch/features/walks/data/walks_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
+import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 import 'package:cicwtch/shared/presentation/walk_status_badge.dart';
 
 import 'walk_create_screen.dart';
@@ -21,7 +21,7 @@ class WalksListScreen extends StatefulWidget {
 
 class _WalksListScreenState extends State<WalksListScreen> {
   final _service = WalksService(
-    WalksRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    WalksRepository(buildApiClient()),
   );
 
   List<Walk> _walks = [];
@@ -120,6 +120,28 @@ class _WalksListScreenState extends State<WalksListScreen> {
                     : null,
               ),
               onChanged: (value) => setState(() => _searchQuery = value),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.directions_walk,
+                    label: 'Total walks',
+                    value: _walks.length.toString(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: SummaryMetricCard(
+                    icon: Icons.filter_alt,
+                    label: 'Filtered',
+                    value: _filteredWalks.length.toString(),
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(

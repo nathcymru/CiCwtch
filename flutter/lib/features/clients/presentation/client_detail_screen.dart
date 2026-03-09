@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/clients/application/clients_service.dart';
 import 'package:cicwtch/features/clients/data/clients_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
@@ -22,7 +21,7 @@ class ClientDetailScreen extends StatefulWidget {
 
 class _ClientDetailScreenState extends State<ClientDetailScreen> {
   final _service = ClientsService(
-    ClientsRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    ClientsRepository(buildApiClient()),
   );
 
   Client? _client;

@@ -5,14 +5,27 @@ import 'package:http/http.dart' as http;
 import 'api_exception.dart';
 
 class ApiClient {
-  ApiClient({required this.baseUrl});
+  ApiClient({required this.baseUrl, this.bearerToken});
 
   final String baseUrl;
+  final String? bearerToken;
 
-  static const _headers = {
+  static const _defaultHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
+
+  Map<String, String> get _headers {
+    final token = bearerToken?.trim() ?? '';
+    if (token.isEmpty) {
+      return Map<String, String>.from(_defaultHeaders);
+    }
+
+    return {
+      ..._defaultHeaders,
+      'Authorization': 'Bearer $token',
+    };
+  }
 
   Future<dynamic> get(String path) async {
     final response = await http.get(

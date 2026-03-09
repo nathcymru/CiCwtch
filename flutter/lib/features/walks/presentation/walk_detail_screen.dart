@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/features/walks/application/walks_service.dart';
 import 'package:cicwtch/features/walks/data/walks_repository.dart';
-import 'package:cicwtch/shared/data/api_client.dart';
-import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
@@ -24,7 +23,7 @@ class WalkDetailScreen extends StatefulWidget {
 
 class _WalkDetailScreenState extends State<WalkDetailScreen> {
   final _service = WalksService(
-    WalksRepository(ApiClient(baseUrl: ApiConfig.baseUrl)),
+    WalksRepository(buildApiClient()),
   );
 
   Walk? _walk;
