@@ -187,6 +187,15 @@ NFR-030 Cached data viewing. NFR-031 Offline write queue.
 
 NFR-040 Text scaling. NFR-041 Keyboard navigation.
 
+## Multi-Tenancy
+
+NFR-050 Platform must support multiple independent tenant organisations.
+NFR-051 Every core business table must include `organisation_id`.
+NFR-052 All API queries for tenant-owned data must filter by
+`organisation_id`. NFR-053 Cross-tenant data access must be
+architecturally prevented. NFR-054 `organisation_id` must be indexed on
+all tenant-owned tables where appropriate.
+
 ------------------------------------------------------------------------
 
 # 6. UI Requirements
@@ -204,7 +213,9 @@ UIR-003 Forms include validation and error states.
 # 7. Data Storage
 
 DSR-001 Repository pattern single source of truth. DSR-002 Data models
-versioned.
+versioned. DSR-003 All tenant-owned data tables must include
+`organisation_id`. DSR-004 `organisation_id` must be applied from initial
+table creation, not retrofitted.
 
 ------------------------------------------------------------------------
 
@@ -245,6 +256,25 @@ invoice → apply voucher → view rewards
 AI must: - generate a full Flutter project - enforce clean
 architecture - avoid non-Flutter UI frameworks - implement production
 grade routing, storage and authentication
+
+------------------------------------------------------------------------
+
+# 12. Multi-Tenancy
+
+CiCwtch is a multi-tenant platform. Each tenant is an independent
+dog-walking business, represented by an `organisations` record.
+
+Rules:
+
+- Every core business table **must** include `organisation_id TEXT NOT NULL`.
+- All business data must be scoped to an organisation.
+- All queries must enforce organisation-level isolation using `WHERE organisation_id = ?`.
+- Cross-tenant data leakage must be impossible by design.
+
+See `docs/architecture/multi-tenant-model.md` for the full schema
+pattern, query rules, tenant vs global table distinction, and migration
+guidance.
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

@@ -44,6 +44,10 @@ If a migration changes personal data, storage structure, or deletion/retention b
 - `docs/gdpr/`
 - `.fides/`
 
+## Multi-tenancy migration rule
+
+All migrations for new tenant-owned tables must include `organisation_id TEXT NOT NULL` in the initial `CREATE TABLE` statement. Do not create tenant tables without it. See `docs/architecture/multi-tenant-model.md` for the required schema pattern.
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

@@ -41,6 +41,9 @@ This repository now explicitly treats stale architecture documentation as a defe
 ### A6. Privacy inventory starts in-repo
 Fides manifests are stored in-repo so data mapping evolves with the schema instead of becoming archaeological guesswork later.
 
+### A7. CiCwtch is a multi-tenant platform
+Every dog-walking business using CiCwtch is a separate tenant. All core business tables must include `organisation_id` to enforce data isolation. This is a platform rule from which no deviation is permitted. See [multi-tenant-model.md](multi-tenant-model.md).
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

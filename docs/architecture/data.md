@@ -48,6 +48,12 @@ Invoice lines do not currently use soft deletion and are hard-deleted.
 
 The schema already includes `attachments` and `audit_log` tables, but Phase 1 does not yet expose full attachment handling or systematic audit-log writing from the Worker.
 
+## Multi-tenancy
+
+CiCwtch is a multi-tenant platform. Every core business table must include `organisation_id`. See [multi-tenant-model.md](multi-tenant-model.md) for the full schema pattern, query rules, and migration guidance.
+
+The current Phase 1 schema in `migrations/0001_initial_schema.sql` predates the formal multi-tenant rule and does not yet include `organisation_id` on existing tables. A future migration will add `organisation_id` to existing tables as part of the multi-tenant onboarding work.
+
 ## Privacy note
 
 The schema already stores personal data such as names, phones, emails, addresses, notes, and operational care notes. That is why `docs/gdpr/` and `.fides/` now exist and must be kept current when the schema changes.

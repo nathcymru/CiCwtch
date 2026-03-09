@@ -32,6 +32,7 @@ The detailed architecture documents are maintained under [`docs/architecture/`](
 - [Security architecture](architecture/security.md)
 - [Architecture decisions](architecture/decisions.md)
 - [Architecture diagrams](architecture/diagrams.md)
+- [Multi-tenant data model](architecture/multi-tenant-model.md)
 
 ## Source-of-truth rule
 
