@@ -2,12 +2,14 @@
  * CORS handling for the CiCwtch Workers API.
  *
  * Allows requests from Cloudflare Pages preview deployments,
- * the production Pages domain, and localhost for local development.
+ * the production Pages domain, the production app domain,
+ * and localhost for local development.
  */
 
 const ALLOWED_ORIGIN_PATTERNS: RegExp[] = [
   /^https:\/\/[a-z0-9]+(?:-[a-z0-9]+)*\.cicwtch\.pages\.dev$/,
   /^https:\/\/cicwtch\.pages\.dev$/,
+  /^https:\/\/cicwtch\.app$/,
   /^http:\/\/localhost(:\d+)?$/,
 ];
 
@@ -52,5 +54,6 @@ export function withCorsHeaders(
 
   const newResponse = new Response(response.body, response);
   newResponse.headers.set("Access-Control-Allow-Origin", origin);
+  newResponse.headers.set("Vary", "Origin");
   return newResponse;
 }
