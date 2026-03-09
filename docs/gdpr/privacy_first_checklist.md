@@ -31,6 +31,20 @@
 
 Use this checklist whenever a feature changes collection, storage, export, sharing, or deletion of personal data.
 
+
+## v0.3.0 release note trigger
+
+When a change touches any of the following paths, treat it as privacy-sensitive and update `docs/gdpr/` or `.fides/` in the same PR:
+
+- `flutter/lib/features/**`
+- `flutter/lib/shared/domain/models/**`
+- `worker/src/handlers/**`
+- `worker/src/router.ts`
+- `migrations/**`
+
+This includes presentation-only Flutter changes. User-facing screens still process personal data, and the guardrail is intentionally strict so privacy documentation does not drift off into the hedges.
+
+
 - What personal data is introduced or changed?
 - Which table, object store, or API field carries it?
 - Is the data actually necessary?

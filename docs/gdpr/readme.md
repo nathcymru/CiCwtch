@@ -54,6 +54,26 @@ The multi-tenant model is relevant to GDPR/privacy documentation because:
 
 See [`docs/architecture/multi-tenant-model.md`](../architecture/multi-tenant-model.md) for the full schema pattern and query rules.
 
+
+## v0.3.0 pre-release privacy update
+
+The v0.3.0 pre-release changes extend Flutter presentation and dashboard access paths for clients, dogs, walks, walkers, and invoices. Those screens handle personal and operational data already described in the RoPA and privacy checklist, so this release records the privacy impact explicitly rather than pretending the UI layer is magically exempt.
+
+**Privacy impact noted for this release:**
+
+- Flutter presentation screens expose personal data fields for clients, dogs, walkers, walks, and invoices.
+- The dashboard repository requests aggregated operational metrics from the API rather than introducing a separate shadow data source.
+- The Worker API now supports minimal bearer-token protection for `/api/v1/*` routes to reduce accidental exposure of personal and operational data in early-stage hosted environments.
+- No new external processor or third-country transfer has been introduced by this release.
+- No change to the current retention schedule is claimed by this release.
+
+**Required follow-on controls remain:**
+
+- full user authentication and authorisation,
+- per-tenant enforcement tied to authenticated identity,
+- automated retention and erasure workflows,
+- attachment-specific privacy controls once file handling goes live.
+
 ## Current status
 
 - personal data is already present in the D1 schema,
