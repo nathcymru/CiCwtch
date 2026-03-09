@@ -1,5 +1,6 @@
 import type { Env } from "./index";
 import { jsonOk, jsonError } from "./response";
+import { requireBearerToken } from "./middleware/auth";
 import {
   listClients,
   getClient,
@@ -77,9 +78,14 @@ export async function route(
   const { pathname } = url;
   const method = request.method;
 
+  // Health endpoints are public — no auth required
   if (pathname === "/health" || pathname === "/api/v1/health") {
     return handleHealth();
   }
+
+  // All routes below require a valid bearer token
+  const denied = requireBearerToken(request, env.API_BEARER_TOKEN);
+  if (denied) return denied;
 
   if (pathname === "/api/v1/dashboard") {
     if (method === "GET") return getDashboard(request, env);
