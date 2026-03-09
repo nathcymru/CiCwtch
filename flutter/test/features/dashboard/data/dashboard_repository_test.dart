@@ -97,7 +97,7 @@ void main() {
       );
     });
 
-    test('does not catch or suppress errors (no fallback logic)', () async {
+    test('propagates network errors to caller', () async {
       final api = _FakeApiClient(
         exception: Exception('Network error'),
       );
