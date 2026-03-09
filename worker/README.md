@@ -66,6 +66,40 @@ npm run typecheck
 npx wrangler dev
 ```
 
+## Deployment
+
+The live API Worker is named **`cicwtch-api`** and is served at:
+
+**https://cicwtch-api.nathcymru.workers.dev**
+
+### Deploy to production
+
+Before deploying, ensure the production D1 database ID and R2 bucket name are set in `wrangler.toml` under `[env.production]`.
+
+```bash
+cd worker
+npm run deploy
+```
+
+This runs `wrangler deploy --env production`, which targets the `cicwtch-api` Worker.
+
+### Deploy to staging
+
+```bash
+cd worker
+npm run deploy:staging
+```
+
+This runs `wrangler deploy --env staging`, which targets `cicwtch-api-staging`.
+
+### Environment summary
+
+| Environment | Worker name          | URL                                              |
+|-------------|----------------------|--------------------------------------------------|
+| Local dev   | (local)              | http://localhost:8787                             |
+| Staging     | `cicwtch-api-staging`| https://cicwtch-api-staging.nathcymru.workers.dev |
+| Production  | `cicwtch-api`        | https://cicwtch-api.nathcymru.workers.dev         |
+
 ## Security note
 
 This Worker is still pre-auth. Treat it as development-stage until authentication and authorisation are implemented.

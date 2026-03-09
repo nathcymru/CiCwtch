@@ -33,8 +33,9 @@ binding = "CICWTCH_ATTACHMENTS"
 bucket_name = "cicwtch-attachments-staging"
 
 # ── Production environment ─────────────────────────────────────────────
+# Deploys to the live Worker: cicwtch-api.nathcymru.workers.dev
 [env.production]
-name = "cicwtch-api-production"
+name = "cicwtch-api"
 
 [[env.production.d1_databases]]
 binding = "DB"
