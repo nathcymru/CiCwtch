@@ -34,6 +34,7 @@
 - `src/response.ts` — JSON success/error helpers
 - `src/errors.ts` — typed API errors
 - `src/handlers/` — resource handlers for current endpoints
+- `src/services/` — reusable backend services (invoice calculation, etc.)
 - `src/storage.ts` — R2 attachment helpers (put, get, delete)
 
 ## CORS handling
@@ -88,7 +89,7 @@ npm test
 npx wrangler dev
 ```
 
-`npm test` runs the [Vitest](https://vitest.dev/) test suite (currently covering CORS origin validation and preflight handling).
+`npm test` runs the [Vitest](https://vitest.dev/) test suite (currently covering CORS origin validation, preflight handling, dashboard aggregation, and invoice total calculation).
 
 ## Deployment
 
