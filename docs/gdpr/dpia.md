@@ -53,7 +53,8 @@ CiCwtch handles operational data about individuals and may process care notes, c
 - explicit JSON API routes,
 - code/documentation guardrails in CI,
 - schema inventory documented in-repo,
-- initial privacy data mapping via Fides manifests.
+- initial privacy data mapping via Fides manifests,
+- dashboard aggregation endpoint returns only summary counts, not personal data.
 
 ## Required next mitigations
 
