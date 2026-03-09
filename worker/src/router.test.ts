@@ -89,6 +89,10 @@ describe("route dashboard endpoint", () => {
     const response = await route(request, createEnv());
 
     expect(response.status).toBe(200);
+
+    const contentType = response.headers.get("Content-Type");
+    expect(contentType).toBe("application/json");
+
     await expect(response.json()).resolves.toEqual({
       clients: { total: 5 },
       dogs: { total: 12 },
@@ -96,5 +100,19 @@ describe("route dashboard endpoint", () => {
       walkers: { total: 4 },
       invoices: { total: 15, outstanding: 2 },
     });
+  });
+
+  it("returns 405 when dashboard is called with non-GET method", async () => {
+    const request = new Request("https://example.com/api/v1/dashboard", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer test-secret-token",
+      },
+    });
+
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(405);
+    expect(response.headers.get("Allow")).toBe("GET");
   });
 });
