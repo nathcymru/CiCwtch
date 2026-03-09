@@ -28,12 +28,32 @@
 
 ## Current API modules
 
-- `src/index.ts` — Worker entrypoint and top-level error handling
+- `src/index.ts` — Worker entrypoint, top-level error handling, CORS integration
+- `src/cors.ts` — shared CORS origin validation, preflight handling, response header helpers
 - `src/router.ts` — route dispatch and health endpoints
 - `src/response.ts` — JSON success/error helpers
 - `src/errors.ts` — typed API errors
 - `src/handlers/` — resource handlers for current endpoints
 - `src/storage.ts` — R2 attachment helpers (put, get, delete)
+
+## CORS handling
+
+The Worker includes centralised CORS handling in `src/cors.ts` so that browser-based requests from the Cloudflare Pages frontend are permitted.
+
+**How it works:**
+
+- `OPTIONS` preflight requests are intercepted in `src/index.ts` before routing and return `204` with `Access-Control-Allow-Origin`, `Access-Control-Allow-Methods`, `Access-Control-Allow-Headers`, and `Access-Control-Max-Age`.
+- All other responses pass through `withCorsHeaders()` which attaches `Access-Control-Allow-Origin` and `Vary: Origin` for allowed origins.
+- Requests from unrecognised origins receive no CORS headers; the browser blocks the response.
+
+**Allowed origins:**
+
+| Pattern | Purpose |
+|---|---|
+| `https://<hash>.cicwtch.pages.dev` | Cloudflare Pages preview deployments |
+| `https://cicwtch.pages.dev` | Cloudflare Pages production |
+| `https://cicwtch.app` | Production custom domain |
+| `http://localhost[:port]` | Local development |
 
 ## Current resources
 
