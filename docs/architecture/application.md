@@ -55,6 +55,7 @@ The following features are fully wired to the deployed Workers API for list, cre
 - Clients
 - Dogs
 - Walks
+- Walkers
 
 Each feature's data layer (repository) uses the shared `ApiClient` with the configured API base URL. The presentation layer shows loading indicators during requests, displays error states on failure, and refreshes the list after mutations. Dog-to-client relationships are preserved through the `client_id` foreign key in the domain model and API payloads. Walk records reference clients, dogs, and optionally walkers through their respective foreign keys.
 

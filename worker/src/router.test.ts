@@ -32,6 +32,39 @@ function createEnv(): Env {
   };
 }
 
+describe("route clients endpoint", () => {
+  it("returns 401 when clients auth header is missing", async () => {
+    const request = new Request("https://example.com/api/v1/clients");
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toEqual({
+      error: {
+        code: "unauthorized",
+        message: "Missing or invalid bearer token",
+      },
+    });
+  });
+
+  it("returns JSON client list when auth header is valid", async () => {
+    const request = new Request("https://example.com/api/v1/clients", {
+      headers: {
+        Authorization: "Bearer test-secret-token",
+      },
+    });
+
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(200);
+
+    const contentType = response.headers.get("Content-Type");
+    expect(contentType).toBe("application/json");
+
+    const body = await response.json();
+    expect(Array.isArray(body)).toBe(true);
+  });
+});
+
 describe("route dashboard endpoint", () => {
   it("returns 401 when dashboard auth header is missing", async () => {
     const request = new Request("https://example.com/api/v1/dashboard");
