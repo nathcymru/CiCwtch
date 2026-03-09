@@ -96,6 +96,10 @@ The following remain planned rather than live:
 
 This document should describe the code that exists, not the code everyone wishes existed after a strong cup of tea.
 
+## Platform rules
+
+CiCwtch is a multi-tenant platform. The multi-tenant database schema pattern is a core architectural rule. See [multi-tenant-model.md](multi-tenant-model.md).
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

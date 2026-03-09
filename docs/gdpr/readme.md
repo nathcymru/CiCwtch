@@ -42,13 +42,26 @@ It is not a claim that the product is fully GDPR-complete. It is the place where
 - [CNIL gap audit](cnil_gap_audit.md)
 - [Privacy-first checklist](privacy_first_checklist.md)
 
+## Multi-tenant data model
+
+CiCwtch is a multi-tenant platform. Each tenant (dog-walking business) is an independent `organisations` record. All core business tables must include `organisation_id` to enforce data isolation between tenants. This is a platform rule.
+
+The multi-tenant model is relevant to GDPR/privacy documentation because:
+
+- personal data is scoped per organisation — one tenant cannot access another tenant's data,
+- retention, erasure, and DSAR obligations must be evaluated per organisation,
+- future DPIA and RoPA updates should account for the organisation-level data boundary.
+
+See [`docs/architecture/multi-tenant-model.md`](../architecture/multi-tenant-model.md) for the full schema pattern and query rules.
+
 ## Current status
 
 - personal data is already present in the D1 schema,
 - authentication is not yet implemented,
 - retention enforcement is not yet automated,
 - attachment/R2 workflows are not yet live,
-- DSAR operations are documented but not fully automated.
+- DSAR operations are documented but not fully automated,
+- Phase 1 schema predates the formal multi-tenant rule; `organisation_id` will be added to existing tables in a future migration.
 
 ---
 <p align="center">
