@@ -25,17 +25,72 @@
 |---|---|---|
 | `DB` | D1 Database | Relational data storage |
 | `CICWTCH_ATTACHMENTS` | R2 Bucket | Attachment/file object storage |
+| `API_BEARER_TOKEN` | Secret (env var) | Bearer token for API authentication |
 
 ## Current API modules
 
 - `src/index.ts` — Worker entrypoint, top-level error handling, CORS integration
 - `src/cors.ts` — shared CORS origin validation, preflight handling, response header helpers
-- `src/router.ts` — route dispatch and health endpoints
+- `src/router.ts` — route dispatch, health endpoints, and auth gate for protected routes
 - `src/response.ts` — JSON success/error helpers
 - `src/errors.ts` — typed API errors
 - `src/handlers/` — resource handlers for current endpoints
+- `src/middleware/` — reusable middleware (bearer-token auth)
 - `src/services/` — reusable backend services (invoice calculation, etc.)
 - `src/storage.ts` — R2 attachment helpers (put, get, delete)
+
+## Authentication
+
+The Worker uses a minimal bearer-token authentication layer to protect API routes. All routes except health endpoints require a valid `Authorization: Bearer <token>` header.
+
+**How it works:**
+
+- The middleware in `src/middleware/auth.ts` validates the `Authorization` header on protected routes.
+- Health endpoints (`/health` and `/api/v1/health`) remain public and require no token.
+- A missing or invalid token returns a `401` JSON error response.
+- The expected token is read from the `API_BEARER_TOKEN` environment variable (never hardcoded).
+
+**Error responses:**
+
+| Scenario | HTTP status | Error type |
+|---|---|---|
+| No `Authorization` header | 401 | `unauthorized` |
+| Header not in `Bearer <token>` format | 401 | `unauthorized` |
+| Token does not match | 401 | `unauthorized` |
+| `API_BEARER_TOKEN` not set in environment | 401 | `auth_not_configured` |
+
+**Local development:**
+
+Set the token as a secret when running locally with Wrangler:
+
+```bash
+cd worker
+echo "my-dev-token" | npx wrangler secret put API_BEARER_TOKEN --local
+```
+
+Or create a `.dev.vars` file in the `worker/` directory:
+
+```
+API_BEARER_TOKEN=my-dev-token
+```
+
+Then include the token in requests:
+
+```bash
+curl -H "Authorization: Bearer my-dev-token" http://localhost:8787/api/v1/clients
+```
+
+**Deployed environments (staging / production):**
+
+Set the secret via Wrangler:
+
+```bash
+# Staging
+echo "<token>" | npx wrangler secret put API_BEARER_TOKEN --env staging
+
+# Production
+echo "<token>" | npx wrangler secret put API_BEARER_TOKEN --env production
+```
 
 ## CORS handling
 
@@ -89,7 +144,7 @@ npm test
 npx wrangler dev
 ```
 
-`npm test` runs the [Vitest](https://vitest.dev/) test suite (currently covering CORS origin validation, preflight handling, dashboard aggregation, and invoice total calculation).
+`npm test` runs the [Vitest](https://vitest.dev/) test suite (currently covering CORS origin validation, preflight handling, bearer-token authentication, dashboard aggregation, and invoice total calculation).
 
 ## Deployment
 
@@ -127,7 +182,7 @@ This runs `wrangler deploy --env staging`, which targets `cicwtch-api-staging`.
 
 ## Security note
 
-This Worker is still pre-auth. Treat it as development-stage until authentication and authorisation are implemented.
+Protected API routes require a valid bearer token via the `Authorization` header. The token is sourced from the `API_BEARER_TOKEN` environment variable (set as a Wrangler secret for deployed environments). This is a minimal early-stage auth layer — full user authentication and authorisation are planned for a future release.
 
 ---
 <p align="center">

@@ -6,6 +6,7 @@ import { handlePreflight, withCorsHeaders } from "./cors";
 export interface Env {
   DB: D1Database;
   CICWTCH_ATTACHMENTS: R2Bucket;
+  API_BEARER_TOKEN?: string;
 }
 
 export default {

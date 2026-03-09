@@ -35,8 +35,8 @@ CiCwtch handles operational data about individuals and may process care notes, c
 
 ## Current risk themes
 
-1. **Unauthenticated API access**
-   The current Worker API does not yet implement authentication or authorisation.
+1. **API access control**
+   The Worker API now requires a valid bearer token on all protected routes (v0.3.0). Health endpoints remain public. Full user-level authentication and role-based authorisation are not yet implemented.
 
 2. **Operational notes containing special or sensitive context**
    Free-text notes may contain medical, behavioural, or care-related context.
@@ -51,6 +51,7 @@ CiCwtch handles operational data about individuals and may process care notes, c
 
 - prepared D1 statements,
 - explicit JSON API routes,
+- bearer-token authentication on protected API routes (environment-sourced secret, not hardcoded),
 - code/documentation guardrails in CI,
 - schema inventory documented in-repo,
 - initial privacy data mapping via Fides manifests,
@@ -58,7 +59,7 @@ CiCwtch handles operational data about individuals and may process care notes, c
 
 ## Required next mitigations
 
-- implement authentication and role-based access control,
+- implement user-level authentication and role-based access control,
 - define production session controls,
 - implement attachment/R2 access policy,
 - add retention jobs and erasure workflows,
