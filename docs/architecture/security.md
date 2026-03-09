@@ -37,12 +37,46 @@
 - CI checks for Flutter and Worker code quality
 - documentation guardrails for architecture-sensitive changes
 - initial privacy inventory scaffolding through Fides manifests
+- minimal bearer-token authentication on protected API routes (v0.3.0)
+
+## Bearer token authentication (v0.3.0)
+
+A minimal environment-token authentication layer protects all `/api/v1/*` routes except the health endpoint. This is intentionally lightweight and is **not** full user authentication or RBAC.
+
+**How it works:**
+
+- Middleware in `worker/src/middleware/auth.ts` validates the `Authorization: Bearer <token>` header.
+- The expected token is read from the `API_BEARER_TOKEN` environment variable (never hardcoded).
+- Health endpoints (`/health` and `/api/v1/health`) remain public.
+- Missing, malformed, or invalid tokens return a `401` JSON error response.
+
+**Scope and limitations:**
+
+This layer provides early-stage environment protection only. It does not implement user accounts, sessions, passwords, JWTs, OAuth, refresh tokens, or role-based access control.
+
+**Setting the token:**
+
+```bash
+# Local development — create worker/.dev.vars
+API_BEARER_TOKEN=my-dev-token
+
+# Deployed environments — use Wrangler secrets
+echo "<token>" | npx wrangler secret put API_BEARER_TOKEN --env production
+```
+
+**Example request:**
+
+```bash
+curl -H "Authorization: Bearer my-dev-token" http://localhost:8787/api/v1/clients
+```
+
+For full details, see the [Worker README](../../worker/README.md#authentication).
 
 ## Known security gaps
 
 The following are **not yet implemented** and must not be described as done elsewhere:
 
-- authentication
+- full user authentication and authorisation
 - role-based access control
 - user/session management
 - per-tenant access segregation
@@ -52,7 +86,7 @@ The following are **not yet implemented** and must not be described as done else
 
 ## Practical rule
 
-Until authentication exists, assume the current API is development-stage only and should not be deployed as a public multi-user production service.
+The current bearer-token layer provides basic environment protection but is not a substitute for full user authentication. The API should not be deployed as a public multi-user production service until proper user authentication and per-tenant access control are in place.
 
 ---
 <p align="center">
