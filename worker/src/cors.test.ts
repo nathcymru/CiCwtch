@@ -53,6 +53,13 @@ describe("getAllowedOrigin", () => {
     expect(getAllowedOrigin(req)).toBeNull();
   });
 
+  it("returns null for an empty Origin header", () => {
+    const req = new Request("https://cicwtch-api.nathcymru.workers.dev/api/v1/clients", {
+      headers: { Origin: "" },
+    });
+    expect(getAllowedOrigin(req)).toBeNull();
+  });
+
   it("returns null for an unrecognised origin", () => {
     const req = new Request("https://cicwtch-api.nathcymru.workers.dev/api/v1/clients", {
       headers: { Origin: "https://evil.example.com" },
