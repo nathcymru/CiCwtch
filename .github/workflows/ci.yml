@@ -62,7 +62,7 @@ jobs:
         run: flutter build web --release
 
   worker-typecheck:
-    name: Worker typecheck
+    name: Worker typecheck and test
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -83,3 +83,6 @@ jobs:
 
       - name: Typecheck Worker
         run: npm run typecheck
+
+      - name: Run Worker tests
+        run: npm test
