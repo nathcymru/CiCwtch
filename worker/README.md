@@ -64,6 +64,7 @@ The Worker includes centralised CORS handling in `src/cors.ts` so that browser-b
 - invoice headers / invoices
 - invoice lines
 - attachments
+- dashboard (read-only aggregate summary)
 
 ## Routing note
 

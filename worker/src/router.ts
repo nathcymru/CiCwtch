@@ -43,6 +43,7 @@ import {
   deleteInvoiceLine,
 } from "./handlers/invoice_lines";
 import { createAttachment, getAttachmentById } from "./handlers/attachments";
+import { getDashboard } from "./handlers/dashboard";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -78,6 +79,11 @@ export async function route(
 
   if (pathname === "/health" || pathname === "/api/v1/health") {
     return handleHealth();
+  }
+
+  if (pathname === "/api/v1/dashboard") {
+    if (method === "GET") return getDashboard(request, env);
+    return methodNotAllowed(["GET"]);
   }
 
   if (pathname === "/api/v1/clients") {
