@@ -69,6 +69,15 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 - **Processing flow:** upload stores metadata in D1 and object in R2; retrieval resolves attachment ID → D1 metadata → R2 object and returns file content.
 - **Access:** currently unauthenticated; authentication must be added before production use.
 
+### Dashboard aggregation
+- **Purpose:** provide summary-level operational counts for the dashboard screen.
+- **Data subjects:** none directly — the endpoint returns only aggregate counts, not individual records.
+- **Categories of data:** numeric totals derived from clients, dogs, walks, walkers, and invoice_headers tables.
+- **Storage:** no additional storage; reads existing D1 tables.
+- **Processing flow:** `GET /api/v1/dashboard` executes `COUNT(*)` queries against existing tables, excluding archived records, and returns a JSON object of totals.
+- **Access:** currently unauthenticated; authentication must be added before production use.
+- **Retention:** no data is stored by this endpoint; it is read-only.
+
 ## International transfer and hosting note
 
 The project uses Cloudflare services. Deployment geography, transfer tooling, and any future R2 object storage usage must be reviewed before production processing of live customer data.
