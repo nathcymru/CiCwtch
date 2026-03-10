@@ -20,6 +20,9 @@ void main() {
         'medical_notes': 'Allergy to chicken',
         'behavioural_notes': 'Friendly with other dogs',
         'feeding_notes': 'Twice daily, grain-free',
+        'avatar_object_key': 'dogs/550e8400-e29b-41d4-a716-446655440000/avatar/original.jpg',
+        'profile_photo_object_key': 'dogs/550e8400-e29b-41d4-a716-446655440000/profile/original.jpg',
+        'nose_print_object_key': 'dogs/550e8400-e29b-41d4-a716-446655440000/nose-print/original.jpg',
         'archived_at': null,
         'created_at': '2024-01-15T10:30:00.000Z',
         'updated_at': '2024-01-15T10:30:00.000Z',
@@ -42,6 +45,9 @@ void main() {
       expect(dog.medicalNotes, 'Allergy to chicken');
       expect(dog.behaviouralNotes, 'Friendly with other dogs');
       expect(dog.feedingNotes, 'Twice daily, grain-free');
+      expect(dog.avatarObjectKey, 'dogs/550e8400-e29b-41d4-a716-446655440000/avatar/original.jpg');
+      expect(dog.profilePhotoObjectKey, 'dogs/550e8400-e29b-41d4-a716-446655440000/profile/original.jpg');
+      expect(dog.nosePrintObjectKey, 'dogs/550e8400-e29b-41d4-a716-446655440000/nose-print/original.jpg');
       expect(dog.archivedAt, isNull);
       expect(dog.createdAt, '2024-01-15T10:30:00.000Z');
       expect(dog.updatedAt, '2024-01-15T10:30:00.000Z');
@@ -64,6 +70,9 @@ void main() {
         'medical_notes': null,
         'behavioural_notes': null,
         'feeding_notes': null,
+        'avatar_object_key': null,
+        'profile_photo_object_key': null,
+        'nose_print_object_key': null,
         'archived_at': null,
         'created_at': '2024-06-01T00:00:00.000Z',
         'updated_at': '2024-06-01T00:00:00.000Z',
@@ -86,6 +95,9 @@ void main() {
       expect(dog.medicalNotes, isNull);
       expect(dog.behaviouralNotes, isNull);
       expect(dog.feedingNotes, isNull);
+      expect(dog.avatarObjectKey, isNull);
+      expect(dog.profilePhotoObjectKey, isNull);
+      expect(dog.nosePrintObjectKey, isNull);
       expect(dog.archivedAt, isNull);
     });
 
@@ -106,6 +118,9 @@ void main() {
         'medical_notes': null,
         'behavioural_notes': null,
         'feeding_notes': null,
+        'avatar_object_key': null,
+        'profile_photo_object_key': null,
+        'nose_print_object_key': null,
         'archived_at': '2024-03-01T12:00:00.000Z',
         'created_at': '2024-01-01T00:00:00.000Z',
         'updated_at': '2024-03-01T12:00:00.000Z',
@@ -133,6 +148,9 @@ void main() {
         'medical_notes': null,
         'behavioural_notes': null,
         'feeding_notes': null,
+        'avatar_object_key': null,
+        'profile_photo_object_key': null,
+        'nose_print_object_key': null,
         'archived_at': null,
         'created_at': '2024-01-01T00:00:00.000Z',
         'updated_at': '2024-01-01T00:00:00.000Z',
@@ -158,6 +176,9 @@ void main() {
         'medical_notes': null,
         'behavioural_notes': null,
         'feeding_notes': null,
+        'avatar_object_key': null,
+        'profile_photo_object_key': null,
+        'nose_print_object_key': null,
         'archived_at': null,
         'created_at': '2024-01-01T00:00:00.000Z',
         'updated_at': '2024-01-01T00:00:00.000Z',
@@ -206,6 +227,9 @@ void main() {
       expect(json['medical_notes'], 'Healthy');
       expect(json['behavioural_notes'], 'Friendly');
       expect(json['feeding_notes'], 'Twice daily');
+      expect(json['avatar_object_key'], isNull);
+      expect(json['profile_photo_object_key'], isNull);
+      expect(json['nose_print_object_key'], isNull);
       expect(json['archived_at'], isNull);
       expect(json['created_at'], '2024-01-01T00:00:00.000Z');
       expect(json['updated_at'], '2024-02-01T00:00:00.000Z');
@@ -260,6 +284,9 @@ void main() {
       expect(json['medical_notes'], isNull);
       expect(json['behavioural_notes'], isNull);
       expect(json['feeding_notes'], isNull);
+      expect(json['avatar_object_key'], isNull);
+      expect(json['profile_photo_object_key'], isNull);
+      expect(json['nose_print_object_key'], isNull);
       expect(json['archived_at'], isNull);
     });
   });
@@ -282,6 +309,9 @@ void main() {
         'medical_notes': 'Hip check due',
         'behavioural_notes': 'Nervous around cats',
         'feeding_notes': 'Once daily',
+        'avatar_object_key': 'dogs/round-trip-id/avatar/original.jpg',
+        'profile_photo_object_key': 'dogs/round-trip-id/profile/original.jpg',
+        'nose_print_object_key': 'dogs/round-trip-id/nose-print/original.jpg',
         'archived_at': null,
         'created_at': '2024-05-01T08:00:00.000Z',
         'updated_at': '2024-05-01T09:00:00.000Z',

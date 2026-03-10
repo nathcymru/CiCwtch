@@ -82,6 +82,8 @@ The current database schema lives in [`migrations/0001_initial_schema.sql`](../.
 
 The `breeds` lookup table was added in [`migrations/0002_breeds_lookup.sql`](../../migrations/0002_breeds_lookup.sql). Dogs reference breeds via `breed_id`.
 
+Dog media pointer columns were added in [`migrations/0003_dog_media_pointers.sql`](../../migrations/0003_dog_media_pointers.sql). These store R2 object keys for avatar, profile photo, and nose print media.
+
 ## Not implemented yet
 
 The following remain planned rather than live:

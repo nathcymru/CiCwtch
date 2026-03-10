@@ -15,6 +15,9 @@ class Dog {
     this.medicalNotes,
     this.behaviouralNotes,
     this.feedingNotes,
+    this.avatarObjectKey,
+    this.profilePhotoObjectKey,
+    this.nosePrintObjectKey,
     this.archivedAt,
     required this.createdAt,
     required this.updatedAt,
@@ -35,6 +38,9 @@ class Dog {
   final String? medicalNotes;
   final String? behaviouralNotes;
   final String? feedingNotes;
+  final String? avatarObjectKey;
+  final String? profilePhotoObjectKey;
+  final String? nosePrintObjectKey;
   final String? archivedAt;
   final String createdAt;
   final String updatedAt;
@@ -56,6 +62,9 @@ class Dog {
       medicalNotes: json['medical_notes'] as String?,
       behaviouralNotes: json['behavioural_notes'] as String?,
       feedingNotes: json['feeding_notes'] as String?,
+      avatarObjectKey: json['avatar_object_key'] as String?,
+      profilePhotoObjectKey: json['profile_photo_object_key'] as String?,
+      nosePrintObjectKey: json['nose_print_object_key'] as String?,
       archivedAt: json['archived_at'] as String?,
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
@@ -79,6 +88,9 @@ class Dog {
       'medical_notes': medicalNotes,
       'behavioural_notes': behaviouralNotes,
       'feeding_notes': feedingNotes,
+      'avatar_object_key': avatarObjectKey,
+      'profile_photo_object_key': profilePhotoObjectKey,
+      'nose_print_object_key': nosePrintObjectKey,
       'archived_at': archivedAt,
       'created_at': createdAt,
       'updated_at': updatedAt,
