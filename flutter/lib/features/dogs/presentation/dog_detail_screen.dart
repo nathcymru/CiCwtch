@@ -137,7 +137,8 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
       children: [
         DetailRow(label: 'Name', value: dog.name),
         DetailRow(label: 'Client ID', value: dog.clientId),
-        if (dog.breed != null) DetailRow(label: 'Breed', value: dog.breed!),
+        if (dog.breed != null || dog.breedName != null)
+          DetailRow(label: 'Breed', value: dog.breedName ?? dog.breed ?? ''),
         if (dog.sex != null) DetailRow(label: 'Sex', value: dog.sex!),
         DetailRow(label: 'Neutered', value: dog.neutered ? 'Yes' : 'No'),
         if (dog.dateOfBirth != null)

@@ -44,6 +44,7 @@ import {
   deleteInvoiceLine,
 } from "./handlers/invoice_lines";
 import { createAttachment, getAttachmentById } from "./handlers/attachments";
+import { listBreeds } from "./handlers/breeds";
 import { getDashboard } from "./handlers/dashboard";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
@@ -105,6 +106,11 @@ export async function route(
     if (method === "PUT") return updateClient(request, env, params);
     if (method === "DELETE") return deleteClient(request, env, params);
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  if (pathname === "/api/v1/breeds") {
+    if (method === "GET") return listBreeds(request, env);
+    return methodNotAllowed(["GET"]);
   }
 
   if (pathname === "/api/v1/dogs") {

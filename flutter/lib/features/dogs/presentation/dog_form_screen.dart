@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:cicwtch/features/breeds/data/breeds_repository.dart';
+import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/form_error_banner.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
@@ -23,7 +25,6 @@ class _DogFormScreenState extends State<DogFormScreen> {
 
   late final TextEditingController _name;
   late final TextEditingController _clientId;
-  late final TextEditingController _breed;
   late final TextEditingController _dateOfBirth;
   late final TextEditingController _colour;
   late final TextEditingController _microchipNumber;
@@ -32,11 +33,15 @@ class _DogFormScreenState extends State<DogFormScreen> {
   late final TextEditingController _behaviouralNotes;
   late final TextEditingController _feedingNotes;
 
+  String? _breedId;
   String _sex = '';
   bool _neutered = false;
 
   bool _submitting = false;
   String? _submitError;
+
+  List<Breed> _breeds = [];
+  bool _breedsLoading = true;
 
   @override
   void initState() {
@@ -44,7 +49,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
     final d = widget.dog;
     _name = TextEditingController(text: d?.name ?? '');
     _clientId = TextEditingController(text: d?.clientId ?? '');
-    _breed = TextEditingController(text: d?.breed ?? '');
+    _breedId = d?.breedId;
     _dateOfBirth = TextEditingController(text: d?.dateOfBirth ?? '');
     _colour = TextEditingController(text: d?.colour ?? '');
     _microchipNumber = TextEditingController(text: d?.microchipNumber ?? '');
@@ -56,13 +61,30 @@ class _DogFormScreenState extends State<DogFormScreen> {
     _feedingNotes = TextEditingController(text: d?.feedingNotes ?? '');
     _sex = d?.sex ?? '';
     _neutered = d?.neutered ?? false;
+    _loadBreeds();
+  }
+
+  Future<void> _loadBreeds() async {
+    try {
+      final repo = BreedsRepository(buildApiClient());
+      final breeds = await repo.listBreeds();
+      if (mounted) {
+        setState(() {
+          _breeds = breeds;
+          _breedsLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) {
+        setState(() => _breedsLoading = false);
+      }
+    }
   }
 
   @override
   void dispose() {
     _name.dispose();
     _clientId.dispose();
-    _breed.dispose();
     _dateOfBirth.dispose();
     _colour.dispose();
     _microchipNumber.dispose();
@@ -85,7 +107,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
       'name': _name.text.trim(),
       'client_id': _clientId.text.trim(),
       'neutered': _neutered ? 1 : 0,
-      if (_breed.text.trim().isNotEmpty) 'breed': _breed.text.trim(),
+      if (_breedId != null && _breedId!.isNotEmpty) 'breed_id': _breedId,
       if (_sex.isNotEmpty) 'sex': _sex,
       if (_dateOfBirth.text.trim().isNotEmpty)
         'date_of_birth': _dateOfBirth.text.trim(),
@@ -116,6 +138,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
   @override
   Widget build(BuildContext context) {
     final isEdit = widget.dog != null;
+    final existingBreedText = widget.dog?.breed;
 
     return Scaffold(
       appBar: AppBar(
@@ -153,14 +176,35 @@ class _DogFormScreenState extends State<DogFormScreen> {
               ),
               const SizedBox(height: 24),
               const SectionHeading(title: 'Health & identity'),
-              TextFormField(
-                controller: _breed,
-                decoration: const InputDecoration(
-                  labelText: 'Breed',
-                  border: OutlineInputBorder(),
+              if (_breedsLoading)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              else
+                DropdownButtonFormField<String>(
+                  initialValue: _breedId,
+                  decoration: InputDecoration(
+                    labelText: 'Breed',
+                    border: const OutlineInputBorder(),
+                    helperText: existingBreedText != null && _breedId == null
+                        ? 'Previously: $existingBreedText'
+                        : null,
+                  ),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: null,
+                      child: Text('Not set'),
+                    ),
+                    ..._breeds.map(
+                      (b) => DropdownMenuItem<String>(
+                        value: b.breedId,
+                        child: Text(b.breedName),
+                      ),
+                    ),
+                  ],
+                  onChanged: (v) => setState(() => _breedId = v),
                 ),
-                textCapitalization: TextCapitalization.words,
-              ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 initialValue: _sex,

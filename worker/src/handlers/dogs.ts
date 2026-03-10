@@ -22,6 +22,7 @@ interface DogRow {
   client_id: string;
   name: string;
   breed: string | null;
+  breed_id: string | null;
   sex: string | null;
   neutered: number;
   date_of_birth: string | null;
@@ -36,13 +37,21 @@ interface DogRow {
   updated_at: string;
 }
 
+interface DogWithBreedRow extends DogRow {
+  breed_name: string | null;
+}
+
 export async function listDogs(
   _request: Request,
   env: Env,
 ): Promise<Response> {
   const { results } = await env.DB.prepare(
-    "SELECT * FROM dogs WHERE archived_at IS NULL ORDER BY name ASC",
-  ).all<DogRow>();
+    `SELECT dogs.*, breeds.breed_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     WHERE dogs.archived_at IS NULL
+     ORDER BY dogs.name ASC`,
+  ).all<DogWithBreedRow>();
   return jsonOk(results ?? []);
 }
 
@@ -52,10 +61,13 @@ export async function getDog(
   params: { id: string },
 ): Promise<Response> {
   const dog = await env.DB.prepare(
-    "SELECT * FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+    `SELECT dogs.*, breeds.breed_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
   )
     .bind(params.id)
-    .first<DogRow>();
+    .first<DogWithBreedRow>();
 
   if (!dog) {
     throw ApiError.notFound();
@@ -116,6 +128,7 @@ export async function createDog(
     client_id: clientId.trim(),
     name: name.trim(),
     breed: optionalString(body, "breed"),
+    breed_id: optionalString(body, "breed_id"),
     sex: typeof sexValue === "string" ? sexValue : null,
     neutered: parseNeutered(body["neutered"]),
     date_of_birth: optionalString(body, "date_of_birth"),
@@ -132,16 +145,17 @@ export async function createDog(
 
   await env.DB.prepare(
     `INSERT INTO dogs (
-      id, client_id, name, breed, sex, neutered, date_of_birth, colour,
+      id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour,
       microchip_number, veterinary_practice, medical_notes, behavioural_notes,
       feeding_notes, archived_at, created_at, updated_at
-    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16)`,
+    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`,
   )
     .bind(
       dog.id,
       dog.client_id,
       dog.name,
       dog.breed,
+      dog.breed_id,
       dog.sex,
       dog.neutered,
       dog.date_of_birth,
@@ -157,7 +171,17 @@ export async function createDog(
     )
     .run();
 
-  return jsonOk(dog, 201);
+  // Re-fetch with breed_name join
+  const created = await env.DB.prepare(
+    `SELECT dogs.*, breeds.breed_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     WHERE dogs.id = ?1`,
+  )
+    .bind(id)
+    .first<DogWithBreedRow>();
+
+  return jsonOk(created ?? dog, 201);
 }
 
 export async function updateDog(
@@ -226,22 +250,24 @@ export async function updateDog(
       client_id = ?1,
       name = ?2,
       breed = ?3,
-      sex = ?4,
-      neutered = ?5,
-      date_of_birth = ?6,
-      colour = ?7,
-      microchip_number = ?8,
-      veterinary_practice = ?9,
-      medical_notes = ?10,
-      behavioural_notes = ?11,
-      feeding_notes = ?12,
-      updated_at = ?13
-    WHERE id = ?14 AND archived_at IS NULL`,
+      breed_id = ?4,
+      sex = ?5,
+      neutered = ?6,
+      date_of_birth = ?7,
+      colour = ?8,
+      microchip_number = ?9,
+      veterinary_practice = ?10,
+      medical_notes = ?11,
+      behavioural_notes = ?12,
+      feeding_notes = ?13,
+      updated_at = ?14
+    WHERE id = ?15 AND archived_at IS NULL`,
   )
     .bind(
       clientId,
       name.trim(),
       optionalString(body, "breed"),
+      optionalString(body, "breed_id"),
       typeof sexValue === "string" ? sexValue : null,
       parseNeutered(body["neutered"]),
       optionalString(body, "date_of_birth"),
@@ -257,10 +283,13 @@ export async function updateDog(
     .run();
 
   const updated = await env.DB.prepare(
-    "SELECT * FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+    `SELECT dogs.*, breeds.breed_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
   )
     .bind(params.id)
-    .first<DogRow>();
+    .first<DogWithBreedRow>();
 
   if (!updated) {
     throw ApiError.notFound();

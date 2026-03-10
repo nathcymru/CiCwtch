@@ -1,6 +1,7 @@
 export 'address.dart';
 export 'attachment.dart';
 export 'audit_log_entry.dart';
+export 'breed.dart';
 export 'client.dart';
 export 'client_contact.dart';
 export 'dog.dart';

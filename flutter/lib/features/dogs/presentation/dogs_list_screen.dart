@@ -169,7 +169,7 @@ class _DogsListScreenState extends State<DogsListScreen> {
           final dog = filtered[index];
           return ListTile(
             title: Text(dog.name),
-            subtitle: Text(dog.breed ?? ''),
+            subtitle: Text(dog.breedName ?? dog.breed ?? ''),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               final changed = await Navigator.push<bool>(
