@@ -51,4 +51,22 @@ class DogsRepository {
     ) as Map<String, dynamic>;
     return Dog.fromJson(json);
   }
+
+  Future<List<BehaviorSnapshot>> listBehaviorSnapshots(String dogId) async {
+    final json = await _api.get('/api/v1/dogs/$dogId/behavior-snapshots')
+        as List<dynamic>;
+    return json
+        .map((e) => BehaviorSnapshot.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<BehaviorSnapshot> createBehaviorSnapshot(
+    String dogId,
+    Map<String, dynamic> payload,
+  ) async {
+    final json =
+        await _api.post('/api/v1/dogs/$dogId/behavior-snapshots', payload)
+            as Map<String, dynamic>;
+    return BehaviorSnapshot.fromJson(json);
+  }
 }

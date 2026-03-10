@@ -27,4 +27,13 @@ class DogsService {
         filename: filename,
         mimeType: mimeType,
       );
+
+  Future<List<BehaviorSnapshot>> listBehaviorSnapshots(String dogId) =>
+      _repository.listBehaviorSnapshots(dogId);
+
+  Future<BehaviorSnapshot> createBehaviorSnapshot(
+    String dogId,
+    Map<String, dynamic> payload,
+  ) =>
+      _repository.createBehaviorSnapshot(dogId, payload);
 }
