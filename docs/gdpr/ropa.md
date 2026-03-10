@@ -45,7 +45,7 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 - **Purpose:** maintain dog care and operational safety information.
 - **Data subjects:** clients indirectly; dog records are not personal data themselves, but notes may contain owner-related or veterinary contact information.
 - **Storage:** D1 `dogs`, `dog_notes`, `breeds` (lookup).
-- **Media references:** The `dogs` table stores nullable R2 object-key pointers (`avatar_object_key`, `profile_photo_object_key`, `nose_print_object_key`). Actual media files will be stored in Cloudflare R2, not in D1. No binary media is stored in the relational database.
+- **Media references:** The `dogs` table stores nullable R2 object-key pointers (`avatar_object_key`, `profile_photo_object_key`, `nose_print_object_key`). Actual media files are stored in Cloudflare R2, not in D1. No binary media is stored in the relational database. Dog avatar upload is active via `POST /api/v1/dogs/:id/avatar`; the uploaded image is stored in R2 and only the object key is saved in D1. Dog avatar images are operational pet photographs and do not constitute sensitive personal data.
 - **Note:** The `breeds` table contains only breed names, which are non-personal, non-sensitive reference data. No GDPR risk is introduced by this table.
 
 ### Walk scheduling and delivery
