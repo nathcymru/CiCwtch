@@ -44,7 +44,8 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 ### Dog management
 - **Purpose:** maintain dog care and operational safety information.
 - **Data subjects:** clients indirectly; dog records are not personal data themselves, but notes may contain owner-related or veterinary contact information.
-- **Storage:** D1 `dogs`, `dog_notes`.
+- **Storage:** D1 `dogs`, `dog_notes`, `breeds` (lookup).
+- **Note:** The `breeds` table contains only breed names, which are non-personal, non-sensitive reference data. No GDPR risk is introduced by this table.
 
 ### Walk scheduling and delivery
 - **Purpose:** plan and record services.

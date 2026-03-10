@@ -52,6 +52,8 @@ dataset:
         fields:
           - name: name
             data_categories: [system.operations]
+          - name: breed_id
+            data_categories: [system.operations]
           - name: veterinary_practice
             data_categories: [user]
           - name: medical_notes
@@ -60,6 +62,12 @@ dataset:
             data_categories: [user.behavioral]
           - name: feeding_notes
             data_categories: [user.behavioral]
+      - name: breeds
+        fields:
+          - name: breed_id
+            data_categories: [system.operations]
+          - name: breed_name
+            data_categories: [system.operations]
       - name: walkers
         fields:
           - name: full_name
