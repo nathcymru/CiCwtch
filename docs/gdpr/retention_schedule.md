@@ -40,6 +40,7 @@ This schedule is a working draft and must be refined before production use.
 | Invoice headers | D1 `invoice_headers` | soft delete | retain according to financial record obligations |
 | Invoice lines | D1 `invoice_lines` | hard delete | linked to invoice retention; avoid ad hoc deletion in production |
 | Attachments | D1 metadata + R2 objects | not yet implemented | upload and retrieval endpoints are active; do not process live personal data without explicit retention rules and access controls |
+| Vaccinations | D1 `vaccinations` | no delete endpoint | retain while dog record is active; vaccination documents stored in R2 via object key pointer |
 
 ## Engineering rule
 

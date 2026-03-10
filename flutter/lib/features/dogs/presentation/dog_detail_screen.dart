@@ -10,6 +10,7 @@ import 'package:cicwtch/shared/presentation/form_date_helper.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
 
 import 'add_behavior_snapshot_screen.dart';
+import 'add_vaccination_screen.dart';
 import 'dog_avatar_widget.dart';
 import 'dog_edit_screen.dart';
 
@@ -29,6 +30,7 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
 
   Dog? _dog;
   BehaviorSnapshot? _latestSnapshot;
+  List<Vaccination> _vaccinations = [];
   bool _loading = true;
   String? _error;
   bool _deleting = false;
@@ -54,9 +56,16 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
       } catch (_) {
         // Snapshot load failure is non-fatal
       }
+      List<Vaccination> vaccinations = [];
+      try {
+        vaccinations = await _service.listVaccinations(widget.dogId);
+      } catch (_) {
+        // Vaccination load failure is non-fatal
+      }
       setState(() {
         _dog = dog;
         _latestSnapshot = snapshot;
+        _vaccinations = vaccinations;
         _loading = false;
       });
     } catch (e) {
@@ -173,6 +182,8 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
         const Divider(height: 32),
         _buildSnapshotSection(),
         const Divider(height: 32),
+        _buildVaccinationSection(),
+        const Divider(height: 32),
         DetailRow(label: 'Created', value: formatDetailDate(dog.createdAt)),
         DetailRow(label: 'Updated', value: formatDetailDate(dog.updatedAt)),
       ],
@@ -232,6 +243,52 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
               _latestSnapshot!.notes!.isNotEmpty)
             DetailRow(label: 'Notes', value: _latestSnapshot!.notes!),
         ],
+      ],
+    );
+  }
+
+  Widget _buildVaccinationSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SectionHeading(title: 'Vaccinations'),
+            TextButton.icon(
+              onPressed: () async {
+                final added = await Navigator.push<bool>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        AddVaccinationScreen(dogId: widget.dogId),
+                  ),
+                );
+                if (added == true) _load();
+              },
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Add'),
+            ),
+          ],
+        ),
+        if (_vaccinations.isEmpty)
+          const Padding(
+            padding: EdgeInsets.only(top: 4),
+            child: Text('No vaccinations recorded yet.'),
+          )
+        else
+          ..._vaccinations.map((v) => Card(
+                child: ListTile(
+                  title: Text(v.vaccinationName),
+                  subtitle: Text(
+                    'Administered: ${formatDetailDate(v.dateAdministered)}'
+                    '${v.expirationDate != null ? '\nExpires: ${formatDetailDate(v.expirationDate!)}' : ''}',
+                  ),
+                  trailing: v.documentObjectKey != null
+                      ? const Icon(Icons.attach_file, size: 18)
+                      : null,
+                ),
+              )),
       ],
     );
   }

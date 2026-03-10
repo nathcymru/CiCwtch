@@ -49,6 +49,10 @@ import {
   listBehaviorSnapshots,
   createBehaviorSnapshot,
 } from "./handlers/behavior_snapshots";
+import {
+  listVaccinations,
+  createVaccination,
+} from "./handlers/vaccinations";
 import { createAttachment, getAttachmentById } from "./handlers/attachments";
 import { listBreeds } from "./handlers/breeds";
 import { getDashboard } from "./handlers/dashboard";
@@ -149,6 +153,16 @@ export async function route(
     const params = { dogId: behaviorSnapshotMatch[1] };
     if (method === "GET") return listBehaviorSnapshots(request, env, params);
     if (method === "POST") return createBehaviorSnapshot(request, env, params);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const vaccinationMatch = pathname.match(
+    /^\/api\/v1\/dogs\/([^/]+)\/vaccinations$/,
+  );
+  if (vaccinationMatch) {
+    const params = { dogId: vaccinationMatch[1] };
+    if (method === "GET") return listVaccinations(request, env, params);
+    if (method === "POST") return createVaccination(request, env, params);
     return methodNotAllowed(["GET", "POST"]);
   }
 

@@ -82,6 +82,18 @@ dataset:
             data_categories: [system.operations]
           - name: notes
             data_categories: [user.behavioral]
+      - name: vaccinations
+        fields:
+          - name: dog_id
+            data_categories: [system.operations]
+          - name: vaccination_name
+            data_categories: [system.operations]
+          - name: date_administered
+            data_categories: [system.operations]
+          - name: expiration_date
+            data_categories: [system.operations]
+          - name: document_object_key
+            data_categories: [system.operations]
       - name: breeds
         fields:
           - name: breed_id
