@@ -8,6 +8,7 @@ import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/form_date_helper.dart';
 
+import 'dog_avatar_widget.dart';
 import 'dog_edit_screen.dart';
 
 class DogDetailScreen extends StatefulWidget {
@@ -135,6 +136,8 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        Center(child: DogAvatarWidget(dog: dog, radius: 48)),
+        const SizedBox(height: 16),
         DetailRow(label: 'Name', value: dog.name),
         DetailRow(label: 'Client ID', value: dog.clientId),
         if (dog.breed != null || dog.breedName != null)

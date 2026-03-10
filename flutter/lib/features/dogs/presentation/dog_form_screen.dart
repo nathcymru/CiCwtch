@@ -1,10 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:cicwtch/features/breeds/data/breeds_repository.dart';
+import 'package:cicwtch/features/dogs/application/dogs_service.dart';
+import 'package:cicwtch/features/dogs/data/dogs_repository.dart';
 import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/form_error_banner.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
+
+import 'dog_avatar_widget.dart';
 
 class DogFormScreen extends StatefulWidget {
   const DogFormScreen({
@@ -43,6 +50,10 @@ class _DogFormScreenState extends State<DogFormScreen> {
   List<Breed> _breeds = [];
   bool _breedsLoading = true;
 
+  Uint8List? _avatarBytes;
+  bool _avatarUploading = false;
+  Dog? _currentDog;
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +72,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
     _feedingNotes = TextEditingController(text: d?.feedingNotes ?? '');
     _sex = d?.sex ?? '';
     _neutered = d?.neutered ?? false;
+    _currentDog = d;
     _loadBreeds();
   }
 
@@ -77,6 +89,51 @@ class _DogFormScreenState extends State<DogFormScreen> {
     } catch (_) {
       if (mounted) {
         setState(() => _breedsLoading = false);
+      }
+    }
+  }
+
+  Future<void> _pickAndUploadAvatar() async {
+    final dog = _currentDog;
+    if (dog == null) return;
+
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    if (picked == null) return;
+
+    final bytes = await picked.readAsBytes();
+    setState(() {
+      _avatarUploading = true;
+      _avatarBytes = bytes;
+    });
+
+    try {
+      final service = DogsService(DogsRepository(buildApiClient()));
+      final updated = await service.uploadAvatar(
+        dog.id,
+        fileBytes: bytes,
+        filename: picked.name,
+        mimeType: picked.mimeType,
+      );
+      if (mounted) {
+        setState(() {
+          _currentDog = updated;
+          _avatarUploading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Avatar uploaded')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _avatarUploading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Avatar upload failed: $e')),
+        );
       }
     }
   }
@@ -153,6 +210,46 @@ class _DogFormScreenState extends State<DogFormScreen> {
             children: [
               if (_submitError != null)
                 FormErrorBanner(message: _submitError!),
+              if (isEdit) ...[
+                const SectionHeading(title: 'Avatar'),
+                Center(
+                  child: Column(
+                    children: [
+                      if (_avatarBytes != null)
+                        CircleAvatar(
+                          radius: 48,
+                          backgroundImage: MemoryImage(_avatarBytes!),
+                        )
+                      else if (_currentDog != null)
+                        DogAvatarWidget(dog: _currentDog!, radius: 48)
+                      else
+                        const CircleAvatar(
+                          radius: 48,
+                          child: Icon(Icons.pets, size: 48),
+                        ),
+                      const SizedBox(height: 8),
+                      OutlinedButton.icon(
+                        onPressed:
+                            _avatarUploading ? null : _pickAndUploadAvatar,
+                        icon: _avatarUploading
+                            ? const SizedBox(
+                                height: 16,
+                                width: 16,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.camera_alt),
+                        label: Text(
+                          _avatarUploading
+                              ? 'Uploading…'
+                              : 'Change avatar',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+              ],
               const SectionHeading(title: 'Basic details'),
               TextFormField(
                 controller: _name,

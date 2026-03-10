@@ -14,6 +14,8 @@ import {
   createDog,
   updateDog,
   deleteDog,
+  uploadDogAvatar,
+  getDogAvatar,
 } from "./handlers/dogs";
 import {
   listWalks,
@@ -126,6 +128,14 @@ export async function route(
     if (method === "PUT") return updateDog(request, env, params);
     if (method === "DELETE") return deleteDog(request, env, params);
     return methodNotAllowed(["GET", "PUT", "DELETE"]);
+  }
+
+  const dogAvatarMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)\/avatar$/);
+  if (dogAvatarMatch) {
+    const params = { id: dogAvatarMatch[1] };
+    if (method === "GET") return getDogAvatar(request, env, params);
+    if (method === "POST") return uploadDogAvatar(request, env, params);
+    return methodNotAllowed(["GET", "POST"]);
   }
 
   if (pathname === "/api/v1/walks") {

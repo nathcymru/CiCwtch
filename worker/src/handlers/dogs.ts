@@ -1,6 +1,7 @@
 import type { Env } from "../index";
 import { jsonOk, jsonError } from "../response";
 import { ApiError } from "../errors";
+import { putAttachment, getAttachment } from "../storage";
 
 function optionalString(
   body: Record<string, unknown>,
@@ -332,4 +333,103 @@ export async function deleteDog(
     .run();
 
   return jsonOk({ deleted: true });
+}
+
+export async function uploadDogAvatar(
+  request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  const existing = await env.DB.prepare(
+    "SELECT id FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+  )
+    .bind(params.id)
+    .first<{ id: string }>();
+
+  if (!existing) {
+    throw ApiError.notFound();
+  }
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return jsonError(
+      "Request must be multipart/form-data with an avatar_file field",
+      "invalid_request",
+      400,
+    );
+  }
+
+  const fileEntry = formData.get("avatar_file") as unknown;
+  if (
+    !fileEntry ||
+    typeof fileEntry === "string" ||
+    !(fileEntry instanceof Blob)
+  ) {
+    return jsonError("avatar_file field is required", "invalid_request", 400);
+  }
+  const file = fileEntry as File;
+
+  const objectKey = `dogs/${params.id}/avatar/original`;
+  const mimeType = file.type || "application/octet-stream";
+  const fileBytes = await file.arrayBuffer();
+
+  await putAttachment(env, objectKey, fileBytes, mimeType);
+
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    "UPDATE dogs SET avatar_object_key = ?1, updated_at = ?2 WHERE id = ?3 AND archived_at IS NULL",
+  )
+    .bind(objectKey, now, params.id)
+    .run();
+
+  const updated = await env.DB.prepare(
+    `SELECT dogs.*, breeds.breed_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
+  )
+    .bind(params.id)
+    .first<DogWithBreedRow>();
+
+  if (!updated) {
+    throw ApiError.notFound();
+  }
+
+  return jsonOk(updated);
+}
+
+export async function getDogAvatar(
+  _request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  const dog = await env.DB.prepare(
+    "SELECT avatar_object_key FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+  )
+    .bind(params.id)
+    .first<{ avatar_object_key: string | null }>();
+
+  if (!dog) {
+    throw ApiError.notFound();
+  }
+
+  if (!dog.avatar_object_key) {
+    return jsonError("No avatar uploaded", "not_found", 404);
+  }
+
+  const r2Object = await getAttachment(env, dog.avatar_object_key);
+
+  if (!r2Object) {
+    return jsonError("Avatar file not found in storage", "not_found", 404);
+  }
+
+  const headers = new Headers();
+  headers.set(
+    "Content-Type",
+    r2Object.httpMetadata?.contentType ?? "application/octet-stream",
+  );
+
+  return new Response(r2Object.body, { headers });
 }

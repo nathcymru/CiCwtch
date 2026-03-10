@@ -20,7 +20,7 @@ Dogs belong to clients through `client_id`.
 
 Dogs may optionally reference a breed from the `breeds` lookup table via `breed_id`. When a breed is linked, the API response includes `breed_name` resolved via a join.
 
-Dog media is stored in Cloudflare R2, not in D1. The API response includes nullable R2 object-key pointer fields: `avatar_object_key`, `profile_photo_object_key`, and `nose_print_object_key`. Upload and delivery workflows are not yet implemented.
+Dog media is stored in Cloudflare R2, not in D1. The API response includes nullable R2 object-key pointer fields: `avatar_object_key`, `profile_photo_object_key`, and `nose_print_object_key`. Avatar upload and retrieval is implemented via the `/api/v1/dogs/:id/avatar` endpoint. Profile photo and nose print upload workflows are not yet implemented.
 
 ## Endpoints
 
@@ -29,6 +29,8 @@ Dog media is stored in Cloudflare R2, not in D1. The API response includes nulla
 - `POST /api/v1/dogs`
 - `PUT /api/v1/dogs/:id`
 - `DELETE /api/v1/dogs/:id`
+- `GET /api/v1/dogs/:id/avatar` — retrieve dog avatar image from R2
+- `POST /api/v1/dogs/:id/avatar` — upload dog avatar (multipart/form-data, field: `avatar_file`)
 - `GET /api/v1/breeds` — list all available breeds
 
 ## Validation
