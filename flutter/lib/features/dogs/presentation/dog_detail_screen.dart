@@ -7,7 +7,9 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 import 'package:cicwtch/shared/presentation/detail_row.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/form_date_helper.dart';
+import 'package:cicwtch/shared/presentation/section_heading.dart';
 
+import 'add_behavior_snapshot_screen.dart';
 import 'dog_avatar_widget.dart';
 import 'dog_edit_screen.dart';
 
@@ -26,6 +28,7 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
   );
 
   Dog? _dog;
+  BehaviorSnapshot? _latestSnapshot;
   bool _loading = true;
   String? _error;
   bool _deleting = false;
@@ -43,8 +46,17 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
     });
     try {
       final dog = await _service.getDog(widget.dogId);
+      BehaviorSnapshot? snapshot;
+      try {
+        final snapshots =
+            await _service.listBehaviorSnapshots(widget.dogId);
+        if (snapshots.isNotEmpty) snapshot = snapshots.first;
+      } catch (_) {
+        // Snapshot load failure is non-fatal
+      }
       setState(() {
         _dog = dog;
+        _latestSnapshot = snapshot;
         _loading = false;
       });
     } catch (e) {
@@ -159,8 +171,67 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
         if (dog.feedingNotes != null)
           DetailRow(label: 'Feeding notes', value: dog.feedingNotes!),
         const Divider(height: 32),
+        _buildSnapshotSection(),
+        const Divider(height: 32),
         DetailRow(label: 'Created', value: formatDetailDate(dog.createdAt)),
         DetailRow(label: 'Updated', value: formatDetailDate(dog.updatedAt)),
+      ],
+    );
+  }
+
+  Widget _buildSnapshotSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SectionHeading(title: 'Latest behaviour snapshot'),
+            TextButton.icon(
+              onPressed: () async {
+                final added = await Navigator.push<bool>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        AddBehaviorSnapshotScreen(dogId: widget.dogId),
+                  ),
+                );
+                if (added == true) _load();
+              },
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Add'),
+            ),
+          ],
+        ),
+        if (_latestSnapshot == null)
+          const Padding(
+            padding: EdgeInsets.only(top: 4),
+            child: Text('No behaviour snapshots recorded yet.'),
+          )
+        else ...[
+          DetailRow(
+            label: 'Recorded',
+            value: formatDetailDate(_latestSnapshot!.createdAt),
+          ),
+          if (_latestSnapshot!.recallRating != null)
+            DetailRow(
+              label: 'Recall',
+              value: '${_latestSnapshot!.recallRating} / 5',
+            ),
+          if (_latestSnapshot!.leashMannersRating != null)
+            DetailRow(
+              label: 'Leash manners',
+              value: '${_latestSnapshot!.leashMannersRating} / 5',
+            ),
+          if (_latestSnapshot!.energyLevelRating != null)
+            DetailRow(
+              label: 'Energy level',
+              value: '${_latestSnapshot!.energyLevelRating} / 5',
+            ),
+          if (_latestSnapshot!.notes != null &&
+              _latestSnapshot!.notes!.isNotEmpty)
+            DetailRow(label: 'Notes', value: _latestSnapshot!.notes!),
+        ],
       ],
     );
   }

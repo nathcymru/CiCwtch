@@ -68,6 +68,20 @@ dataset:
             data_categories: [system.operations]
           - name: nose_print_object_key
             data_categories: [system.operations]
+      - name: behavior_snapshots
+        fields:
+          - name: dog_id
+            data_categories: [system.operations]
+          - name: recall_rating
+            data_categories: [system.operations]
+          - name: leash_manners_rating
+            data_categories: [system.operations]
+          - name: energy_level_rating
+            data_categories: [system.operations]
+          - name: behavior_tags_json
+            data_categories: [system.operations]
+          - name: notes
+            data_categories: [user.behavioral]
       - name: breeds
         fields:
           - name: breed_id

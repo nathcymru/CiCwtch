@@ -45,6 +45,10 @@ import {
   updateInvoiceLine,
   deleteInvoiceLine,
 } from "./handlers/invoice_lines";
+import {
+  listBehaviorSnapshots,
+  createBehaviorSnapshot,
+} from "./handlers/behavior_snapshots";
 import { createAttachment, getAttachmentById } from "./handlers/attachments";
 import { listBreeds } from "./handlers/breeds";
 import { getDashboard } from "./handlers/dashboard";
@@ -135,6 +139,16 @@ export async function route(
     const params = { id: dogAvatarMatch[1] };
     if (method === "GET") return getDogAvatar(request, env, params);
     if (method === "POST") return uploadDogAvatar(request, env, params);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const behaviorSnapshotMatch = pathname.match(
+    /^\/api\/v1\/dogs\/([^/]+)\/behavior-snapshots$/,
+  );
+  if (behaviorSnapshotMatch) {
+    const params = { dogId: behaviorSnapshotMatch[1] };
+    if (method === "GET") return listBehaviorSnapshots(request, env, params);
+    if (method === "POST") return createBehaviorSnapshot(request, env, params);
     return methodNotAllowed(["GET", "POST"]);
   }
 

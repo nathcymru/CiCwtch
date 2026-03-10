@@ -59,6 +59,8 @@ The following features are fully wired to the deployed Workers API for list, cre
 
 Each feature's data layer (repository) uses the shared `ApiClient` with the configured API base URL. The presentation layer shows loading indicators during requests, displays error states on failure, and refreshes the list after mutations. Dog-to-client relationships are preserved through the `client_id` foreign key in the domain model and API payloads. Walk records reference clients, dogs, and optionally walkers through their respective foreign keys.
 
+Behaviour snapshots are stored as timestamped historical records per dog via `GET` and `POST /api/v1/dogs/:id/behavior-snapshots`. This separates stable dog identity data from time-varying behavioural observations. The latest snapshot is surfaced on the dog detail screen, and new snapshots can be added from the same screen.
+
 The Dashboard feature uses the dedicated `GET /api/v1/dashboard` aggregation endpoint to fetch summary counts for clients, dogs, walks, walkers, and invoices in a single request. The dashboard data layer (`DashboardRepository`) calls this endpoint via `ApiClient`, and the presentation layer displays the returned metrics in dashboard cards with loading and error states.
 
 ## Navigation
