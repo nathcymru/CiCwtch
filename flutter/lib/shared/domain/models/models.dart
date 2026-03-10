@@ -11,5 +11,6 @@ export 'invoice_header.dart';
 export 'invoice_line.dart';
 export 'walk.dart';
 export 'walk_report.dart';
+export 'vaccination.dart';
 export 'walker.dart';
 export 'walker_compliance_item.dart';

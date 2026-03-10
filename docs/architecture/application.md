@@ -61,6 +61,8 @@ Each feature's data layer (repository) uses the shared `ApiClient` with the conf
 
 Behaviour snapshots are stored as timestamped historical records per dog via `GET` and `POST /api/v1/dogs/:id/behavior-snapshots`. This separates stable dog identity data from time-varying behavioural observations. The latest snapshot is surfaced on the dog detail screen, and new snapshots can be added from the same screen.
 
+Vaccination records are stored per dog via `GET` and `POST /api/v1/dogs/:id/vaccinations`. Each record includes the vaccination name, date administered, optional expiration date, and an optional R2 document object key for supporting certificates. The dog detail screen lists all vaccinations and allows adding new ones.
+
 The Dashboard feature uses the dedicated `GET /api/v1/dashboard` aggregation endpoint to fetch summary counts for clients, dogs, walks, walkers, and invoices in a single request. The dashboard data layer (`DashboardRepository`) calls this endpoint via `ApiClient`, and the presentation layer displays the returned metrics in dashboard cards with loading and error states.
 
 ## Navigation

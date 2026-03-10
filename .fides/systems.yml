@@ -44,7 +44,7 @@ system:
   - fides_key: cicwtch_r2_storage
     organization_fides_key: cicwtch
     name: CiCwtch R2 Object Storage
-    description: Cloudflare R2 bucket for dog media files (avatars, profile photos, nose prints). D1 stores object-key pointers only; actual binary media lives in R2.
+    description: Cloudflare R2 bucket for dog media files (avatars, profile photos, nose prints) and vaccination documents. D1 stores object-key pointers only; actual binary media lives in R2.
     system_type: Object Storage
     administrating_department: Engineering
     data_responsibility_title: Controller

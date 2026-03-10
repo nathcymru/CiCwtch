@@ -36,4 +36,13 @@ class DogsService {
     Map<String, dynamic> payload,
   ) =>
       _repository.createBehaviorSnapshot(dogId, payload);
+
+  Future<List<Vaccination>> listVaccinations(String dogId) =>
+      _repository.listVaccinations(dogId);
+
+  Future<Vaccination> createVaccination(
+    String dogId,
+    Map<String, dynamic> payload,
+  ) =>
+      _repository.createVaccination(dogId, payload);
 }
