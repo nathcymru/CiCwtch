@@ -32,6 +32,9 @@ interface DogRow {
   medical_notes: string | null;
   behavioural_notes: string | null;
   feeding_notes: string | null;
+  avatar_object_key: string | null;
+  profile_photo_object_key: string | null;
+  nose_print_object_key: string | null;
   archived_at: string | null;
   created_at: string;
   updated_at: string;
@@ -138,6 +141,9 @@ export async function createDog(
     medical_notes: optionalString(body, "medical_notes"),
     behavioural_notes: optionalString(body, "behavioural_notes"),
     feeding_notes: optionalString(body, "feeding_notes"),
+    avatar_object_key: null,
+    profile_photo_object_key: null,
+    nose_print_object_key: null,
     archived_at: null,
     created_at: now,
     updated_at: now,
@@ -147,8 +153,9 @@ export async function createDog(
     `INSERT INTO dogs (
       id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour,
       microchip_number, veterinary_practice, medical_notes, behavioural_notes,
-      feeding_notes, archived_at, created_at, updated_at
-    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17)`,
+      feeding_notes, avatar_object_key, profile_photo_object_key, nose_print_object_key,
+      archived_at, created_at, updated_at
+    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20)`,
   )
     .bind(
       dog.id,
@@ -165,6 +172,9 @@ export async function createDog(
       dog.medical_notes,
       dog.behavioural_notes,
       dog.feeding_notes,
+      dog.avatar_object_key,
+      dog.profile_photo_object_key,
+      dog.nose_print_object_key,
       dog.archived_at,
       dog.created_at,
       dog.updated_at,

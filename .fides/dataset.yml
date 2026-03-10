@@ -62,6 +62,12 @@ dataset:
             data_categories: [user.behavioral]
           - name: feeding_notes
             data_categories: [user.behavioral]
+          - name: avatar_object_key
+            data_categories: [system.operations]
+          - name: profile_photo_object_key
+            data_categories: [system.operations]
+          - name: nose_print_object_key
+            data_categories: [system.operations]
       - name: breeds
         fields:
           - name: breed_id

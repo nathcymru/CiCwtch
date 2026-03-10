@@ -53,6 +53,16 @@ The schema already includes `attachments` and `audit_log` tables, but Phase 1 do
 
 The `breeds` table is a global/reference lookup table. It normalises breed data so that dogs reference a `breed_id` instead of storing free-text breed values. The existing free-text `breed` column on `dogs` is retained for backward compatibility. Breed data (breed names) is non-personal, non-sensitive operational reference data and carries no GDPR implications.
 
+## Dog media (R2 pointer pattern)
+
+Dog media (avatar, profile photo, nose print) is stored in Cloudflare R2, not in D1. The `dogs` table holds only nullable R2 object-key pointers:
+
+- `avatar_object_key`
+- `profile_photo_object_key`
+- `nose_print_object_key`
+
+These columns store path-style object keys (e.g. `dogs/{dog_id}/avatar/original.jpg`). No binary data or base64 blobs are stored in D1. Media delivery and upload workflows will be handled separately from persistence.
+
 ## Multi-tenancy
 
 CiCwtch is a multi-tenant platform. Every core business table must include `organisation_id`. See [multi-tenant-model.md](multi-tenant-model.md) for the full schema pattern, query rules, and migration guidance.
