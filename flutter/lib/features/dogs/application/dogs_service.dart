@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cicwtch/features/dogs/data/dogs_repository.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 
@@ -13,4 +15,16 @@ class DogsService {
   Future<Dog> updateDog(String id, Map<String, dynamic> payload) =>
       _repository.updateDog(id, payload);
   Future<void> deleteDog(String id) => _repository.deleteDog(id);
+  Future<Dog> uploadAvatar(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) =>
+      _repository.uploadAvatar(
+        dogId,
+        fileBytes: fileBytes,
+        filename: filename,
+        mimeType: mimeType,
+      );
 }

@@ -1,7 +1,7 @@
 import type { Env } from "../index";
 import { jsonOk, jsonError } from "../response";
 import { ApiError } from "../errors";
-import { putAttachment } from "../storage";
+import { putAttachment, getAttachment } from "../storage";
 
 function optionalString(
   body: Record<string, unknown>,
@@ -398,4 +398,38 @@ export async function uploadDogAvatar(
   }
 
   return jsonOk(updated);
+}
+
+export async function getDogAvatar(
+  _request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  const dog = await env.DB.prepare(
+    "SELECT avatar_object_key FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+  )
+    .bind(params.id)
+    .first<{ avatar_object_key: string | null }>();
+
+  if (!dog) {
+    throw ApiError.notFound();
+  }
+
+  if (!dog.avatar_object_key) {
+    return jsonError("No avatar uploaded", "not_found", 404);
+  }
+
+  const r2Object = await getAttachment(env, dog.avatar_object_key);
+
+  if (!r2Object) {
+    return jsonError("Avatar file not found in storage", "not_found", 404);
+  }
+
+  const headers = new Headers();
+  headers.set(
+    "Content-Type",
+    r2Object.httpMetadata?.contentType ?? "application/octet-stream",
+  );
+
+  return new Response(r2Object.body, { headers });
 }

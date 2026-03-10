@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import 'api_exception.dart';
 
@@ -59,6 +61,47 @@ class ApiClient {
       headers: _headers,
     );
     return _decode(response);
+  }
+
+  Map<String, String> get _authHeaders {
+    final token = bearerToken?.trim() ?? '';
+    if (token.isEmpty) return {};
+    return {'Authorization': 'Bearer $token'};
+  }
+
+  Future<dynamic> postMultipart(
+    String path, {
+    Map<String, String> fields = const {},
+    required String fileField,
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) async {
+    final uri = Uri.parse('$baseUrl$path');
+    final request = http.MultipartRequest('POST', uri);
+    request.headers.addAll(_authHeaders);
+    request.fields.addAll(fields);
+    request.files.add(
+      http.MultipartFile.fromBytes(
+        fileField,
+        fileBytes,
+        filename: filename,
+        contentType: mimeType != null
+            ? _parseMediaType(mimeType)
+            : null,
+      ),
+    );
+    final streamed = await request.send();
+    final response = await http.Response.fromStream(streamed);
+    return _decode(response);
+  }
+
+  static MediaType? _parseMediaType(String mimeType) {
+    final parts = mimeType.split('/');
+    if (parts.length == 2) {
+      return MediaType(parts[0], parts[1]);
+    }
+    return null;
   }
 
   dynamic _decode(http.Response response) {

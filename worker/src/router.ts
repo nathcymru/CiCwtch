@@ -15,6 +15,7 @@ import {
   updateDog,
   deleteDog,
   uploadDogAvatar,
+  getDogAvatar,
 } from "./handlers/dogs";
 import {
   listWalks,
@@ -132,8 +133,9 @@ export async function route(
   const dogAvatarMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)\/avatar$/);
   if (dogAvatarMatch) {
     const params = { id: dogAvatarMatch[1] };
+    if (method === "GET") return getDogAvatar(request, env, params);
     if (method === "POST") return uploadDogAvatar(request, env, params);
-    return methodNotAllowed(["POST"]);
+    return methodNotAllowed(["GET", "POST"]);
   }
 
   if (pathname === "/api/v1/walks") {

@@ -8,6 +8,7 @@ import 'package:cicwtch/shared/presentation/empty_state_block.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/summary_metric_card.dart';
 
+import 'dog_avatar_widget.dart';
 import 'dog_create_screen.dart';
 import 'dog_detail_screen.dart';
 
@@ -168,6 +169,7 @@ class _DogsListScreenState extends State<DogsListScreen> {
         itemBuilder: (context, index) {
           final dog = filtered[index];
           return ListTile(
+            leading: DogAvatarWidget(dog: dog, radius: 20),
             title: Text(dog.name),
             subtitle: Text(dog.breedName ?? dog.breed ?? ''),
             trailing: const Icon(Icons.chevron_right),

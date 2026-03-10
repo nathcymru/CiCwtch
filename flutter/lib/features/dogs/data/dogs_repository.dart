@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/domain/models/models.dart';
 
@@ -32,5 +34,21 @@ class DogsRepository {
 
   Future<void> deleteDog(String id) async {
     await _api.delete('/api/v1/dogs/$id');
+  }
+
+  Future<Dog> uploadAvatar(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) async {
+    final json = await _api.postMultipart(
+      '/api/v1/dogs/$dogId/avatar',
+      fileField: 'avatar_file',
+      fileBytes: fileBytes,
+      filename: filename,
+      mimeType: mimeType,
+    ) as Map<String, dynamic>;
+    return Dog.fromJson(json);
   }
 }
