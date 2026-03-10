@@ -65,6 +65,50 @@ describe("route clients endpoint", () => {
   });
 });
 
+describe("route behavior-snapshots endpoint", () => {
+  it("returns 401 when auth header is missing", async () => {
+    const request = new Request(
+      "https://example.com/api/v1/dogs/dog-1/behavior-snapshots",
+    );
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(401);
+  });
+
+  it("returns JSON snapshot list when auth header is valid", async () => {
+    const request = new Request(
+      "https://example.com/api/v1/dogs/dog-1/behavior-snapshots",
+      {
+        headers: { Authorization: "Bearer test-secret-token" },
+      },
+    );
+
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(200);
+    const contentType = response.headers.get("Content-Type");
+    expect(contentType).toBe("application/json");
+
+    const body = await response.json();
+    expect(Array.isArray(body)).toBe(true);
+  });
+
+  it("returns 405 for unsupported methods", async () => {
+    const request = new Request(
+      "https://example.com/api/v1/dogs/dog-1/behavior-snapshots",
+      {
+        method: "DELETE",
+        headers: { Authorization: "Bearer test-secret-token" },
+      },
+    );
+
+    const response = await route(request, createEnv());
+
+    expect(response.status).toBe(405);
+    expect(response.headers.get("Allow")).toBe("GET, POST");
+  });
+});
+
 describe("route dashboard endpoint", () => {
   it("returns 401 when dashboard auth header is missing", async () => {
     const request = new Request("https://example.com/api/v1/dashboard");
