@@ -33,7 +33,6 @@ class DogAvatarWidget extends StatelessWidget {
         headers: token.isNotEmpty ? {'Authorization': 'Bearer $token'} : {},
       ),
       onBackgroundImageError: (_, __) {},
-      child: null,
     );
   }
 }
