@@ -18,6 +18,8 @@
 </p>
 Dogs belong to clients through `client_id`.
 
+Dogs may optionally reference a breed from the `breeds` lookup table via `breed_id`. When a breed is linked, the API response includes `breed_name` resolved via a join.
+
 ## Endpoints
 
 - `GET /api/v1/dogs`
@@ -25,12 +27,14 @@ Dogs belong to clients through `client_id`.
 - `POST /api/v1/dogs`
 - `PUT /api/v1/dogs/:id`
 - `DELETE /api/v1/dogs/:id`
+- `GET /api/v1/breeds` — list all available breeds
 
 ## Validation
 
 - `client_id` is required and must reference an active client.
 - `name` is required.
 - `sex` must be one of `male`, `female`, or `unknown` when supplied.
+- `breed_id` is optional and references the `breeds` lookup table.
 
 ---
 <p align="center">

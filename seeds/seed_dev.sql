@@ -38,16 +38,31 @@ VALUES
   ('cc-0003', 'client-0003', 'Dafydd Morgan', 'Husband', '07700 200003', 'dafydd.m@example.com', 1, NULL),
   ('cc-0004', 'client-0004', 'Carys Rees', 'Wife', '07700 200004', 'carys.r@example.com', 1, NULL);
 
+-- ── Breeds ────────────────────────────────────────────────────────────
+
+INSERT OR IGNORE INTO breeds (breed_id, breed_name) VALUES
+  ('breed-labrador-retriever',      'Labrador Retriever'),
+  ('breed-golden-retriever',        'Golden Retriever'),
+  ('breed-german-shepherd',         'German Shepherd'),
+  ('breed-border-collie',           'Border Collie'),
+  ('breed-cocker-spaniel',          'Cocker Spaniel'),
+  ('breed-cockapoo',                'Cockapoo'),
+  ('breed-cavapoo',                 'Cavapoo'),
+  ('breed-mixed-breed',             'Mixed Breed'),
+  ('breed-welsh-springer-spaniel',  'Welsh Springer Spaniel'),
+  ('breed-pembroke-welsh-corgi',    'Pembroke Welsh Corgi'),
+  ('breed-jack-russell-terrier',    'Jack Russell Terrier');
+
 -- ── Dogs ───────────────────────────────────────────────────────────────
 
-INSERT OR IGNORE INTO dogs (id, client_id, name, breed, sex, neutered, date_of_birth, colour, microchip_number, veterinary_practice, medical_notes, behavioural_notes, feeding_notes)
+INSERT OR IGNORE INTO dogs (id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour, microchip_number, veterinary_practice, medical_notes, behavioural_notes, feeding_notes)
 VALUES
-  ('dog-0001', 'client-0001', 'Cadi',   'Welsh Springer Spaniel', 'female', 1, '2021-03-15', 'Red and white',   '900118000123456', 'Rhiwbina Vets',       NULL,                                'Friendly with other dogs',      'Grain-free food only'),
-  ('dog-0002', 'client-0001', 'Macsen', 'Labrador Retriever',     'male',   1, '2019-08-22', 'Golden',          '900118000234567', 'Rhiwbina Vets',       'Mild hip dysplasia — avoid stairs', 'Calm temperament, slow walker', NULL),
-  ('dog-0003', 'client-0002', 'Ffion',  'Border Collie',          'female', 0, '2023-01-10', 'Black and white', '900118000345678', 'Mumbles Vet Surgery', NULL,                                'High energy, needs off-lead time', NULL),
-  ('dog-0004', 'client-0003', 'Bryn',   'Pembroke Welsh Corgi',   'male',   1, '2020-06-01', 'Tri-colour',      '900118000456789', 'Menai Vets',          'Allergic to chicken',               'Stubborn on recall',            'Lamb-based kibble'),
-  ('dog-0005', 'client-0004', 'Seren',  'Cocker Spaniel',         'female', 1, '2022-11-05', 'Chocolate',       '900118000567890', 'Aber Vets',           NULL,                                'Anxious with loud noises',      NULL),
-  ('dog-0006', 'client-0004', 'Dewi',   'Jack Russell Terrier',   'male',   0, '2024-02-14', 'White and tan',   '900118000678901', 'Aber Vets',           NULL,                                'Energetic, pulls on lead',      'Small breed kibble');
+  ('dog-0001', 'client-0001', 'Cadi',   'Welsh Springer Spaniel', 'breed-welsh-springer-spaniel', 'female', 1, '2021-03-15', 'Red and white',   '900118000123456', 'Rhiwbina Vets',       NULL,                                'Friendly with other dogs',      'Grain-free food only'),
+  ('dog-0002', 'client-0001', 'Macsen', 'Labrador Retriever',     'breed-labrador-retriever',     'male',   1, '2019-08-22', 'Golden',          '900118000234567', 'Rhiwbina Vets',       'Mild hip dysplasia — avoid stairs', 'Calm temperament, slow walker', NULL),
+  ('dog-0003', 'client-0002', 'Ffion',  'Border Collie',          'breed-border-collie',          'female', 0, '2023-01-10', 'Black and white', '900118000345678', 'Mumbles Vet Surgery', NULL,                                'High energy, needs off-lead time', NULL),
+  ('dog-0004', 'client-0003', 'Bryn',   'Pembroke Welsh Corgi',   'breed-pembroke-welsh-corgi',   'male',   1, '2020-06-01', 'Tri-colour',      '900118000456789', 'Menai Vets',          'Allergic to chicken',               'Stubborn on recall',            'Lamb-based kibble'),
+  ('dog-0005', 'client-0004', 'Seren',  'Cocker Spaniel',         'breed-cocker-spaniel',         'female', 1, '2022-11-05', 'Chocolate',       '900118000567890', 'Aber Vets',           NULL,                                'Anxious with loud noises',      NULL),
+  ('dog-0006', 'client-0004', 'Dewi',   'Jack Russell Terrier',   'breed-jack-russell-terrier',   'male',   0, '2024-02-14', 'White and tan',   '900118000678901', 'Aber Vets',           NULL,                                'Energetic, pulls on lead',      'Small breed kibble');
 
 -- ── Dog notes ──────────────────────────────────────────────────────────
 

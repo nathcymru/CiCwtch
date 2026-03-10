@@ -80,6 +80,8 @@ The current database schema lives in [`migrations/0001_initial_schema.sql`](../.
 - attachments
 - audit_log
 
+The `breeds` lookup table was added in [`migrations/0002_breeds_lookup.sql`](../../migrations/0002_breeds_lookup.sql). Dogs reference breeds via `breed_id`.
+
 ## Not implemented yet
 
 The following remain planned rather than live:

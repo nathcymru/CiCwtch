@@ -27,6 +27,7 @@ CiCwtch currently uses **Cloudflare D1** as the source of truth for operational 
 
 - A client may have one linked address and many dogs.
 - A dog belongs to one client.
+- A dog may optionally reference one breed from the `breeds` lookup table via `breed_id`.
 - A walk belongs to one client and one dog, and may optionally reference one walker.
 - A walker may hold many compliance items.
 - An invoice header belongs to one client.
@@ -47,6 +48,10 @@ Invoice lines do not currently use soft deletion and are hard-deleted.
 ## Attachments and audit log
 
 The schema already includes `attachments` and `audit_log` tables, but Phase 1 does not yet expose full attachment handling or systematic audit-log writing from the Worker.
+
+## Breeds lookup
+
+The `breeds` table is a global/reference lookup table. It normalises breed data so that dogs reference a `breed_id` instead of storing free-text breed values. The existing free-text `breed` column on `dogs` is retained for backward compatibility. Breed data (breed names) is non-personal, non-sensitive operational reference data and carries no GDPR implications.
 
 ## Multi-tenancy
 

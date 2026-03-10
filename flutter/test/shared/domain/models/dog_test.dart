@@ -9,6 +9,8 @@ void main() {
         'client_id': 'client-001',
         'name': 'Buddy',
         'breed': 'Labrador Retriever',
+        'breed_id': 'breed-labrador-retriever',
+        'breed_name': 'Labrador Retriever',
         'sex': 'male',
         'neutered': 1,
         'date_of_birth': '2020-05-15',
@@ -29,6 +31,8 @@ void main() {
       expect(dog.clientId, 'client-001');
       expect(dog.name, 'Buddy');
       expect(dog.breed, 'Labrador Retriever');
+      expect(dog.breedId, 'breed-labrador-retriever');
+      expect(dog.breedName, 'Labrador Retriever');
       expect(dog.sex, 'male');
       expect(dog.neutered, isTrue);
       expect(dog.dateOfBirth, '2020-05-15');
@@ -49,6 +53,8 @@ void main() {
         'client_id': 'client-002',
         'name': 'Rex',
         'breed': null,
+        'breed_id': null,
+        'breed_name': null,
         'sex': null,
         'neutered': 0,
         'date_of_birth': null,
@@ -69,6 +75,8 @@ void main() {
       expect(dog.clientId, 'client-002');
       expect(dog.name, 'Rex');
       expect(dog.breed, isNull);
+      expect(dog.breedId, isNull);
+      expect(dog.breedName, isNull);
       expect(dog.sex, isNull);
       expect(dog.neutered, isFalse);
       expect(dog.dateOfBirth, isNull);
@@ -87,6 +95,8 @@ void main() {
         'client_id': 'client-003',
         'name': 'Retired Rover',
         'breed': null,
+        'breed_id': null,
+        'breed_name': null,
         'sex': null,
         'neutered': 0,
         'date_of_birth': null,
@@ -112,6 +122,8 @@ void main() {
         'client_id': 'c',
         'name': 'A',
         'breed': null,
+        'breed_id': null,
+        'breed_name': null,
         'sex': null,
         'neutered': 0,
         'date_of_birth': null,
@@ -135,6 +147,8 @@ void main() {
         'client_id': 'c',
         'name': 'B',
         'breed': null,
+        'breed_id': null,
+        'breed_name': null,
         'sex': null,
         'neutered': 1,
         'date_of_birth': null,
@@ -160,6 +174,8 @@ void main() {
         clientId: 'client-001',
         name: 'Buddy',
         breed: 'Labrador',
+        breedId: 'breed-labrador-retriever',
+        breedName: 'Labrador Retriever',
         sex: 'male',
         neutered: true,
         dateOfBirth: '2020-05-15',
@@ -179,6 +195,8 @@ void main() {
       expect(json['client_id'], 'client-001');
       expect(json['name'], 'Buddy');
       expect(json['breed'], 'Labrador');
+      expect(json['breed_id'], 'breed-labrador-retriever');
+      expect(json['breed_name'], 'Labrador Retriever');
       expect(json['sex'], 'male');
       expect(json['neutered'], 1);
       expect(json['date_of_birth'], '2020-05-15');
@@ -232,6 +250,8 @@ void main() {
       final json = dog.toJson();
 
       expect(json['breed'], isNull);
+      expect(json['breed_id'], isNull);
+      expect(json['breed_name'], isNull);
       expect(json['sex'], isNull);
       expect(json['date_of_birth'], isNull);
       expect(json['colour'], isNull);
@@ -251,6 +271,8 @@ void main() {
         'client_id': 'client-rt',
         'name': 'Round Trip',
         'breed': 'Poodle',
+        'breed_id': 'breed-poodle',
+        'breed_name': 'Poodle',
         'sex': 'female',
         'neutered': 1,
         'date_of_birth': '2019-08-20',

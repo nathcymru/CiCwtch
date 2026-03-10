@@ -4,6 +4,8 @@ class Dog {
     required this.clientId,
     required this.name,
     this.breed,
+    this.breedId,
+    this.breedName,
     this.sex,
     required this.neutered,
     this.dateOfBirth,
@@ -22,6 +24,8 @@ class Dog {
   final String clientId;
   final String name;
   final String? breed;
+  final String? breedId;
+  final String? breedName;
   final String? sex;
   final bool neutered;
   final String? dateOfBirth;
@@ -41,6 +45,8 @@ class Dog {
       clientId: json['client_id'] as String,
       name: json['name'] as String,
       breed: json['breed'] as String?,
+      breedId: json['breed_id'] as String?,
+      breedName: json['breed_name'] as String?,
       sex: json['sex'] as String?,
       neutered: (json['neutered'] as int) == 1,
       dateOfBirth: json['date_of_birth'] as String?,
@@ -62,6 +68,8 @@ class Dog {
       'client_id': clientId,
       'name': name,
       'breed': breed,
+      'breed_id': breedId,
+      'breed_name': breedName,
       'sex': sex,
       'neutered': neutered ? 1 : 0,
       'date_of_birth': dateOfBirth,
