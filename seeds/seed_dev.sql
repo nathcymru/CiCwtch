@@ -53,16 +53,25 @@ INSERT OR IGNORE INTO breeds (breed_id, breed_name) VALUES
   ('breed-pembroke-welsh-corgi',    'Pembroke Welsh Corgi'),
   ('breed-jack-russell-terrier',    'Jack Russell Terrier');
 
+-- ── Veterinary practices ────────────────────────────────────────────
+
+INSERT OR IGNORE INTO veterinary_practices (id, name, phone, email, address) VALUES
+  ('vet-rhiwbina',    'Rhiwbina Vets',        '029 2061 1234', 'info@rhiwbinavets.example.com',    '12 Heol y Deri, Rhiwbina, Cardiff CF14 6UH'),
+  ('vet-mumbles',     'Mumbles Vet Surgery',  '01792 360123',  'enquiries@mumblesvets.example.com','8 Newton Road, Mumbles, Swansea SA3 4AS'),
+  ('vet-menai',       'Menai Vets',           '01248 670456',  'reception@menaivets.example.com',  '15 Stryd y Bont, Caernarfon, Gwynedd LL55 1AB'),
+  ('vet-aber',        'Aber Vets',            '01970 612789',  'hello@abervets.example.com',       '4 Terrace Road, Aberystwyth, Ceredigion SY23 1NP'),
+  ('vet-ponty',       'Pontypridd Animal Care','01443 400321', 'care@pontyac.example.com',         '21 Taff Street, Pontypridd, CF37 4UQ');
+
 -- ── Dogs ───────────────────────────────────────────────────────────────
 
-INSERT OR IGNORE INTO dogs (id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour, microchip_number, veterinary_practice, medical_notes, behavioural_notes, feeding_notes)
+INSERT OR IGNORE INTO dogs (id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour, microchip_number, veterinary_practice, medical_notes, behavioural_notes, feeding_notes, allergies, allergies_notes, medication, medication_notes, vet_practice_id, energy_level, leash_manners, recall_rating, aggressive, muzzle_required, special_commands, gear_location)
 VALUES
-  ('dog-0001', 'client-0001', 'Cadi',   'Welsh Springer Spaniel', 'breed-welsh-springer-spaniel', 'female', 1, '2021-03-15', 'Red and white',   '900118000123456', 'Rhiwbina Vets',       NULL,                                'Friendly with other dogs',      'Grain-free food only'),
-  ('dog-0002', 'client-0001', 'Macsen', 'Labrador Retriever',     'breed-labrador-retriever',     'male',   1, '2019-08-22', 'Golden',          '900118000234567', 'Rhiwbina Vets',       'Mild hip dysplasia — avoid stairs', 'Calm temperament, slow walker', NULL),
-  ('dog-0003', 'client-0002', 'Ffion',  'Border Collie',          'breed-border-collie',          'female', 0, '2023-01-10', 'Black and white', '900118000345678', 'Mumbles Vet Surgery', NULL,                                'High energy, needs off-lead time', NULL),
-  ('dog-0004', 'client-0003', 'Bryn',   'Pembroke Welsh Corgi',   'breed-pembroke-welsh-corgi',   'male',   1, '2020-06-01', 'Tri-colour',      '900118000456789', 'Menai Vets',          'Allergic to chicken',               'Stubborn on recall',            'Lamb-based kibble'),
-  ('dog-0005', 'client-0004', 'Seren',  'Cocker Spaniel',         'breed-cocker-spaniel',         'female', 1, '2022-11-05', 'Chocolate',       '900118000567890', 'Aber Vets',           NULL,                                'Anxious with loud noises',      NULL),
-  ('dog-0006', 'client-0004', 'Dewi',   'Jack Russell Terrier',   'breed-jack-russell-terrier',   'male',   0, '2024-02-14', 'White and tan',   '900118000678901', 'Aber Vets',           NULL,                                'Energetic, pulls on lead',      'Small breed kibble');
+  ('dog-0001', 'client-0001', 'Cadi',   'Welsh Springer Spaniel', 'breed-welsh-springer-spaniel', 'female', 1, '2021-03-15', 'Red and white',   '900118000123456', 'Rhiwbina Vets',       NULL,                                'Friendly with other dogs',      'Grain-free food only',  0, NULL, 0, NULL, 'vet-rhiwbina', 'high', 'good', 'good', 0, 0, NULL, 'Hooks by back door'),
+  ('dog-0002', 'client-0001', 'Macsen', 'Labrador Retriever',     'breed-labrador-retriever',     'male',   1, '2019-08-22', 'Golden',          '900118000234567', 'Rhiwbina Vets',       'Mild hip dysplasia — avoid stairs', 'Calm temperament, slow walker', NULL,                    0, NULL, 1, 'Glucosamine supplement daily', 'vet-rhiwbina', 'low', 'excellent', 'good', 0, 0, NULL, 'Lead on coat hook in hall'),
+  ('dog-0003', 'client-0002', 'Ffion',  'Border Collie',          'breed-border-collie',          'female', 0, '2023-01-10', 'Black and white', '900118000345678', 'Mumbles Vet Surgery', NULL,                                'High energy, needs off-lead time', NULL,                0, NULL, 0, NULL, 'vet-mumbles', 'high', 'fair', 'excellent', 0, 0, 'Hand signal for recall', 'Basket in utility room'),
+  ('dog-0004', 'client-0003', 'Bryn',   'Pembroke Welsh Corgi',   'breed-pembroke-welsh-corgi',   'male',   1, '2020-06-01', 'Tri-colour',      '900118000456789', 'Menai Vets',          'Allergic to chicken',               'Stubborn on recall',            'Lamb-based kibble',     1, 'Chicken protein', 0, NULL, 'vet-menai', 'medium', 'good', 'poor', 0, 0, NULL, NULL),
+  ('dog-0005', 'client-0004', 'Seren',  'Cocker Spaniel',         'breed-cocker-spaniel',         'female', 1, '2022-11-05', 'Chocolate',       '900118000567890', 'Aber Vets',           NULL,                                'Anxious with loud noises',      NULL,                    0, NULL, 0, NULL, 'vet-aber', 'medium', 'good', 'fair', 0, 0, NULL, 'Red lead in porch'),
+  ('dog-0006', 'client-0004', 'Dewi',   'Jack Russell Terrier',   'breed-jack-russell-terrier',   'male',   0, '2024-02-14', 'White and tan',   '900118000678901', 'Aber Vets',           NULL,                                'Energetic, pulls on lead',      'Small breed kibble',    0, NULL, 0, NULL, 'vet-aber', 'high', 'poor', 'fair', 0, 0, NULL, NULL);
 
 -- ── Dog notes ──────────────────────────────────────────────────────────
 

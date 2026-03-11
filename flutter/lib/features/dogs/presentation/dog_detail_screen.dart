@@ -159,26 +159,54 @@ class _DogDetailScreenState extends State<DogDetailScreen> {
       children: [
         Center(child: DogAvatarWidget(dog: dog, radius: 48)),
         const SizedBox(height: 16),
+        const SectionHeading(title: 'Identity'),
         DetailRow(label: 'Name', value: dog.name),
         DetailRow(label: 'Client ID', value: dog.clientId),
         if (dog.breed != null || dog.breedName != null)
           DetailRow(label: 'Breed', value: dog.breedName ?? dog.breed ?? ''),
         if (dog.sex != null) DetailRow(label: 'Sex', value: dog.sex!),
-        DetailRow(label: 'Neutered', value: dog.neutered ? 'Yes' : 'No'),
         if (dog.dateOfBirth != null)
           DetailRow(label: 'Date of birth', value: dog.dateOfBirth!),
         if (dog.colour != null)
           DetailRow(label: 'Colour', value: dog.colour!),
         if (dog.microchipNumber != null)
           DetailRow(label: 'Microchip', value: dog.microchipNumber!),
+        const Divider(height: 32),
+        const SectionHeading(title: 'Health'),
+        DetailRow(label: 'Spayed / neutered', value: dog.neutered ? 'Yes' : 'No'),
+        DetailRow(label: 'Allergies', value: dog.allergies ? 'Yes' : 'No'),
+        if (dog.allergies && dog.allergiesNotes != null)
+          DetailRow(label: 'Allergy details', value: dog.allergiesNotes!),
+        DetailRow(label: 'Medication', value: dog.medication ? 'Yes' : 'No'),
+        if (dog.medication && dog.medicationNotes != null)
+          DetailRow(label: 'Medication details', value: dog.medicationNotes!),
+        if (dog.vetPracticeName != null)
+          DetailRow(label: 'Vet practice', value: dog.vetPracticeName!),
         if (dog.veterinaryPractice != null)
-          DetailRow(label: 'Vet practice', value: dog.veterinaryPractice!),
+          DetailRow(label: 'Vet (free text)', value: dog.veterinaryPractice!),
         if (dog.medicalNotes != null)
           DetailRow(label: 'Medical notes', value: dog.medicalNotes!),
-        if (dog.behaviouralNotes != null)
-          DetailRow(label: 'Behavioural notes', value: dog.behaviouralNotes!),
         if (dog.feedingNotes != null)
           DetailRow(label: 'Feeding notes', value: dog.feedingNotes!),
+        const Divider(height: 32),
+        const SectionHeading(title: 'Behaviour'),
+        if (dog.energyLevel != null)
+          DetailRow(label: 'Energy level', value: dog.energyLevel!),
+        if (dog.leashManners != null)
+          DetailRow(label: 'Leash manners', value: dog.leashManners!),
+        if (dog.recallRating != null)
+          DetailRow(label: 'Recall', value: dog.recallRating!),
+        DetailRow(label: 'Aggressive', value: dog.aggressive ? 'Yes' : 'No'),
+        if (dog.aggressive)
+          DetailRow(label: 'Muzzle required', value: dog.muzzleRequired ? 'Yes' : 'No'),
+        if (dog.specialCommands != null)
+          DetailRow(label: 'Special commands', value: dog.specialCommands!),
+        if (dog.behaviouralNotes != null)
+          DetailRow(label: 'Behavioural notes', value: dog.behaviouralNotes!),
+        const Divider(height: 32),
+        const SectionHeading(title: 'Logistics'),
+        if (dog.gearLocation != null)
+          DetailRow(label: 'Gear location', value: dog.gearLocation!),
         const Divider(height: 32),
         _buildSnapshotSection(),
         const Divider(height: 32),
