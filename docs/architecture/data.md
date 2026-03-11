@@ -28,6 +28,7 @@ CiCwtch currently uses **Cloudflare D1** as the source of truth for operational 
 - A client may have one linked address and many dogs.
 - A dog belongs to one client.
 - A dog may optionally reference one breed from the `breeds` lookup table via `breed_id`.
+- A dog may optionally reference one veterinary practice from the `veterinary_practices` lookup table via `vet_practice_id`.
 - A walk belongs to one client and one dog, and may optionally reference one walker.
 - A walker may hold many compliance items.
 - An invoice header belongs to one client.
@@ -51,7 +52,21 @@ The schema already includes `attachments` and `audit_log` tables, but Phase 1 do
 
 ## Breeds lookup
 
-The `breeds` table is a global/reference lookup table. It normalises breed data so that dogs reference a `breed_id` instead of storing free-text breed values. The existing free-text `breed` column on `dogs` is retained for backward compatibility. Breed data (breed names) is non-personal, non-sensitive operational reference data and carries no GDPR implications.
+The `breeds` table is a global/reference lookup table. It normalises breed data so that dogs reference a `breed_id` instead of storing free-text breed values. The existing free-text `breed` column on `dogs` is retained for backward compatibility. Breed data (breed names) is non-personal, non-sensitive operational reference data and carries no GDPR implications. As of v0.3.5, the breeds table also stores optional metadata: `breed_group`, `size_category`, and `origin_country`.
+
+## Veterinary practices lookup
+
+The `veterinary_practices` table is a global/reference lookup table introduced in v0.3.5. Dogs may optionally reference a `vet_practice_id` to link to a structured vet practice record (name, phone, email, address). The existing free-text `veterinary_practice` column on `dogs` is retained for backward compatibility. Vet practice records contain business contact information (not personal data) and are operational reference data.
+
+## Dog enrichment (v0.3.5)
+
+As of v0.3.5, the `dogs` table includes additional columns for richer dog profiles:
+
+- **Health:** `allergies` (boolean), `allergies_notes`, `medication` (boolean), `medication_notes`, `vet_practice_id` (FK to `veterinary_practices`)
+- **Behaviour:** `energy_level`, `leash_manners`, `recall_rating`, `aggressive` (boolean), `muzzle_required` (boolean), `special_commands`
+- **Logistics:** `walking_gear_object_key` (R2 pointer), `gear_location`
+
+All new columns are nullable or have safe defaults (`0` for booleans), ensuring backward compatibility with existing dog records.
 
 ## Dog media (R2 pointer pattern)
 

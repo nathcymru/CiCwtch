@@ -68,6 +68,32 @@ dataset:
             data_categories: [system.operations]
           - name: nose_print_object_key
             data_categories: [system.operations]
+          - name: allergies
+            data_categories: [system.operations]
+          - name: allergies_notes
+            data_categories: [user.behavioral]
+          - name: medication
+            data_categories: [system.operations]
+          - name: medication_notes
+            data_categories: [user.behavioral]
+          - name: vet_practice_id
+            data_categories: [system.operations]
+          - name: energy_level
+            data_categories: [system.operations]
+          - name: leash_manners
+            data_categories: [system.operations]
+          - name: recall_rating
+            data_categories: [system.operations]
+          - name: aggressive
+            data_categories: [system.operations]
+          - name: muzzle_required
+            data_categories: [system.operations]
+          - name: special_commands
+            data_categories: [user.behavioral]
+          - name: walking_gear_object_key
+            data_categories: [system.operations]
+          - name: gear_location
+            data_categories: [user.behavioral]
       - name: behavior_snapshots
         fields:
           - name: dog_id
@@ -99,6 +125,24 @@ dataset:
           - name: breed_id
             data_categories: [system.operations]
           - name: breed_name
+            data_categories: [system.operations]
+          - name: breed_group
+            data_categories: [system.operations]
+          - name: size_category
+            data_categories: [system.operations]
+          - name: origin_country
+            data_categories: [system.operations]
+      - name: veterinary_practices
+        fields:
+          - name: id
+            data_categories: [system.operations]
+          - name: name
+            data_categories: [system.operations]
+          - name: phone
+            data_categories: [system.operations]
+          - name: email
+            data_categories: [system.operations]
+          - name: address
             data_categories: [system.operations]
       - name: walkers
         fields:

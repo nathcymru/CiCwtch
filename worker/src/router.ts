@@ -55,6 +55,7 @@ import {
 } from "./handlers/vaccinations";
 import { createAttachment, getAttachmentById } from "./handlers/attachments";
 import { listBreeds } from "./handlers/breeds";
+import { listVetPractices } from "./handlers/vet_practices";
 import { getDashboard } from "./handlers/dashboard";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
@@ -120,6 +121,11 @@ export async function route(
 
   if (pathname === "/api/v1/breeds") {
     if (method === "GET") return listBreeds(request, env);
+    return methodNotAllowed(["GET"]);
+  }
+
+  if (pathname === "/api/v1/vet-practices") {
+    if (method === "GET") return listVetPractices(request, env);
     return methodNotAllowed(["GET"]);
   }
 

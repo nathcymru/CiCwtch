@@ -36,6 +36,19 @@ interface DogRow {
   avatar_object_key: string | null;
   profile_photo_object_key: string | null;
   nose_print_object_key: string | null;
+  allergies: number;
+  allergies_notes: string | null;
+  medication: number;
+  medication_notes: string | null;
+  vet_practice_id: string | null;
+  energy_level: string | null;
+  leash_manners: string | null;
+  recall_rating: string | null;
+  aggressive: number;
+  muzzle_required: number;
+  special_commands: string | null;
+  walking_gear_object_key: string | null;
+  gear_location: string | null;
   archived_at: string | null;
   created_at: string;
   updated_at: string;
@@ -43,6 +56,7 @@ interface DogRow {
 
 interface DogWithBreedRow extends DogRow {
   breed_name: string | null;
+  vet_practice_name: string | null;
 }
 
 export async function listDogs(
@@ -50,9 +64,10 @@ export async function listDogs(
   env: Env,
 ): Promise<Response> {
   const { results } = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
      FROM dogs
      LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
      WHERE dogs.archived_at IS NULL
      ORDER BY dogs.name ASC`,
   ).all<DogWithBreedRow>();
@@ -65,9 +80,10 @@ export async function getDog(
   params: { id: string },
 ): Promise<Response> {
   const dog = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
      FROM dogs
      LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
      WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
   )
     .bind(params.id)
@@ -145,6 +161,19 @@ export async function createDog(
     avatar_object_key: null,
     profile_photo_object_key: null,
     nose_print_object_key: null,
+    allergies: parseNeutered(body["allergies"]),
+    allergies_notes: optionalString(body, "allergies_notes"),
+    medication: parseNeutered(body["medication"]),
+    medication_notes: optionalString(body, "medication_notes"),
+    vet_practice_id: optionalString(body, "vet_practice_id"),
+    energy_level: optionalString(body, "energy_level"),
+    leash_manners: optionalString(body, "leash_manners"),
+    recall_rating: optionalString(body, "recall_rating"),
+    aggressive: parseNeutered(body["aggressive"]),
+    muzzle_required: parseNeutered(body["muzzle_required"]),
+    special_commands: optionalString(body, "special_commands"),
+    walking_gear_object_key: null,
+    gear_location: optionalString(body, "gear_location"),
     archived_at: null,
     created_at: now,
     updated_at: now,
@@ -155,8 +184,11 @@ export async function createDog(
       id, client_id, name, breed, breed_id, sex, neutered, date_of_birth, colour,
       microchip_number, veterinary_practice, medical_notes, behavioural_notes,
       feeding_notes, avatar_object_key, profile_photo_object_key, nose_print_object_key,
+      allergies, allergies_notes, medication, medication_notes, vet_practice_id,
+      energy_level, leash_manners, recall_rating, aggressive, muzzle_required,
+      special_commands, walking_gear_object_key, gear_location,
       archived_at, created_at, updated_at
-    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20)`,
+    ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33)`,
   )
     .bind(
       dog.id,
@@ -176,6 +208,19 @@ export async function createDog(
       dog.avatar_object_key,
       dog.profile_photo_object_key,
       dog.nose_print_object_key,
+      dog.allergies,
+      dog.allergies_notes,
+      dog.medication,
+      dog.medication_notes,
+      dog.vet_practice_id,
+      dog.energy_level,
+      dog.leash_manners,
+      dog.recall_rating,
+      dog.aggressive,
+      dog.muzzle_required,
+      dog.special_commands,
+      dog.walking_gear_object_key,
+      dog.gear_location,
       dog.archived_at,
       dog.created_at,
       dog.updated_at,
@@ -184,9 +229,10 @@ export async function createDog(
 
   // Re-fetch with breed_name join
   const created = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
      FROM dogs
      LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
      WHERE dogs.id = ?1`,
   )
     .bind(id)
@@ -271,8 +317,20 @@ export async function updateDog(
       medical_notes = ?11,
       behavioural_notes = ?12,
       feeding_notes = ?13,
-      updated_at = ?14
-    WHERE id = ?15 AND archived_at IS NULL`,
+      allergies = ?14,
+      allergies_notes = ?15,
+      medication = ?16,
+      medication_notes = ?17,
+      vet_practice_id = ?18,
+      energy_level = ?19,
+      leash_manners = ?20,
+      recall_rating = ?21,
+      aggressive = ?22,
+      muzzle_required = ?23,
+      special_commands = ?24,
+      gear_location = ?25,
+      updated_at = ?26
+    WHERE id = ?27 AND archived_at IS NULL`,
   )
     .bind(
       clientId,
@@ -288,15 +346,28 @@ export async function updateDog(
       optionalString(body, "medical_notes"),
       optionalString(body, "behavioural_notes"),
       optionalString(body, "feeding_notes"),
+      parseNeutered(body["allergies"]),
+      optionalString(body, "allergies_notes"),
+      parseNeutered(body["medication"]),
+      optionalString(body, "medication_notes"),
+      optionalString(body, "vet_practice_id"),
+      optionalString(body, "energy_level"),
+      optionalString(body, "leash_manners"),
+      optionalString(body, "recall_rating"),
+      parseNeutered(body["aggressive"]),
+      parseNeutered(body["muzzle_required"]),
+      optionalString(body, "special_commands"),
+      optionalString(body, "gear_location"),
       now,
       params.id,
     )
     .run();
 
   const updated = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
      FROM dogs
      LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
      WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
   )
     .bind(params.id)
@@ -385,9 +456,10 @@ export async function uploadDogAvatar(
     .run();
 
   const updated = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
      FROM dogs
      LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
      WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
   )
     .bind(params.id)

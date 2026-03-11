@@ -44,11 +44,13 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 ### Dog management
 - **Purpose:** maintain dog care and operational safety information.
 - **Data subjects:** clients indirectly; dog records are not personal data themselves, but notes may contain owner-related or veterinary contact information.
-- **Storage:** D1 `dogs`, `dog_notes`, `breeds` (lookup), `behavior_snapshots`, `vaccinations`.
-- **Media references:** The `dogs` table stores nullable R2 object-key pointers (`avatar_object_key`, `profile_photo_object_key`, `nose_print_object_key`). Actual media files are stored in Cloudflare R2, not in D1. No binary media is stored in the relational database. Dog avatar upload is active via `POST /api/v1/dogs/:id/avatar`; the uploaded image is stored in R2 and only the object key is saved in D1. Dog avatar images are operational pet photographs and do not constitute sensitive personal data.
+- **Storage:** D1 `dogs`, `dog_notes`, `breeds` (lookup), `veterinary_practices` (lookup), `behavior_snapshots`, `vaccinations`.
+- **Media references:** The `dogs` table stores nullable R2 object-key pointers (`avatar_object_key`, `profile_photo_object_key`, `nose_print_object_key`, `walking_gear_object_key`). Actual media files are stored in Cloudflare R2, not in D1. No binary media is stored in the relational database. Dog avatar upload is active via `POST /api/v1/dogs/:id/avatar`; the uploaded image is stored in R2 and only the object key is saved in D1. Dog avatar images are operational pet photographs and do not constitute sensitive personal data.
 - **Behaviour snapshots:** The `behavior_snapshots` table stores timestamped behavioural ratings (recall, leash manners, energy level) and free-text notes per dog. These are operational dog data, not human special-category personal data. Snapshots are historical records and are not collapsed back into a single mutable dog row.
 - **Vaccination records:** The `vaccinations` table stores vaccination name, date administered, optional expiration date, and an optional R2 document object key per dog. These are operational dog health records. Supporting documents are stored in R2; only the object key pointer is stored in D1.
-- **Note:** The `breeds` table contains only breed names, which are non-personal, non-sensitive reference data. No GDPR risk is introduced by this table.
+- **Dog enrichment (v0.3.5):** The `dogs` table includes health fields (allergies, medication, vet_practice_id), behaviour fields (energy_level, leash_manners, recall_rating, aggressive, muzzle_required, special_commands), and logistics fields (walking_gear_object_key, gear_location). Free-text notes may contain owner-related or veterinary information.
+- **Veterinary practices:** The `veterinary_practices` table stores business contact information (name, phone, email, address) for vet practices. This is business-to-business operational data. Dogs may reference a vet practice via `vet_practice_id`.
+- **Note:** The `breeds` table contains breed names and optional metadata (breed_group, size_category, origin_country), which are non-personal, non-sensitive reference data. No GDPR risk is introduced by this table.
 
 ### Walk scheduling and delivery
 - **Purpose:** plan and record services.

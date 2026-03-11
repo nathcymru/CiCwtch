@@ -9,6 +9,7 @@ export 'dog.dart';
 export 'dog_note.dart';
 export 'invoice_header.dart';
 export 'invoice_line.dart';
+export 'veterinary_practice.dart';
 export 'walk.dart';
 export 'walk_report.dart';
 export 'vaccination.dart';
