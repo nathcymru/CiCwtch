@@ -368,7 +368,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
             )
           else
             DropdownButtonFormField<String>(
-              value: _breedId,
+              initialValue: _breedId,
               decoration: InputDecoration(
                 labelText: 'Breed',
                 border: const OutlineInputBorder(),
@@ -392,7 +392,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
             ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _sex,
+            initialValue: _sex,
             decoration: const InputDecoration(
               labelText: 'Gender',
               border: OutlineInputBorder(),
@@ -517,7 +517,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
             )
           else
             DropdownButtonFormField<String>(
-              value: _vetPracticeId,
+              initialValue: _vetPracticeId,
               decoration: const InputDecoration(
                 labelText: 'Veterinary practice',
                 border: OutlineInputBorder(),
@@ -578,7 +578,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
         children: [
           const SectionHeading(title: 'Temperament ratings'),
           DropdownButtonFormField<String>(
-            value: _energyLevel,
+            initialValue: _energyLevel,
             decoration: const InputDecoration(
               labelText: 'Energy level',
               border: OutlineInputBorder(),
@@ -593,7 +593,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _leashManners,
+            initialValue: _leashManners,
             decoration: const InputDecoration(
               labelText: 'Leash manners',
               border: OutlineInputBorder(),
@@ -609,7 +609,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: _recallRating,
+            initialValue: _recallRating,
             decoration: const InputDecoration(
               labelText: 'Recall',
               border: OutlineInputBorder(),

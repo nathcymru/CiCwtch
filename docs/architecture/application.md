@@ -63,6 +63,10 @@ Behaviour snapshots are stored as timestamped historical records per dog via `GE
 
 Vaccination records are stored per dog via `GET` and `POST /api/v1/dogs/:id/vaccinations`. Each record includes the vaccination name, date administered, optional expiration date, and an optional R2 document object key for supporting certificates. The dog detail screen lists all vaccinations and allows adding new ones.
 
+Veterinary practices are available as a read-only lookup via `GET /api/v1/vet-practices`. The dog create/edit form uses this endpoint to populate a vet practice dropdown. Dogs may reference a vet practice via `vet_practice_id`, and the existing free-text `veterinary_practice` field is retained for backward compatibility.
+
+The dog create/edit flow uses a 4-step wizard: Identity, Health, Behaviour, and Logistics. Each step validates independently, with a progress indicator and bottom-pinned navigation. The multi-step form loads breeds and vet practices from the API on initialisation.
+
 The Dashboard feature uses the dedicated `GET /api/v1/dashboard` aggregation endpoint to fetch summary counts for clients, dogs, walks, walkers, and invoices in a single request. The dashboard data layer (`DashboardRepository`) calls this endpoint via `ApiClient`, and the presentation layer displays the returned metrics in dashboard cards with loading and error states.
 
 ## Navigation

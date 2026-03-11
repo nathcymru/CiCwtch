@@ -74,6 +74,19 @@ The v0.3.0 pre-release changes extend Flutter presentation and dashboard access 
 - automated retention and erasure workflows,
 - attachment-specific privacy controls once file handling goes live.
 
+## v0.3.5 dog enrichment privacy update
+
+The v0.3.5 release extends the `dogs` table with additional health, behaviour, and logistics fields, and introduces a `veterinary_practices` lookup table.
+
+**Privacy impact noted for this release:**
+
+- New dog fields (allergies, medication, behaviour ratings, gear location) are operational pet-care data, not human personal data. However, free-text notes fields (allergies_notes, medication_notes, special_commands) may contain owner-related or veterinary contact information.
+- The `veterinary_practices` table stores business contact information (name, phone, email, address) for vet practices. This is business-to-business contact data, not personal data of natural persons.
+- The `breeds` table metadata expansion (breed_group, size_category, origin_country) is non-personal reference data.
+- No new external processor or third-country transfer has been introduced by this release.
+- No change to the current retention schedule is required by this release.
+- The Flutter multi-step dog form exposes these new fields in the client UI.
+
 ## Current status
 
 - personal data is already present in the D1 schema,
