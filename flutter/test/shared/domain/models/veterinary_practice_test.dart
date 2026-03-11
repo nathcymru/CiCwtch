@@ -51,7 +51,7 @@ void main() {
       const vp = VeterinaryPractice(
         id: 'vet-001',
         name: 'Park Vets',
-        phone: '01onal',
+        phone: '01234 567890',
         email: 'park@example.com',
         address: '1 Park Lane',
         createdAt: '2024-01-01T00:00:00.000Z',
@@ -62,7 +62,7 @@ void main() {
 
       expect(json['id'], 'vet-001');
       expect(json['name'], 'Park Vets');
-      expect(json['phone'], '01onal');
+      expect(json['phone'], '01234 567890');
       expect(json['email'], 'park@example.com');
       expect(json['address'], '1 Park Lane');
     });
@@ -73,7 +73,7 @@ void main() {
       final original = <String, dynamic>{
         'id': 'vet-rt',
         'name': 'Round Trip Vets',
-        'phone': '01onal 123',
+        'phone': '01234 567123',
         'email': 'rt@example.com',
         'address': '5 Round Trip Road',
         'created_at': '2024-05-01T08:00:00.000Z',

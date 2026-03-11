@@ -341,7 +341,6 @@ class _DogFormScreenState extends State<DogFormScreen> {
             decoration: const InputDecoration(
               labelText: 'Dog name *',
               border: OutlineInputBorder(),
-              helperText: 'The name the dog responds to',
             ),
             validator: (v) => (v == null || v.trim().isEmpty)
                 ? 'Dog name is required'
