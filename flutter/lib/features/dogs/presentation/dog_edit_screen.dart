@@ -19,9 +19,7 @@ class DogEditScreen extends StatelessWidget {
     );
     return DogFormScreen(
       dog: dog,
-      onSubmit: (payload) async {
-        await service.updateDog(dog.id, payload);
-      },
+      onSubmit: (payload) => service.updateDog(dog.id, payload),
     );
   }
 }

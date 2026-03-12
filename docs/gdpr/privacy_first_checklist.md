@@ -57,6 +57,15 @@ This includes presentation-only Flutter changes. User-facing screens still proce
 - Does authentication or authorisation need to change?
 - Are any third-country transfer questions introduced?
 
+### Dog form notes (v0.3.x)
+
+The dog create/edit form loads client names for a searchable selector.
+Only the `client_id` (UUID) is stored on the dog record — no additional
+personal data is captured or transmitted beyond what is already held in
+the `clients` table. Nose photo and walking gear photo selections are
+stored client-side only until backend upload endpoints are available.
+Behaviour snapshot ratings (integers 1–5) contain no personal data.
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>
