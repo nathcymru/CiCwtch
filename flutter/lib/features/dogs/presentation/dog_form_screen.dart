@@ -89,6 +89,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
   bool _vetPracticesLoading = true;
 
   Uint8List? _avatarBytes;
+  String? _avatarFilename;
   bool _avatarUploading = false;
   Uint8List? _nosePhotoBytes;
   Uint8List? _walkingGearPhotoBytes;
@@ -230,7 +231,10 @@ class _DogFormScreenState extends State<DogFormScreen> {
       }
     } else {
       // In create mode, store bytes locally for upload after creation
-      setState(() => _avatarBytes = bytes);
+      setState(() {
+        _avatarBytes = bytes;
+        _avatarFilename = picked.name;
+      });
     }
   }
 
@@ -376,9 +380,15 @@ class _DogFormScreenState extends State<DogFormScreen> {
             await service.uploadAvatar(
               result.id,
               fileBytes: _avatarBytes!,
-              filename: 'avatar.jpg',
+              filename: _avatarFilename ?? 'avatar.jpg',
             );
-          } catch (_) {}
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Avatar upload failed: $e')),
+              );
+            }
+          }
         }
 
         // Create initial behaviour snapshot
@@ -389,7 +399,15 @@ class _DogFormScreenState extends State<DogFormScreen> {
         };
         try {
           await service.createBehaviorSnapshot(result.id, snapshotPayload);
-        } catch (_) {}
+        } catch (e) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Behaviour snapshot failed: $e'),
+              ),
+            );
+          }
+        }
       }
 
       if (mounted) Navigator.pop(context, true);
