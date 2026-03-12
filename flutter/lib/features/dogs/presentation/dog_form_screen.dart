@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:cicwtch/features/breeds/data/breeds_repository.dart';
+import 'package:cicwtch/features/clients/data/clients_repository.dart';
 import 'package:cicwtch/features/dogs/application/dogs_service.dart';
 import 'package:cicwtch/features/dogs/data/dogs_repository.dart';
 import 'package:cicwtch/features/vet_practices/data/vet_practices_repository.dart';
@@ -22,7 +23,7 @@ class DogFormScreen extends StatefulWidget {
   });
 
   final Dog? dog;
-  final Future<void> Function(Map<String, dynamic> payload) onSubmit;
+  final Future<Dog> Function(Map<String, dynamic> payload) onSubmit;
 
   @override
   State<DogFormScreen> createState() => _DogFormScreenState();
@@ -36,7 +37,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
 
   // ── Step 1 — Identity ──────────────────────────────────────────────
   late final TextEditingController _name;
-  late final TextEditingController _clientId;
+  String? _selectedClientId;
   late final TextEditingController _dateOfBirth;
   late final TextEditingController _colour;
   late final TextEditingController _microchipNumber;
@@ -51,18 +52,25 @@ class _DogFormScreenState extends State<DogFormScreen> {
   bool _medication = false;
   late final TextEditingController _medicationNotes;
   String? _vetPracticeId;
-  late final TextEditingController _veterinaryPractice;
-  late final TextEditingController _medicalNotes;
-  late final TextEditingController _feedingNotes;
+  bool _hasMedicalConditions = false;
+  late final TextEditingController _medicalConditionNotes;
 
   // ── Step 3 — Behaviour ─────────────────────────────────────────────
-  String? _energyLevel;
-  String? _leashManners;
-  String? _recallRating;
-  bool _aggressive = false;
-  bool _muzzleRequired = false;
+  bool _hasBiteHistory = false;
+  late final TextEditingController _biteHistoryDetails;
+  bool _hasSevereReactivity = false;
+  late final TextEditingController _severeReactivityDetails;
+  bool _hasEscapeArtist = false;
+  late final TextEditingController _escapeArtistDetails;
+  bool _hasResourceGuarding = false;
+  late final TextEditingController _resourceGuardingDetails;
+
+  bool _hasSpecialCommands = false;
   late final TextEditingController _specialCommands;
-  late final TextEditingController _behaviouralNotes;
+
+  double _recallSlider = 3;
+  double _leashMannersSlider = 3;
+  double _energyLevelSlider = 3;
 
   // ── Step 4 — Logistics ─────────────────────────────────────────────
   late final TextEditingController _gearLocation;
@@ -74,11 +82,16 @@ class _DogFormScreenState extends State<DogFormScreen> {
   List<Breed> _breeds = [];
   bool _breedsLoading = true;
 
+  List<Client> _clients = [];
+  bool _clientsLoading = true;
+
   List<VeterinaryPractice> _vetPractices = [];
   bool _vetPracticesLoading = true;
 
   Uint8List? _avatarBytes;
   bool _avatarUploading = false;
+  Uint8List? _nosePhotoBytes;
+  Uint8List? _walkingGearPhotoBytes;
   Dog? _currentDog;
 
   @override
@@ -86,7 +99,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
     super.initState();
     final d = widget.dog;
     _name = TextEditingController(text: d?.name ?? '');
-    _clientId = TextEditingController(text: d?.clientId ?? '');
+    _selectedClientId = d?.clientId;
     _breedId = d?.breedId;
     _dateOfBirth = TextEditingController(text: d?.dateOfBirth ?? '');
     _colour = TextEditingController(text: d?.colour ?? '');
@@ -99,24 +112,31 @@ class _DogFormScreenState extends State<DogFormScreen> {
     _medication = d?.medication ?? false;
     _medicationNotes = TextEditingController(text: d?.medicationNotes ?? '');
     _vetPracticeId = d?.vetPracticeId;
-    _veterinaryPractice =
-        TextEditingController(text: d?.veterinaryPractice ?? '');
-    _medicalNotes = TextEditingController(text: d?.medicalNotes ?? '');
-    _feedingNotes = TextEditingController(text: d?.feedingNotes ?? '');
+    _hasMedicalConditions = (d?.medicalNotes ?? '').isNotEmpty;
+    _medicalConditionNotes =
+        TextEditingController(text: d?.medicalNotes ?? '');
 
-    _energyLevel = d?.energyLevel;
-    _leashManners = d?.leashManners;
-    _recallRating = d?.recallRating;
-    _aggressive = d?.aggressive ?? false;
-    _muzzleRequired = d?.muzzleRequired ?? false;
+    _hasBiteHistory = false;
+    _biteHistoryDetails = TextEditingController();
+    _hasSevereReactivity = false;
+    _severeReactivityDetails = TextEditingController();
+    _hasEscapeArtist = false;
+    _escapeArtistDetails = TextEditingController();
+    _hasResourceGuarding = false;
+    _resourceGuardingDetails = TextEditingController();
+
+    _hasSpecialCommands = (d?.specialCommands ?? '').isNotEmpty;
     _specialCommands = TextEditingController(text: d?.specialCommands ?? '');
-    _behaviouralNotes =
-        TextEditingController(text: d?.behaviouralNotes ?? '');
+
+    _recallSlider = 3;
+    _leashMannersSlider = 3;
+    _energyLevelSlider = 3;
 
     _gearLocation = TextEditingController(text: d?.gearLocation ?? '');
 
     _currentDog = d;
     _loadBreeds();
+    _loadClients();
     _loadVetPractices();
   }
 
@@ -135,6 +155,21 @@ class _DogFormScreenState extends State<DogFormScreen> {
     }
   }
 
+  Future<void> _loadClients() async {
+    try {
+      final repo = ClientsRepository(buildApiClient());
+      final clients = await repo.listClients();
+      if (mounted) {
+        setState(() {
+          _clients = clients;
+          _clientsLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _clientsLoading = false);
+    }
+  }
+
   Future<void> _loadVetPractices() async {
     try {
       final repo = VetPracticesRepository(buildApiClient());
@@ -150,10 +185,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
     }
   }
 
-  Future<void> _pickAndUploadAvatar() async {
-    final dog = _currentDog;
-    if (dog == null) return;
-
+  Future<void> _pickAvatar() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(
       source: ImageSource.gallery,
@@ -163,51 +195,82 @@ class _DogFormScreenState extends State<DogFormScreen> {
     if (picked == null) return;
 
     final bytes = await picked.readAsBytes();
-    setState(() {
-      _avatarUploading = true;
-      _avatarBytes = bytes;
-    });
 
-    try {
-      final service = DogsService(DogsRepository(buildApiClient()));
-      final updated = await service.uploadAvatar(
-        dog.id,
-        fileBytes: bytes,
-        filename: picked.name,
-        mimeType: picked.mimeType,
-      );
-      if (mounted) {
-        setState(() {
-          _currentDog = updated;
-          _avatarUploading = false;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Avatar uploaded')),
+    // In edit mode, upload immediately
+    final dog = _currentDog;
+    if (dog != null) {
+      setState(() {
+        _avatarUploading = true;
+        _avatarBytes = bytes;
+      });
+      try {
+        final service = DogsService(DogsRepository(buildApiClient()));
+        final updated = await service.uploadAvatar(
+          dog.id,
+          fileBytes: bytes,
+          filename: picked.name,
+          mimeType: picked.mimeType,
         );
+        if (mounted) {
+          setState(() {
+            _currentDog = updated;
+            _avatarUploading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Avatar uploaded')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() => _avatarUploading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Avatar upload failed: $e')),
+          );
+        }
       }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _avatarUploading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Avatar upload failed: $e')),
-        );
-      }
+    } else {
+      // In create mode, store bytes locally for upload after creation
+      setState(() => _avatarBytes = bytes);
     }
+  }
+
+  Future<void> _pickNosePhoto() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    if (picked == null) return;
+    final bytes = await picked.readAsBytes();
+    setState(() => _nosePhotoBytes = bytes);
+  }
+
+  Future<void> _pickWalkingGearPhoto() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    if (picked == null) return;
+    final bytes = await picked.readAsBytes();
+    setState(() => _walkingGearPhotoBytes = bytes);
   }
 
   @override
   void dispose() {
     _name.dispose();
-    _clientId.dispose();
     _dateOfBirth.dispose();
     _colour.dispose();
     _microchipNumber.dispose();
-    _veterinaryPractice.dispose();
-    _medicalNotes.dispose();
-    _behaviouralNotes.dispose();
-    _feedingNotes.dispose();
     _allergiesNotes.dispose();
     _medicationNotes.dispose();
+    _medicalConditionNotes.dispose();
+    _biteHistoryDetails.dispose();
+    _severeReactivityDetails.dispose();
+    _escapeArtistDetails.dispose();
+    _resourceGuardingDetails.dispose();
     _specialCommands.dispose();
     _gearLocation.dispose();
     super.dispose();
@@ -226,6 +289,35 @@ class _DogFormScreenState extends State<DogFormScreen> {
     setState(() => _currentStep--);
   }
 
+  String _buildBehaviouralNotes() {
+    final parts = <String>[];
+    if (_hasBiteHistory) {
+      final detail = _biteHistoryDetails.text.trim();
+      parts.add(detail.isNotEmpty
+          ? 'Bite history: $detail'
+          : 'Bite history: Yes');
+    }
+    if (_hasSevereReactivity) {
+      final detail = _severeReactivityDetails.text.trim();
+      parts.add(detail.isNotEmpty
+          ? 'Severe reactivity: $detail'
+          : 'Severe reactivity: Yes');
+    }
+    if (_hasEscapeArtist) {
+      final detail = _escapeArtistDetails.text.trim();
+      parts.add(detail.isNotEmpty
+          ? 'Escape artist: $detail'
+          : 'Escape artist: Yes');
+    }
+    if (_hasResourceGuarding) {
+      final detail = _resourceGuardingDetails.text.trim();
+      parts.add(detail.isNotEmpty
+          ? 'Resource guarding: $detail'
+          : 'Resource guarding: Yes');
+    }
+    return parts.join('\n');
+  }
+
   Future<void> _submit() async {
     if (!_validateCurrentStep()) return;
 
@@ -234,9 +326,15 @@ class _DogFormScreenState extends State<DogFormScreen> {
       _submitError = null;
     });
 
+    final behaviouralNotes = _buildBehaviouralNotes();
+    final hasAnyRedFlag = _hasBiteHistory ||
+        _hasSevereReactivity ||
+        _hasEscapeArtist ||
+        _hasResourceGuarding;
+
     final payload = <String, dynamic>{
       'name': _name.text.trim(),
-      'client_id': _clientId.text.trim(),
+      'client_id': _selectedClientId ?? '',
       'neutered': _neutered ? 1 : 0,
       if (_breedId != null && _breedId!.isNotEmpty) 'breed_id': _breedId,
       if (_sex.isNotEmpty) 'sex': _sex,
@@ -245,14 +343,10 @@ class _DogFormScreenState extends State<DogFormScreen> {
       if (_colour.text.trim().isNotEmpty) 'colour': _colour.text.trim(),
       if (_microchipNumber.text.trim().isNotEmpty)
         'microchip_number': _microchipNumber.text.trim(),
-      if (_veterinaryPractice.text.trim().isNotEmpty)
-        'veterinary_practice': _veterinaryPractice.text.trim(),
-      if (_medicalNotes.text.trim().isNotEmpty)
-        'medical_notes': _medicalNotes.text.trim(),
-      if (_behaviouralNotes.text.trim().isNotEmpty)
-        'behavioural_notes': _behaviouralNotes.text.trim(),
-      if (_feedingNotes.text.trim().isNotEmpty)
-        'feeding_notes': _feedingNotes.text.trim(),
+      if (_hasMedicalConditions &&
+          _medicalConditionNotes.text.trim().isNotEmpty)
+        'medical_notes': _medicalConditionNotes.text.trim(),
+      if (behaviouralNotes.isNotEmpty) 'behavioural_notes': behaviouralNotes,
       'allergies': _allergies ? 1 : 0,
       if (_allergiesNotes.text.trim().isNotEmpty)
         'allergies_notes': _allergiesNotes.text.trim(),
@@ -261,22 +355,43 @@ class _DogFormScreenState extends State<DogFormScreen> {
         'medication_notes': _medicationNotes.text.trim(),
       if (_vetPracticeId != null && _vetPracticeId!.isNotEmpty)
         'vet_practice_id': _vetPracticeId,
-      if (_energyLevel != null && _energyLevel!.isNotEmpty)
-        'energy_level': _energyLevel,
-      if (_leashManners != null && _leashManners!.isNotEmpty)
-        'leash_manners': _leashManners,
-      if (_recallRating != null && _recallRating!.isNotEmpty)
-        'recall_rating': _recallRating,
-      'aggressive': _aggressive ? 1 : 0,
-      'muzzle_required': _muzzleRequired ? 1 : 0,
-      if (_specialCommands.text.trim().isNotEmpty)
+      'aggressive': hasAnyRedFlag ? 1 : 0,
+      'muzzle_required': 0,
+      if (_hasSpecialCommands && _specialCommands.text.trim().isNotEmpty)
         'special_commands': _specialCommands.text.trim(),
       if (_gearLocation.text.trim().isNotEmpty)
         'gear_location': _gearLocation.text.trim(),
     };
 
     try {
-      await widget.onSubmit(payload);
+      final result = await widget.onSubmit(payload);
+
+      // Post-creation tasks
+      if (widget.dog == null) {
+        final service = DogsService(DogsRepository(buildApiClient()));
+
+        // Upload avatar if selected during creation
+        if (_avatarBytes != null) {
+          try {
+            await service.uploadAvatar(
+              result.id,
+              fileBytes: _avatarBytes!,
+              filename: 'avatar.jpg',
+            );
+          } catch (_) {}
+        }
+
+        // Create initial behaviour snapshot
+        final snapshotPayload = <String, dynamic>{
+          'recall_rating': _recallSlider.round(),
+          'leash_manners_rating': _leashMannersSlider.round(),
+          'energy_level_rating': _energyLevelSlider.round(),
+        };
+        try {
+          await service.createBehaviorSnapshot(result.id, snapshotPayload);
+        } catch (_) {}
+      }
+
       if (mounted) Navigator.pop(context, true);
     } catch (e) {
       setState(() {
@@ -297,44 +412,87 @@ class _DogFormScreenState extends State<DogFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (isEdit) ...[
-            const SectionHeading(title: 'Avatar'),
-            Center(
-              child: Column(
-                children: [
-                  if (_avatarBytes != null)
-                    CircleAvatar(
-                      radius: 48,
-                      backgroundImage: MemoryImage(_avatarBytes!),
-                    )
-                  else if (_currentDog != null)
-                    DogAvatarWidget(dog: _currentDog!, radius: 48)
-                  else
-                    const CircleAvatar(
-                      radius: 48,
-                      child: Icon(Icons.pets, size: 48),
-                    ),
-                  const SizedBox(height: 8),
-                  OutlinedButton.icon(
-                    onPressed:
-                        _avatarUploading ? null : _pickAndUploadAvatar,
-                    icon: _avatarUploading
-                        ? const SizedBox(
-                            height: 16,
-                            width: 16,
-                            child:
-                                CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.camera_alt),
-                    label: Text(
-                      _avatarUploading ? 'Uploading…' : 'Change avatar',
-                    ),
+          // ── Avatar photo ───────────────────────────────────────────
+          const SectionHeading(title: 'Avatar'),
+          Center(
+            child: Column(
+              children: [
+                if (_avatarBytes != null)
+                  CircleAvatar(
+                    radius: 48,
+                    backgroundImage: MemoryImage(_avatarBytes!),
+                  )
+                else if (isEdit && _currentDog != null)
+                  DogAvatarWidget(dog: _currentDog!, radius: 48)
+                else
+                  const CircleAvatar(
+                    radius: 48,
+                    child: Icon(Icons.pets, size: 48),
                   ),
-                ],
-              ),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: _avatarUploading ? null : _pickAvatar,
+                  icon: _avatarUploading
+                      ? const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.camera_alt),
+                  label: Text(
+                    _avatarUploading
+                        ? 'Uploading…'
+                        : _avatarBytes != null
+                            ? 'Change avatar'
+                            : 'Add avatar',
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 24),
-          ],
+          ),
+          const SizedBox(height: 16),
+
+          // ── Nose photo ─────────────────────────────────────────────
+          const SectionHeading(title: 'Nose photo'),
+          Center(
+            child: Column(
+              children: [
+                if (_nosePhotoBytes != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.memory(
+                      _nosePhotoBytes!,
+                      width: 96,
+                      height: 96,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Container(
+                    width: 96,
+                    height: 96,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.fingerprint, size: 48),
+                  ),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: _pickNosePhoto,
+                  icon: const Icon(Icons.camera_alt),
+                  label: Text(
+                    _nosePhotoBytes != null
+                        ? 'Change nose photo'
+                        : 'Add nose photo',
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // ── Basic details ──────────────────────────────────────────
           const SectionHeading(title: 'Basic details'),
           TextFormField(
             controller: _name,
@@ -348,17 +506,57 @@ class _DogFormScreenState extends State<DogFormScreen> {
             textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16),
-          TextFormField(
-            controller: _clientId,
-            decoration: const InputDecoration(
-              labelText: 'Client ID *',
-              border: OutlineInputBorder(),
+
+          // ── Client selector (fuzzy search) ─────────────────────────
+          if (_clientsLoading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          else
+            Autocomplete<Client>(
+              initialValue: TextEditingValue(
+                text: _getClientDisplayName(_selectedClientId),
+              ),
+              displayStringForOption: (c) => c.fullName,
+              optionsBuilder: (textEditingValue) {
+                final q = textEditingValue.text.toLowerCase();
+                if (q.isEmpty) return _clients;
+                return _clients.where(
+                  (c) =>
+                      c.fullName.toLowerCase().contains(q) ||
+                      (c.preferredName?.toLowerCase().contains(q) ?? false),
+                );
+              },
+              onSelected: (c) =>
+                  setState(() => _selectedClientId = c.id),
+              fieldViewBuilder:
+                  (ctx, controller, focusNode, onFieldSubmitted) {
+                return TextFormField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Client *',
+                    border: const OutlineInputBorder(),
+                    suffixIcon: _selectedClientId != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              controller.clear();
+                              setState(() => _selectedClientId = null);
+                            },
+                          )
+                        : null,
+                  ),
+                  validator: (_) => _selectedClientId == null
+                      ? 'Client is required'
+                      : null,
+                );
+              },
             ),
-            validator: (v) => (v == null || v.trim().isEmpty)
-                ? 'Client ID is required'
-                : null,
-          ),
           const SizedBox(height: 24),
+
+          // ── Breed & appearance ─────────────────────────────────────
           const SectionHeading(title: 'Breed & appearance'),
           if (_breedsLoading)
             const Padding(
@@ -366,28 +564,44 @@ class _DogFormScreenState extends State<DogFormScreen> {
               child: Center(child: CircularProgressIndicator()),
             )
           else
-            DropdownButtonFormField<String>(
-              initialValue: _breedId,
-              decoration: InputDecoration(
-                labelText: 'Breed',
-                border: const OutlineInputBorder(),
-                helperText: existingBreedText != null && _breedId == null
-                    ? 'Previously: $existingBreedText'
-                    : null,
+            Autocomplete<Breed>(
+              initialValue: TextEditingValue(
+                text: _getBreedDisplayName(_breedId),
               ),
-              items: [
-                const DropdownMenuItem<String>(
-                  value: null,
-                  child: Text('Not set'),
-                ),
-                ..._breeds.map(
-                  (b) => DropdownMenuItem<String>(
-                    value: b.breedId,
-                    child: Text(b.breedName),
+              displayStringForOption: (b) => b.breedName,
+              optionsBuilder: (textEditingValue) {
+                final q = textEditingValue.text.toLowerCase();
+                if (q.isEmpty) return _breeds;
+                return _breeds.where(
+                  (b) => b.breedName.toLowerCase().contains(q),
+                );
+              },
+              onSelected: (b) =>
+                  setState(() => _breedId = b.breedId),
+              fieldViewBuilder:
+                  (ctx, controller, focusNode, onFieldSubmitted) {
+                return TextFormField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Breed',
+                    border: const OutlineInputBorder(),
+                    helperText:
+                        existingBreedText != null && _breedId == null
+                            ? 'Previously: $existingBreedText'
+                            : null,
+                    suffixIcon: _breedId != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              controller.clear();
+                              setState(() => _breedId = null);
+                            },
+                          )
+                        : null,
                   ),
-                ),
-              ],
-              onChanged: (v) => setState(() => _breedId = v),
+                );
+              },
             ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
@@ -508,62 +722,69 @@ class _DogFormScreenState extends State<DogFormScreen> {
             ),
           ],
           const SizedBox(height: 16),
-          const SectionHeading(title: 'Veterinary contact'),
+          const SectionHeading(title: 'Vet'),
           if (_vetPracticesLoading)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(child: CircularProgressIndicator()),
             )
           else
-            DropdownButtonFormField<String>(
-              initialValue: _vetPracticeId,
+            Autocomplete<VeterinaryPractice>(
+              initialValue: TextEditingValue(
+                text: _getVetDisplayName(_vetPracticeId),
+              ),
+              displayStringForOption: (vp) => vp.name,
+              optionsBuilder: (textEditingValue) {
+                final q = textEditingValue.text.toLowerCase();
+                if (q.isEmpty) return _vetPractices;
+                return _vetPractices.where(
+                  (vp) => vp.name.toLowerCase().contains(q),
+                );
+              },
+              onSelected: (vp) =>
+                  setState(() => _vetPracticeId = vp.id),
+              fieldViewBuilder:
+                  (ctx, controller, focusNode, onFieldSubmitted) {
+                return TextFormField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Vet practice',
+                    border: const OutlineInputBorder(),
+                    suffixIcon: _vetPracticeId != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              controller.clear();
+                              setState(() => _vetPracticeId = null);
+                            },
+                          )
+                        : null,
+                  ),
+                );
+              },
+            ),
+          const SizedBox(height: 16),
+          const SectionHeading(title: 'Medical conditions'),
+          SwitchListTile(
+            value: _hasMedicalConditions,
+            onChanged: (v) => setState(() => _hasMedicalConditions = v),
+            title: const Text(
+              'Does the dog have any medical conditions relevant to walks?',
+            ),
+            contentPadding: EdgeInsets.zero,
+          ),
+          if (_hasMedicalConditions) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _medicalConditionNotes,
               decoration: const InputDecoration(
-                labelText: 'Veterinary practice',
+                labelText: 'Medical condition details',
                 border: OutlineInputBorder(),
               ),
-              items: [
-                const DropdownMenuItem<String>(
-                  value: null,
-                  child: Text('Not set'),
-                ),
-                ..._vetPractices.map(
-                  (vp) => DropdownMenuItem<String>(
-                    value: vp.id,
-                    child: Text(vp.name),
-                  ),
-                ),
-              ],
-              onChanged: (v) => setState(() => _vetPracticeId = v),
+              maxLines: 3,
             ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _veterinaryPractice,
-            decoration: const InputDecoration(
-              labelText: 'Vet practice (free text)',
-              border: OutlineInputBorder(),
-              helperText: 'Use if practice is not in the dropdown above',
-            ),
-            textCapitalization: TextCapitalization.words,
-          ),
-          const SizedBox(height: 16),
-          const SectionHeading(title: 'Medical & feeding notes'),
-          TextFormField(
-            controller: _medicalNotes,
-            decoration: const InputDecoration(
-              labelText: 'Medical notes',
-              border: OutlineInputBorder(),
-            ),
-            maxLines: 3,
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _feedingNotes,
-            decoration: const InputDecoration(
-              labelText: 'Feeding notes',
-              border: OutlineInputBorder(),
-            ),
-            maxLines: 3,
-          ),
+          ],
         ],
       ),
     );
@@ -575,92 +796,189 @@ class _DogFormScreenState extends State<DogFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SectionHeading(title: 'Temperament ratings'),
-          DropdownButtonFormField<String>(
-            initialValue: _energyLevel,
-            decoration: const InputDecoration(
-              labelText: 'Energy level',
-              border: OutlineInputBorder(),
-            ),
-            items: const [
-              DropdownMenuItem(value: null, child: Text('Not set')),
-              DropdownMenuItem(value: 'low', child: Text('Low')),
-              DropdownMenuItem(value: 'medium', child: Text('Medium')),
-              DropdownMenuItem(value: 'high', child: Text('High')),
-            ],
-            onChanged: (v) => setState(() => _energyLevel = v),
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            initialValue: _leashManners,
-            decoration: const InputDecoration(
-              labelText: 'Leash manners',
-              border: OutlineInputBorder(),
-            ),
-            items: const [
-              DropdownMenuItem(value: null, child: Text('Not set')),
-              DropdownMenuItem(value: 'poor', child: Text('Poor')),
-              DropdownMenuItem(value: 'fair', child: Text('Fair')),
-              DropdownMenuItem(value: 'good', child: Text('Good')),
-              DropdownMenuItem(value: 'excellent', child: Text('Excellent')),
-            ],
-            onChanged: (v) => setState(() => _leashManners = v),
-          ),
-          const SizedBox(height: 16),
-          DropdownButtonFormField<String>(
-            initialValue: _recallRating,
-            decoration: const InputDecoration(
-              labelText: 'Recall',
-              border: OutlineInputBorder(),
-            ),
-            items: const [
-              DropdownMenuItem(value: null, child: Text('Not set')),
-              DropdownMenuItem(value: 'poor', child: Text('Poor')),
-              DropdownMenuItem(value: 'fair', child: Text('Fair')),
-              DropdownMenuItem(value: 'good', child: Text('Good')),
-              DropdownMenuItem(value: 'excellent', child: Text('Excellent')),
-            ],
-            onChanged: (v) => setState(() => _recallRating = v),
-          ),
-          const SizedBox(height: 24),
-          const SectionHeading(title: 'Safety flags'),
+          // ── Red flags ──────────────────────────────────────────────
+          const SectionHeading(title: 'Red flags'),
+
+          // Bite History
           SwitchListTile(
-            value: _aggressive,
-            onChanged: (v) {
-              setState(() {
-                _aggressive = v;
-                if (!v) _muzzleRequired = false;
-              });
-            },
-            title: const Text('Aggressive tendencies'),
+            value: _hasBiteHistory,
+            onChanged: (v) => setState(() => _hasBiteHistory = v),
+            title: const Text(
+              'Has the dog ever bitten a person or another animal?',
+            ),
+            subtitle: const Text('Bite history'),
             contentPadding: EdgeInsets.zero,
           ),
-          if (_aggressive)
-            SwitchListTile(
-              value: _muzzleRequired,
-              onChanged: (v) => setState(() => _muzzleRequired = v),
-              title: const Text('Muzzle required'),
-              contentPadding: EdgeInsets.zero,
+          if (_hasBiteHistory) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _biteHistoryDetails,
+              decoration: const InputDecoration(
+                labelText: 'Further details (optional)',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
             ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _specialCommands,
-            decoration: const InputDecoration(
-              labelText: 'Special commands',
-              border: OutlineInputBorder(),
-              helperText: 'e.g. "aros" (wait in Welsh), hand signals',
+          ],
+          const SizedBox(height: 8),
+
+          // Severe Reactivity
+          SwitchListTile(
+            value: _hasSevereReactivity,
+            onChanged: (v) => setState(() => _hasSevereReactivity = v),
+            title: const Text(
+              'Does the dog lunge or snap at cars, bikes, or people?',
             ),
-            maxLines: 2,
+            subtitle: const Text('Severe reactivity'),
+            contentPadding: EdgeInsets.zero,
+          ),
+          if (_hasSevereReactivity) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _severeReactivityDetails,
+              decoration: const InputDecoration(
+                labelText: 'Further details (optional)',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+          ],
+          const SizedBox(height: 8),
+
+          // Escape Artist
+          SwitchListTile(
+            value: _hasEscapeArtist,
+            onChanged: (v) => setState(() => _hasEscapeArtist = v),
+            title: const Text(
+              'Has the dog ever slipped their collar or jumped a fence?',
+            ),
+            subtitle: const Text('Escape artist'),
+            contentPadding: EdgeInsets.zero,
+          ),
+          if (_hasEscapeArtist) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _escapeArtistDetails,
+              decoration: const InputDecoration(
+                labelText: 'Further details (optional)',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+          ],
+          const SizedBox(height: 8),
+
+          // Resource Guarding
+          SwitchListTile(
+            value: _hasResourceGuarding,
+            onChanged: (v) => setState(() => _hasResourceGuarding = v),
+            title: const Text(
+              'Does the dog growl or snap if you try to touch their leash, harness, or "treasures"?',
+            ),
+            subtitle: const Text('Resource guarding'),
+            contentPadding: EdgeInsets.zero,
+          ),
+          if (_hasResourceGuarding) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _resourceGuardingDetails,
+              decoration: const InputDecoration(
+                labelText: 'Further details (optional)',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+          ],
+          const SizedBox(height: 24),
+
+          // ── Temperament ────────────────────────────────────────────
+          const SectionHeading(title: 'Temperament'),
+
+          // Special Commands toggle
+          SwitchListTile(
+            value: _hasSpecialCommands,
+            onChanged: (v) => setState(() => _hasSpecialCommands = v),
+            title: const Text('Does the dog have any special commands?'),
+            subtitle: const Text(
+              'e.g. Only woofs in Welsh\nStay: Aros!\nLie down: Gorwedd!',
+            ),
+            contentPadding: EdgeInsets.zero,
+          ),
+          if (_hasSpecialCommands) ...[
+            const SizedBox(height: 8),
+            TextFormField(
+              controller: _specialCommands,
+              decoration: const InputDecoration(
+                labelText: 'Special commands',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 2,
+            ),
+          ],
+          const SizedBox(height: 24),
+
+          // ── Behaviour ratings (sliders) ────────────────────────────
+          const SectionHeading(title: 'Behaviour ratings'),
+
+          // Recall slider
+          const Text('Recall'),
+          Row(
+            children: [
+              const Text('1 — Ghosting 👻'),
+              Expanded(
+                child: Slider(
+                  value: _recallSlider,
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  label: _recallSlider.round().toString(),
+                  onChanged: (v) => setState(() => _recallSlider = v),
+                ),
+              ),
+              const Text('5 — Boomerang 🪃'),
+            ],
           ),
           const SizedBox(height: 16),
-          const SectionHeading(title: 'Behavioural notes'),
-          TextFormField(
-            controller: _behaviouralNotes,
-            decoration: const InputDecoration(
-              labelText: 'Behavioural notes',
-              border: OutlineInputBorder(),
-            ),
-            maxLines: 3,
+
+          // Leash Manners slider
+          const Text('Leash Manners'),
+          Row(
+            children: [
+              const Text('1 — Sled Dog 🛷'),
+              Expanded(
+                child: Slider(
+                  value: _leashMannersSlider,
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  label: _leashMannersSlider.round().toString(),
+                  onChanged: (v) =>
+                      setState(() => _leashMannersSlider = v),
+                ),
+              ),
+              const Text('5 — Glue 🧴'),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // Energy Level slider
+          const Text('Energy Level'),
+          Row(
+            children: [
+              const Text('1 — Couch Potato 🥔'),
+              Expanded(
+                child: Slider(
+                  value: _energyLevelSlider,
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  label: _energyLevelSlider.round().toString(),
+                  onChanged: (v) =>
+                      setState(() => _energyLevelSlider = v),
+                ),
+              ),
+              const Text('5 — Firecracker 🧨'),
+            ],
           ),
         ],
       ),
@@ -683,9 +1001,76 @@ class _DogFormScreenState extends State<DogFormScreen> {
             ),
             maxLines: 2,
           ),
+          const SizedBox(height: 24),
+
+          // ── Walking gear photo ─────────────────────────────────────
+          const SectionHeading(title: 'Walking gear photo'),
+          Center(
+            child: Column(
+              children: [
+                if (_walkingGearPhotoBytes != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.memory(
+                      _walkingGearPhotoBytes!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child:
+                        const Icon(Icons.checkroom, size: 64),
+                  ),
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: _pickWalkingGearPhoto,
+                  icon: const Icon(Icons.camera_alt),
+                  label: Text(
+                    _walkingGearPhotoBytes != null
+                        ? 'Change walking gear photo'
+                        : 'Add walking gear photo',
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  // ── Helpers ─────────────────────────────────────────────────────────
+
+  String _getClientDisplayName(String? clientId) {
+    if (clientId == null) return '';
+    for (final c in _clients) {
+      if (c.id == clientId) return c.fullName;
+    }
+    return '';
+  }
+
+  String _getBreedDisplayName(String? breedId) {
+    if (breedId == null) return '';
+    for (final b in _breeds) {
+      if (b.breedId == breedId) return b.breedName;
+    }
+    return '';
+  }
+
+  String _getVetDisplayName(String? vetPracticeId) {
+    if (vetPracticeId == null) return '';
+    for (final vp in _vetPractices) {
+      if (vp.id == vetPracticeId) return vp.name;
+    }
+    return '';
   }
 
   @override

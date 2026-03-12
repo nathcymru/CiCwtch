@@ -15,9 +15,7 @@ class DogCreateScreen extends StatelessWidget {
       DogsRepository(buildApiClient()),
     );
     return DogFormScreen(
-      onSubmit: (payload) async {
-        await service.createDog(payload);
-      },
+      onSubmit: (payload) => service.createDog(payload),
     );
   }
 }
