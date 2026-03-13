@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/app/routing/app_router.dart';
 import 'package:cicwtch/app/shell/app_shell.dart';
+import 'package:cicwtch/theme/app_theme.dart';
 
 void main() {
   runApp(const CiCwtchApp());
@@ -15,10 +16,9 @@ class CiCwtchApp extends StatelessWidget {
     return MaterialApp(
       title: 'CiCwtch',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4F7A28)),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       onGenerateRoute: AppRouter.generateRoute,
       home: const AppShell(),
     );
