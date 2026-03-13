@@ -766,14 +766,14 @@ class _DogFormScreenState extends State<DogFormScreen> {
             )
           else
             Autocomplete<VeterinaryPractice>(
-              key: ValueKey('vet_autocomplete_${_vetPractices.length}'),
+              key: const ValueKey('vet_autocomplete_loaded'),
               initialValue: TextEditingValue(
                 text: _getVetDisplayName(_vetPracticeId),
               ),
               displayStringForOption: (vp) => vp.name,
               optionsBuilder: (textEditingValue) {
                 final q = textEditingValue.text.toLowerCase();
-                if (q.isEmpty) return _vetPractices.toList();
+                if (q.isEmpty) return _vetPractices;
                 return _vetPractices
                     .where(
                       (vp) => vp.name.toLowerCase().contains(q),
