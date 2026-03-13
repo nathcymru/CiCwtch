@@ -87,6 +87,7 @@ class _DogFormScreenState extends State<DogFormScreen> {
 
   List<VeterinaryPractice> _vetPractices = [];
   bool _vetPracticesLoading = true;
+  String? _vetPracticesError;
 
   Uint8List? _avatarBytes;
   String? _avatarFilename;
@@ -179,10 +180,16 @@ class _DogFormScreenState extends State<DogFormScreen> {
         setState(() {
           _vetPractices = practices;
           _vetPracticesLoading = false;
+          _vetPracticesError = null;
         });
       }
-    } catch (_) {
-      if (mounted) setState(() => _vetPracticesLoading = false);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _vetPracticesLoading = false;
+          _vetPracticesError = 'Could not load vet practices';
+        });
+      }
     }
   }
 
@@ -357,8 +364,9 @@ class _DogFormScreenState extends State<DogFormScreen> {
       'medication': _medication ? 1 : 0,
       if (_medicationNotes.text.trim().isNotEmpty)
         'medication_notes': _medicationNotes.text.trim(),
-      if (_vetPracticeId != null && _vetPracticeId!.isNotEmpty)
-        'vet_practice_id': _vetPracticeId,
+      'vet_practice_id': (_vetPracticeId != null && _vetPracticeId!.isNotEmpty)
+          ? _vetPracticeId
+          : null,
       'aggressive': hasAnyRedFlag ? 1 : 0,
       'muzzle_required': 0,
       if (_hasSpecialCommands && _specialCommands.text.trim().isNotEmpty)
@@ -746,18 +754,31 @@ class _DogFormScreenState extends State<DogFormScreen> {
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Center(child: CircularProgressIndicator()),
             )
+          else if (_vetPracticesError != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                _vetPracticesError!,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            )
           else
             Autocomplete<VeterinaryPractice>(
+              key: ValueKey('vet_autocomplete_${_vetPractices.length}'),
               initialValue: TextEditingValue(
                 text: _getVetDisplayName(_vetPracticeId),
               ),
               displayStringForOption: (vp) => vp.name,
               optionsBuilder: (textEditingValue) {
                 final q = textEditingValue.text.toLowerCase();
-                if (q.isEmpty) return _vetPractices;
-                return _vetPractices.where(
-                  (vp) => vp.name.toLowerCase().contains(q),
-                );
+                if (q.isEmpty) return _vetPractices.toList();
+                return _vetPractices
+                    .where(
+                      (vp) => vp.name.toLowerCase().contains(q),
+                    )
+                    .toList();
               },
               onSelected: (vp) =>
                   setState(() => _vetPracticeId = vp.id),
