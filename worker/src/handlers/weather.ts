@@ -103,7 +103,14 @@ export async function getWeatherToday(
 
     if (!currentRes.ok) {
       const text = await currentRes.text();
-      console.error("Google Weather current conditions error:", text);
+      console.error(
+        JSON.stringify({
+          event: "weather_api_failure",
+          source: "currentConditions",
+          status: currentRes.status,
+          detail: text,
+        }),
+      );
       return jsonError(
         "Failed to fetch current weather conditions",
         "upstream_error",
@@ -112,14 +119,46 @@ export async function getWeatherToday(
     }
     if (!forecastRes.ok) {
       const text = await forecastRes.text();
-      console.error("Google Weather forecast error:", text);
+      console.error(
+        JSON.stringify({
+          event: "weather_api_failure",
+          source: "forecastDays",
+          status: forecastRes.status,
+          detail: text,
+        }),
+      );
       return jsonError("Failed to fetch weather forecast", "upstream_error", 502);
     }
 
-    currentData = (await currentRes.json()) as GoogleCurrentResponse;
-    forecastData = (await forecastRes.json()) as GoogleForecastResponse;
+    let parsedCurrent: unknown;
+    let parsedForecast: unknown;
+    try {
+      parsedCurrent = await currentRes.json();
+      parsedForecast = await forecastRes.json();
+    } catch (parseErr) {
+      console.error(
+        JSON.stringify({
+          event: "weather_api_invalid_response",
+          detail: String(parseErr),
+        }),
+      );
+      return jsonError(
+        "Weather service returned an unreadable response",
+        "upstream_error",
+        502,
+      );
+    }
+
+    currentData = parsedCurrent as GoogleCurrentResponse;
+    forecastData = parsedForecast as GoogleForecastResponse;
   } catch (err) {
-    console.error("Weather fetch error:", err);
+    console.error(
+      JSON.stringify({
+        event: "weather_api_failure",
+        source: "network",
+        detail: String(err),
+      }),
+    );
     return jsonError("Unable to reach weather service", "upstream_error", 502);
   }
 

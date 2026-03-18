@@ -172,7 +172,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 8),
-              Text(_weatherError!),
+              const Text(
+                'Weather data could not be loaded. Please try again.',
+              ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
                 onPressed: _loadWeather,
