@@ -59,7 +59,18 @@ jobs:
         run: flutter pub get
 
       - name: Build web (release)
-        run: flutter build web --release
+        run: |
+          BUILD_ARGS=(--release)
+          if [ -n "${API_BASE_URL:-}" ]; then
+            BUILD_ARGS+=(--dart-define="API_BASE_URL=$API_BASE_URL")
+          fi
+          if [ -n "${API_BEARER_TOKEN:-}" ]; then
+            BUILD_ARGS+=(--dart-define="API_BEARER_TOKEN=$API_BEARER_TOKEN")
+          fi
+          flutter build web "${BUILD_ARGS[@]}"
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          API_BEARER_TOKEN: ${{ secrets.API_BEARER_TOKEN }}
 
   worker-typecheck:
     name: Worker typecheck and test
