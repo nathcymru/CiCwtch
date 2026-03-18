@@ -123,7 +123,9 @@ The Worker includes centralised CORS handling in `src/cors.ts` so that browser-b
 - invoice lines
 - attachments
 - dashboard (read-only aggregate summary)
-- weather today (`GET /api/v1/weather/today`) — proxies Google Weather API; returns dog-walking safety factors and daily verdict
+- weather today (`GET /api/v1/weather/today`) — proxies Google Weather API; returns dog-walking safety factors and daily verdict using the documented top-level Weather API response shape
+- dog nose print (`GET/POST /api/v1/dogs/:id/nose-print`) — stores nose-print images in R2 and saves only the object key in D1
+- dog walking gear (`GET/POST /api/v1/dogs/:id/walking-gear`) — stores walking-gear images in R2 and saves only the object key in D1
 
 ## Routing note
 

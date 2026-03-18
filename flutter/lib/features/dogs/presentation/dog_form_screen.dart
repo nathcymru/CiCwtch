@@ -93,7 +93,9 @@ class _DogFormScreenState extends State<DogFormScreen> {
   String? _avatarFilename;
   bool _avatarUploading = false;
   Uint8List? _nosePhotoBytes;
+  String? _nosePhotoFilename;
   Uint8List? _walkingGearPhotoBytes;
+  String? _walkingGearPhotoFilename;
   Dog? _currentDog;
 
   @override
@@ -130,9 +132,9 @@ class _DogFormScreenState extends State<DogFormScreen> {
     _hasSpecialCommands = (d?.specialCommands ?? '').isNotEmpty;
     _specialCommands = TextEditingController(text: d?.specialCommands ?? '');
 
-    _recallSlider = 3;
-    _leashMannersSlider = 3;
-    _energyLevelSlider = 3;
+    _recallSlider = double.tryParse(d?.recallRating ?? '') ?? 3;
+    _leashMannersSlider = double.tryParse(d?.leashManners ?? '') ?? 3;
+    _energyLevelSlider = double.tryParse(d?.energyLevel ?? '') ?? 3;
 
     _gearLocation = TextEditingController(text: d?.gearLocation ?? '');
 
@@ -254,7 +256,41 @@ class _DogFormScreenState extends State<DogFormScreen> {
     );
     if (picked == null) return;
     final bytes = await picked.readAsBytes();
-    setState(() => _nosePhotoBytes = bytes);
+
+    final dog = _currentDog;
+    if (dog != null) {
+      final service = DogsService(DogsRepository(buildApiClient()));
+      try {
+        final updated = await service.uploadNosePrint(
+          dog.id,
+          fileBytes: bytes,
+          filename: picked.name,
+          mimeType: picked.mimeType,
+        );
+        if (mounted) {
+          setState(() {
+            _currentDog = updated;
+            _nosePhotoBytes = bytes;
+            _nosePhotoFilename = picked.name;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Nose photo uploaded')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Nose photo upload failed: $e')),
+          );
+        }
+      }
+      return;
+    }
+
+    setState(() {
+      _nosePhotoBytes = bytes;
+      _nosePhotoFilename = picked.name;
+    });
   }
 
   Future<void> _pickWalkingGearPhoto() async {
@@ -266,7 +302,41 @@ class _DogFormScreenState extends State<DogFormScreen> {
     );
     if (picked == null) return;
     final bytes = await picked.readAsBytes();
-    setState(() => _walkingGearPhotoBytes = bytes);
+
+    final dog = _currentDog;
+    if (dog != null) {
+      final service = DogsService(DogsRepository(buildApiClient()));
+      try {
+        final updated = await service.uploadWalkingGearPhoto(
+          dog.id,
+          fileBytes: bytes,
+          filename: picked.name,
+          mimeType: picked.mimeType,
+        );
+        if (mounted) {
+          setState(() {
+            _currentDog = updated;
+            _walkingGearPhotoBytes = bytes;
+            _walkingGearPhotoFilename = picked.name;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Walking gear photo uploaded')),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Walking gear photo upload failed: $e')),
+          );
+        }
+      }
+      return;
+    }
+
+    setState(() {
+      _walkingGearPhotoBytes = bytes;
+      _walkingGearPhotoFilename = picked.name;
+    });
   }
 
   @override
@@ -369,6 +439,9 @@ class _DogFormScreenState extends State<DogFormScreen> {
           : null,
       'aggressive': hasAnyRedFlag ? 1 : 0,
       'muzzle_required': 0,
+      'energy_level': _energyLevelSlider.round().toString(),
+      'leash_manners': _leashMannersSlider.round().toString(),
+      'recall_rating': _recallSlider.round().toString(),
       if (_hasSpecialCommands && _specialCommands.text.trim().isNotEmpty)
         'special_commands': _specialCommands.text.trim(),
       if (_gearLocation.text.trim().isNotEmpty)
@@ -394,6 +467,38 @@ class _DogFormScreenState extends State<DogFormScreen> {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Avatar upload failed: $e')),
+              );
+            }
+          }
+        }
+
+        if (_nosePhotoBytes != null) {
+          try {
+            await service.uploadNosePrint(
+              result.id,
+              fileBytes: _nosePhotoBytes!,
+              filename: _nosePhotoFilename ?? 'nose-print.jpg',
+            );
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Nose photo upload failed: $e')),
+              );
+            }
+          }
+        }
+
+        if (_walkingGearPhotoBytes != null) {
+          try {
+            await service.uploadWalkingGearPhoto(
+              result.id,
+              fileBytes: _walkingGearPhotoBytes!,
+              filename: _walkingGearPhotoFilename ?? 'walking-gear.jpg',
+            );
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Walking gear photo upload failed: $e')),
               );
             }
           }

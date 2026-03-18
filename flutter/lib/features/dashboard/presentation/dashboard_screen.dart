@@ -30,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   WeatherData? _weatherData;
   bool _weatherLoading = true;
+  String? _weatherError;
 
   @override
   void initState() {
@@ -61,15 +62,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _loadWeather() async {
-    setState(() => _weatherLoading = true);
+    setState(() {
+      _weatherLoading = true;
+      _weatherError = null;
+    });
     try {
       final weather = await _weatherService.loadWeather();
       setState(() {
         _weatherData = weather;
         _weatherLoading = false;
       });
-    } catch (_) {
-      setState(() => _weatherLoading = false);
+    } catch (e) {
+      setState(() {
+        _weatherData = null;
+        _weatherLoading = false;
+        _weatherError = e.toString();
+      });
     }
   }
 
@@ -147,6 +155,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               SizedBox(width: 12),
               Text("Loading today's weather…"),
+            ],
+          ),
+        ),
+      );
+    }
+    if (_weatherError != null) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Today's weather is unavailable",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Text(_weatherError!),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: _loadWeather,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry weather'),
+              ),
             ],
           ),
         ),

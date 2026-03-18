@@ -20,7 +20,7 @@ Dogs belong to clients through `client_id`.
 
 Dogs may optionally reference a breed from the `breeds` lookup table via `breed_id`. When a breed is linked, the API response includes `breed_name` resolved via a join.
 
-Dog media is stored in Cloudflare R2, not in D1. The API response includes nullable R2 object-key pointer fields: `avatar_object_key`, `profile_photo_object_key`, and `nose_print_object_key`. Avatar upload and retrieval is implemented via the `/api/v1/dogs/:id/avatar` endpoint. Profile photo and nose print upload workflows are not yet implemented.
+Dog media is stored in Cloudflare R2, not in D1. The API response includes nullable R2 object-key pointer fields for `avatar_object_key`, `profile_photo_object_key`, `nose_print_object_key`, and `walking_gear_object_key`. Avatar, nose print, and walking-gear photo upload/retrieval are implemented with dedicated dog-media endpoints. `profile_photo_object_key` remains reserved and is not currently written by the Flutter client.
 
 ## Endpoints
 
@@ -31,6 +31,10 @@ Dog media is stored in Cloudflare R2, not in D1. The API response includes nulla
 - `DELETE /api/v1/dogs/:id`
 - `GET /api/v1/dogs/:id/avatar` — retrieve dog avatar image from R2
 - `POST /api/v1/dogs/:id/avatar` — upload dog avatar (multipart/form-data, field: `avatar_file`)
+- `GET /api/v1/dogs/:id/nose-print` — retrieve dog nose-print image from R2
+- `POST /api/v1/dogs/:id/nose-print` — upload dog nose-print image (multipart/form-data, field: `nose_print_file`)
+- `GET /api/v1/dogs/:id/walking-gear` — retrieve dog walking-gear image from R2
+- `POST /api/v1/dogs/:id/walking-gear` — upload dog walking-gear image (multipart/form-data, field: `walking_gear_file`)
 - `GET /api/v1/breeds` — list all available breeds
 
 ## Validation

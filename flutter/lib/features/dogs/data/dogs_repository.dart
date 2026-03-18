@@ -52,6 +52,38 @@ class DogsRepository {
     return Dog.fromJson(json);
   }
 
+  Future<Dog> uploadNosePrint(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) async {
+    final json = await _api.postMultipart(
+      '/api/v1/dogs/$dogId/nose-print',
+      fileField: 'nose_print_file',
+      fileBytes: fileBytes,
+      filename: filename,
+      mimeType: mimeType,
+    ) as Map<String, dynamic>;
+    return Dog.fromJson(json);
+  }
+
+  Future<Dog> uploadWalkingGearPhoto(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) async {
+    final json = await _api.postMultipart(
+      '/api/v1/dogs/$dogId/walking-gear',
+      fileField: 'walking_gear_file',
+      fileBytes: fileBytes,
+      filename: filename,
+      mimeType: mimeType,
+    ) as Map<String, dynamic>;
+    return Dog.fromJson(json);
+  }
+
   Future<List<BehaviorSnapshot>> listBehaviorSnapshots(String dogId) async {
     final json = await _api.get('/api/v1/dogs/$dogId/behavior-snapshots')
         as List<dynamic>;

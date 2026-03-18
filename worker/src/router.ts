@@ -16,6 +16,10 @@ import {
   deleteDog,
   uploadDogAvatar,
   getDogAvatar,
+  uploadDogNosePrint,
+  getDogNosePrint,
+  uploadDogWalkingGearPhoto,
+  getDogWalkingGearPhoto,
 } from "./handlers/dogs";
 import {
   listWalks,
@@ -155,6 +159,23 @@ export async function route(
     const params = { id: dogAvatarMatch[1] };
     if (method === "GET") return getDogAvatar(request, env, params);
     if (method === "POST") return uploadDogAvatar(request, env, params);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+
+  const dogNosePrintMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)\/nose-print$/);
+  if (dogNosePrintMatch) {
+    const params = { id: dogNosePrintMatch[1] };
+    if (method === "GET") return getDogNosePrint(request, env, params);
+    if (method === "POST") return uploadDogNosePrint(request, env, params);
+    return methodNotAllowed(["GET", "POST"]);
+  }
+
+  const dogWalkingGearMatch = pathname.match(/^\/api\/v1\/dogs\/([^/]+)\/walking-gear$/);
+  if (dogWalkingGearMatch) {
+    const params = { id: dogWalkingGearMatch[1] };
+    if (method === "GET") return getDogWalkingGearPhoto(request, env, params);
+    if (method === "POST") return uploadDogWalkingGearPhoto(request, env, params);
     return methodNotAllowed(["GET", "POST"]);
   }
 

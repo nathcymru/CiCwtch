@@ -28,6 +28,32 @@ class DogsService {
         mimeType: mimeType,
       );
 
+  Future<Dog> uploadNosePrint(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) =>
+      _repository.uploadNosePrint(
+        dogId,
+        fileBytes: fileBytes,
+        filename: filename,
+        mimeType: mimeType,
+      );
+
+  Future<Dog> uploadWalkingGearPhoto(
+    String dogId, {
+    required Uint8List fileBytes,
+    required String filename,
+    String? mimeType,
+  }) =>
+      _repository.uploadWalkingGearPhoto(
+        dogId,
+        fileBytes: fileBytes,
+        filename: filename,
+        mimeType: mimeType,
+      );
+
   Future<List<BehaviorSnapshot>> listBehaviorSnapshots(String dogId) =>
       _repository.listBehaviorSnapshots(dogId);
 

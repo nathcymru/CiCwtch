@@ -70,13 +70,13 @@ All new columns are nullable or have safe defaults (`0` for booleans), ensuring 
 
 ## Dog media (R2 pointer pattern)
 
-Dog media (avatar, profile photo, nose print) is stored in Cloudflare R2, not in D1. The `dogs` table holds only nullable R2 object-key pointers:
+Dog media (avatar, profile photo, nose print, walking gear photo) is stored in Cloudflare R2, not in D1. The `dogs` table holds only nullable R2 object-key pointers:
 
 - `avatar_object_key`
 - `profile_photo_object_key`
 - `nose_print_object_key`
 
-These columns store path-style object keys (e.g. `dogs/{dog_id}/avatar/original.jpg`). No binary data or base64 blobs are stored in D1. Dog avatar upload is implemented via `POST /api/v1/dogs/:id/avatar`, which stores the image in R2 and saves the object key in `avatar_object_key`. Avatar retrieval is via `GET /api/v1/dogs/:id/avatar`. Profile photo and nose print media workflows will be handled separately.
+These columns store path-style object keys (for example `dogs/{dog_id}/avatar/original`). No binary data or base64 blobs are stored in D1. Dog avatar upload is implemented via `POST /api/v1/dogs/:id/avatar`, nose-print upload via `POST /api/v1/dogs/:id/nose-print`, and walking-gear upload via `POST /api/v1/dogs/:id/walking-gear`. Each writes the file to R2 and stores only the object key in D1. Retrieval is via the corresponding `GET` endpoints. `profile_photo_object_key` remains available in the schema but is not currently written by the Flutter client.
 
 ## Multi-tenancy
 

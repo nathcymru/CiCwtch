@@ -16,6 +16,112 @@ function parseNeutered(value: unknown): number {
   return 0;
 }
 
+async function requireActiveDog(env: Env, id: string): Promise<void> {
+  const existing = await env.DB.prepare(
+    "SELECT id FROM dogs WHERE id = ?1 AND archived_at IS NULL",
+  )
+    .bind(id)
+    .first<{ id: string }>();
+
+  if (!existing) {
+    throw ApiError.notFound();
+  }
+}
+
+async function uploadDogMedia(
+  request: Request,
+  env: Env,
+  dogId: string,
+  options: {
+    fileField: string;
+    objectKey: string;
+    dbColumn: "avatar_object_key" | "nose_print_object_key" | "walking_gear_object_key";
+  },
+): Promise<Response> {
+  const { fileField, objectKey, dbColumn } = options;
+  await requireActiveDog(env, dogId);
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return jsonError(
+      `Request must be multipart/form-data with a ${fileField} field`,
+      "invalid_request",
+      400,
+    );
+  }
+
+  const fileEntry = formData.get(fileField) as unknown;
+  if (!fileEntry || typeof fileEntry === "string" || !(fileEntry instanceof Blob)) {
+    return jsonError(`${fileField} field is required`, "invalid_request", 400);
+  }
+
+  const file = fileEntry as File;
+  const mimeType = file.type || "application/octet-stream";
+  const fileBytes = await file.arrayBuffer();
+
+  await putAttachment(env, objectKey, fileBytes, mimeType);
+
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `UPDATE dogs SET ${dbColumn} = ?1, updated_at = ?2 WHERE id = ?3 AND archived_at IS NULL`,
+  )
+    .bind(objectKey, now, dogId)
+    .run();
+
+  const updated = await env.DB.prepare(
+    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
+     FROM dogs
+     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
+     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
+     WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
+  )
+    .bind(dogId)
+    .first<DogWithBreedRow>();
+
+  if (!updated) {
+    throw ApiError.notFound();
+  }
+
+  return jsonOk(updated);
+}
+
+async function getDogMedia(
+  env: Env,
+  dogId: string,
+  dbColumn: "avatar_object_key" | "nose_print_object_key" | "walking_gear_object_key",
+  missingMessage: string,
+): Promise<Response> {
+  const dog = await env.DB.prepare(
+    `SELECT ${dbColumn} FROM dogs WHERE id = ?1 AND archived_at IS NULL`,
+  )
+    .bind(dogId)
+    .first<Record<string, string | null>>();
+
+  if (!dog) {
+    throw ApiError.notFound();
+  }
+
+  const objectKey = dog[dbColumn];
+  if (!objectKey) {
+    return jsonError(missingMessage, "not_found", 404);
+  }
+
+  const r2Object = await getAttachment(env, objectKey);
+  if (!r2Object) {
+    return jsonError("Media file not found in storage", "not_found", 404);
+  }
+
+  const headers = new Headers();
+  headers.set(
+    "Content-Type",
+    r2Object.httpMetadata?.contentType ?? "application/octet-stream",
+  );
+
+  return new Response(r2Object.body, { headers });
+}
+
 const VALID_SEX_VALUES = ["male", "female", "unknown"] as const;
 
 interface DogRow {
@@ -411,65 +517,11 @@ export async function uploadDogAvatar(
   env: Env,
   params: { id: string },
 ): Promise<Response> {
-  const existing = await env.DB.prepare(
-    "SELECT id FROM dogs WHERE id = ?1 AND archived_at IS NULL",
-  )
-    .bind(params.id)
-    .first<{ id: string }>();
-
-  if (!existing) {
-    throw ApiError.notFound();
-  }
-
-  let formData: FormData;
-  try {
-    formData = await request.formData();
-  } catch {
-    return jsonError(
-      "Request must be multipart/form-data with an avatar_file field",
-      "invalid_request",
-      400,
-    );
-  }
-
-  const fileEntry = formData.get("avatar_file") as unknown;
-  if (
-    !fileEntry ||
-    typeof fileEntry === "string" ||
-    !(fileEntry instanceof Blob)
-  ) {
-    return jsonError("avatar_file field is required", "invalid_request", 400);
-  }
-  const file = fileEntry as File;
-
-  const objectKey = `dogs/${params.id}/avatar/original`;
-  const mimeType = file.type || "application/octet-stream";
-  const fileBytes = await file.arrayBuffer();
-
-  await putAttachment(env, objectKey, fileBytes, mimeType);
-
-  const now = new Date().toISOString();
-  await env.DB.prepare(
-    "UPDATE dogs SET avatar_object_key = ?1, updated_at = ?2 WHERE id = ?3 AND archived_at IS NULL",
-  )
-    .bind(objectKey, now, params.id)
-    .run();
-
-  const updated = await env.DB.prepare(
-    `SELECT dogs.*, breeds.breed_name, veterinary_practices.name AS vet_practice_name
-     FROM dogs
-     LEFT JOIN breeds ON dogs.breed_id = breeds.breed_id
-     LEFT JOIN veterinary_practices ON dogs.vet_practice_id = veterinary_practices.id
-     WHERE dogs.id = ?1 AND dogs.archived_at IS NULL`,
-  )
-    .bind(params.id)
-    .first<DogWithBreedRow>();
-
-  if (!updated) {
-    throw ApiError.notFound();
-  }
-
-  return jsonOk(updated);
+  return uploadDogMedia(request, env, params.id, {
+    fileField: "avatar_file",
+    objectKey: `dogs/${params.id}/avatar/original`,
+    dbColumn: "avatar_object_key",
+  });
 }
 
 export async function getDogAvatar(
@@ -477,31 +529,50 @@ export async function getDogAvatar(
   env: Env,
   params: { id: string },
 ): Promise<Response> {
-  const dog = await env.DB.prepare(
-    "SELECT avatar_object_key FROM dogs WHERE id = ?1 AND archived_at IS NULL",
-  )
-    .bind(params.id)
-    .first<{ avatar_object_key: string | null }>();
+  return getDogMedia(env, params.id, "avatar_object_key", "No avatar uploaded");
+}
 
-  if (!dog) {
-    throw ApiError.notFound();
-  }
+export async function uploadDogNosePrint(
+  request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  return uploadDogMedia(request, env, params.id, {
+    fileField: "nose_print_file",
+    objectKey: `dogs/${params.id}/nose-print/original`,
+    dbColumn: "nose_print_object_key",
+  });
+}
 
-  if (!dog.avatar_object_key) {
-    return jsonError("No avatar uploaded", "not_found", 404);
-  }
+export async function getDogNosePrint(
+  _request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  return getDogMedia(env, params.id, "nose_print_object_key", "No nose print uploaded");
+}
 
-  const r2Object = await getAttachment(env, dog.avatar_object_key);
+export async function uploadDogWalkingGearPhoto(
+  request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  return uploadDogMedia(request, env, params.id, {
+    fileField: "walking_gear_file",
+    objectKey: `dogs/${params.id}/walking-gear/original`,
+    dbColumn: "walking_gear_object_key",
+  });
+}
 
-  if (!r2Object) {
-    return jsonError("Avatar file not found in storage", "not_found", 404);
-  }
-
-  const headers = new Headers();
-  headers.set(
-    "Content-Type",
-    r2Object.httpMetadata?.contentType ?? "application/octet-stream",
+export async function getDogWalkingGearPhoto(
+  _request: Request,
+  env: Env,
+  params: { id: string },
+): Promise<Response> {
+  return getDogMedia(
+    env,
+    params.id,
+    "walking_gear_object_key",
+    "No walking gear photo uploaded",
   );
-
-  return new Response(r2Object.body, { headers });
 }

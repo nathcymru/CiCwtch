@@ -12,10 +12,10 @@ const GOOGLE_WEATHER_BASE = "https://weather.googleapis.com/v1";
 const DEFAULT_LAT = 51.5074;
 const DEFAULT_LNG = -0.1278;
 
-interface GoogleCurrentConditions {
+interface GoogleCurrentResponse {
   temperature?: { degrees?: number };
   feelsLikeTemperature?: { degrees?: number };
-  humidity?: number;
+  relativeHumidity?: number;
   uvIndex?: number;
   precipitation?: {
     qpf?: { quantity?: number };
@@ -29,29 +29,19 @@ interface GoogleCurrentConditions {
   airQuality?: { index?: number };
 }
 
-interface GoogleCurrentResponse {
-  currentConditions?: GoogleCurrentConditions;
-}
-
 interface GoogleDayForecast {
   daytimeForecast?: {
     precipitation?: {
       qpf?: { quantity?: number };
+      probability?: { percent?: number; type?: string };
     };
     weatherCondition?: {
       description?: { text?: string };
       iconBaseUri?: string;
     };
-    temperature?: {
-      high?: { degrees?: number };
-      low?: { degrees?: number };
-    };
+    relativeHumidity?: number;
+    uvIndex?: number;
   };
-  weatherConditions?: Array<{
-    alerts?: Array<{
-      severity?: string;
-    }>;
-  }>;
 }
 
 interface GoogleForecastResponse {
@@ -71,21 +61,11 @@ function parsePollen(
 }
 
 function parseWarning(
-  forecastDays: GoogleDayForecast[] | undefined,
+  _forecastDays: GoogleDayForecast[] | undefined,
 ): { level: "Red" | "Amber" | "Yellow" } | null {
-  if (!forecastDays || forecastDays.length === 0) return null;
-  const day = forecastDays[0];
-  const alerts = day.weatherConditions?.flatMap((wc) => wc.alerts ?? []) ?? [];
-  if (alerts.length === 0) return null;
-
-  const severities = alerts.map((a) => (a.severity ?? "").toLowerCase());
-  if (severities.includes("red") || severities.includes("extreme")) {
-    return { level: "Red" };
-  }
-  if (severities.includes("amber") || severities.includes("severe")) {
-    return { level: "Amber" };
-  }
-  return { level: "Yellow" };
+  // The daily forecast endpoint does not expose public-alert severities.
+  // Leave warning unset until a dedicated public alerts integration is added.
+  return null;
 }
 
 export async function getWeatherToday(
@@ -143,14 +123,14 @@ export async function getWeatherToday(
     return jsonError("Unable to reach weather service", "upstream_error", 502);
   }
 
-  const cc = currentData.currentConditions ?? {};
+  const cc = currentData;
   const forecastDay = forecastData.forecastDays?.[0];
   const daytime = forecastDay?.daytimeForecast;
 
   const airTemp = cc.temperature?.degrees ?? 15;
   const feelsLike = cc.feelsLikeTemperature?.degrees ?? airTemp;
-  const humidity = cc.humidity ?? 60;
-  const uvIndex = cc.uvIndex ?? 0;
+  const humidity = cc.relativeHumidity ?? daytime?.relativeHumidity ?? 60;
+  const uvIndex = cc.uvIndex ?? daytime?.uvIndex ?? 0;
   const condition =
     cc.weatherCondition?.description?.text ??
     daytime?.weatherCondition?.description?.text ??
@@ -164,8 +144,11 @@ export async function getWeatherToday(
   const precipForecast = daytime?.precipitation?.qpf?.quantity ?? 0;
   const precip24h = precipCurrent + precipForecast;
   const isRaining =
-    (cc.precipitation?.probability?.type ?? "").toLowerCase() === "rain" &&
-    (cc.precipitation?.probability?.percent ?? 0) > 50;
+    ((cc.precipitation?.probability?.type ?? "").toLowerCase() === "rain" &&
+      (cc.precipitation?.probability?.percent ?? 0) > 50) ||
+    ((daytime?.precipitation?.probability?.type ?? "").toLowerCase() ===
+      "rain" &&
+      (daytime?.precipitation?.probability?.percent ?? 0) > 50);
 
   const pollenLevel = parsePollen(uvIndex);
 

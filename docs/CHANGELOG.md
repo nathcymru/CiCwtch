@@ -1,3 +1,11 @@
+## Unreleased
+
+### Fixed
+- corrected the Google Weather handler to use the documented top-level Weather API response fields, improving live dashboard weather reliability
+- made dashboard weather failures visible with a lightweight retry card instead of silently hiding the section
+- persisted dog behaviour slider values (`energy_level`, `leash_manners`, `recall_rating`) from the multi-step dog form
+- implemented nose-print and walking-gear image upload/retrieval endpoints and wired the Flutter dog form to save those files
+
 <img src="../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
 <!-- HEADER BADGES -->
 <p align="right">
