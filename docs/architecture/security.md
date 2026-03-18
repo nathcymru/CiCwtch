@@ -74,6 +74,36 @@ The Flutter web client can be configured with the same token using `--dart-defin
 
 For full details, see the [Worker README](../../worker/README.md#authentication).
 
+## Google Weather API integration (v0.4.0)
+
+The Worker proxies calls to the Google Weather API for the `GET /api/v1/weather/today` endpoint. API credentials are sourced exclusively from Wrangler secrets — never hardcoded.
+
+**Secrets required:**
+
+| Secret | Purpose |
+|---|---|
+| `CICWTCH_GOOGLE_WEATHER_API` | Google Weather API key |
+| `CICWTCH_GOOGLE_WEATHER_SECRET` | Reserved for future signed-request support |
+
+**How it works:**
+
+- The Flutter client calls `GET /api/v1/weather/today` (bearer-token protected).
+- The Worker reads `CICWTCH_GOOGLE_WEATHER_API` from the environment.
+- The Worker makes server-side requests to the Google Weather API — credentials are never exposed to the browser.
+- The Worker calculates dog-walking safety factors and a daily verdict, then returns structured JSON.
+- Location is supplied by the client as optional `lat` / `lng` query parameters; the Worker defaults to central London if omitted.
+
+**Privacy note:**
+
+The `lat`/`lng` coordinates passed to `GET /api/v1/weather/today` are forwarded to Google's Weather API. No coordinates are stored in D1. Precise device location is not required — a general postcode-level or city-level coordinate is sufficient.
+
+**Setting the secrets for deployed environments:**
+
+```bash
+echo "<key>" | npx wrangler secret put CICWTCH_GOOGLE_WEATHER_API --env production
+echo "<secret>" | npx wrangler secret put CICWTCH_GOOGLE_WEATHER_SECRET --env production
+```
+
 ## Known security gaps
 
 The following are **not yet implemented** and must not be described as done elsewhere:

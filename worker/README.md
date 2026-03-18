@@ -26,6 +26,8 @@
 | `DB` | D1 Database | Relational data storage |
 | `CICWTCH_ATTACHMENTS` | R2 Bucket | Attachment/file object storage |
 | `API_BEARER_TOKEN` | Secret (env var) | Bearer token for API authentication |
+| `CICWTCH_GOOGLE_WEATHER_API` | Secret (env var) | Google Weather API key for the weather proxy endpoint |
+| `CICWTCH_GOOGLE_WEATHER_SECRET` | Secret (env var) | Reserved for future signed-request support |
 
 ## Current API modules
 
@@ -121,6 +123,7 @@ The Worker includes centralised CORS handling in `src/cors.ts` so that browser-b
 - invoice lines
 - attachments
 - dashboard (read-only aggregate summary)
+- weather today (`GET /api/v1/weather/today`) — proxies Google Weather API; returns dog-walking safety factors and daily verdict
 
 ## Routing note
 

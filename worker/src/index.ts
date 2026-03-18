@@ -7,6 +7,8 @@ export interface Env {
   DB: D1Database;
   CICWTCH_ATTACHMENTS: R2Bucket;
   API_BEARER_TOKEN?: string;
+  CICWTCH_GOOGLE_WEATHER_API?: string;
+  CICWTCH_GOOGLE_WEATHER_SECRET?: string;
 }
 
 export default {
