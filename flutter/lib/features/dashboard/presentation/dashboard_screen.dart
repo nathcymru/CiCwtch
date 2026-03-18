@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:cicwtch/app/routing/app_router.dart';
 import 'package:cicwtch/features/dashboard/application/dashboard_service.dart';
+import 'package:cicwtch/features/dashboard/application/weather_service.dart';
 import 'package:cicwtch/features/dashboard/data/dashboard_repository.dart';
+import 'package:cicwtch/features/dashboard/data/weather_repository.dart';
 import 'package:cicwtch/features/dashboard/domain/dashboard_data.dart';
+import 'package:cicwtch/features/dashboard/domain/weather_data.dart';
 import 'package:cicwtch/features/dashboard/presentation/dashboard_card.dart';
+import 'package:cicwtch/features/dashboard/presentation/weather_card.dart';
 import 'package:cicwtch/shared/data/api_factory.dart';
 import 'package:cicwtch/shared/presentation/error_state_block.dart';
 import 'package:cicwtch/shared/presentation/section_heading.dart';
@@ -18,17 +22,23 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late final DashboardService _service;
+  late final WeatherService _weatherService;
 
   DashboardData? _data;
   bool _loading = true;
   String? _error;
+
+  WeatherData? _weatherData;
+  bool _weatherLoading = true;
 
   @override
   void initState() {
     super.initState();
     final api = buildApiClient();
     _service = DashboardService(DashboardRepository(api));
+    _weatherService = WeatherService(WeatherRepository(api));
     _load();
+    _loadWeather();
   }
 
   Future<void> _load() async {
@@ -47,6 +57,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
         _error = e.toString();
         _loading = false;
       });
+    }
+  }
+
+  Future<void> _loadWeather() async {
+    setState(() => _weatherLoading = true);
+    try {
+      final weather = await _weatherService.loadWeather();
+      setState(() {
+        _weatherData = weather;
+        _weatherLoading = false;
+      });
+    } catch (_) {
+      setState(() => _weatherLoading = false);
     }
   }
 
@@ -72,6 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _buildWeatherSection(),
+            const SizedBox(height: 24),
             const SectionHeading(title: 'Overview'),
             GridView.count(
               crossAxisCount: MediaQuery.of(context).size.width >= 900 ? 3 : 2,
@@ -106,6 +131,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildWeatherSection() {
+    if (_weatherLoading) {
+      return const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              SizedBox(width: 12),
+              Text("Loading today's weather…"),
+            ],
+          ),
+        ),
+      );
+    }
+    if (_weatherData == null) {
+      return const SizedBox.shrink();
+    }
+    return WeatherCard(weatherData: _weatherData!);
   }
 }
 

@@ -57,6 +57,7 @@ import { createAttachment, getAttachmentById } from "./handlers/attachments";
 import { listBreeds } from "./handlers/breeds";
 import { listVetPractices } from "./handlers/vet_practices";
 import { getDashboard } from "./handlers/dashboard";
+import { getWeatherToday } from "./handlers/weather";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -101,6 +102,11 @@ export async function route(
 
   if (pathname === "/api/v1/dashboard") {
     if (method === "GET") return getDashboard(request, env);
+    return methodNotAllowed(["GET"]);
+  }
+
+  if (pathname === "/api/v1/weather/today") {
+    if (method === "GET") return getWeatherToday(request, env);
     return methodNotAllowed(["GET"]);
   }
 

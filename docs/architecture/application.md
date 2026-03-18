@@ -69,6 +69,8 @@ The dog create/edit flow uses a 4-step wizard: Identity, Health, Behaviour, and 
 
 The Dashboard feature uses the dedicated `GET /api/v1/dashboard` aggregation endpoint to fetch summary counts for clients, dogs, walks, walkers, and invoices in a single request. The dashboard data layer (`DashboardRepository`) calls this endpoint via `ApiClient`, and the presentation layer displays the returned metrics in dashboard cards with loading and error states.
 
+The Dashboard also includes a **Today's Weather** card. Weather data is fetched from `GET /api/v1/weather/today`, which is a server-side proxy endpoint. The Worker calls the Google Weather API using credentials stored in environment secrets (`CICWTCH_GOOGLE_WEATHER_API`), calculates dog-walking safety factors (paw safety, brachy/heat risk, mud, itch/pollen, gear check), generates a layered daily verdict, and returns structured JSON. The Flutter client renders this data in the `WeatherCard` widget. Weather errors are silently absorbed — the weather card is hidden rather than blocking the dashboard on API failure.
+
 ## Navigation
 
 The app currently uses a shared shell with primary navigation for:

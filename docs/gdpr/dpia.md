@@ -47,6 +47,9 @@ CiCwtch handles operational data about individuals and may process care notes, c
 4. **Deletion and retention maturity**
    Schema-level soft delete exists for some entities, but full erasure and retention enforcement is not yet automated.
 
+5. **Third-party weather API data transfer**
+   The `GET /api/v1/weather/today` endpoint forwards optional `lat`/`lng` coordinates to the Google Weather API (Google LLC, USA). Coordinates are approximate, operational, and not stored. API credentials are stored as Wrangler secrets. Risk assessed as low; documented in RoPA and Fides system inventory.
+
 ## Current mitigations
 
 - prepared D1 statements,
@@ -55,7 +58,8 @@ CiCwtch handles operational data about individuals and may process care notes, c
 - code/documentation guardrails in CI,
 - schema inventory documented in-repo,
 - initial privacy data mapping via Fides manifests,
-- dashboard aggregation endpoint returns only summary counts, not personal data.
+- dashboard aggregation endpoint returns only summary counts, not personal data,
+- weather proxy endpoint forwards only approximate coordinates; no personal data; credentials stored as Wrangler secrets; no D1 or R2 writes.
 
 ## Required next mitigations
 
