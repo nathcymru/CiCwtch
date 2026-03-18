@@ -84,6 +84,12 @@ The `breeds` lookup table was added in [`migrations/0002_breeds_lookup.sql`](../
 
 Dog media pointer columns were added in [`migrations/0003_dog_media_pointers.sql`](../../migrations/0003_dog_media_pointers.sql). These store R2 object keys for avatar, profile photo, and nose print media.
 
+The `behavior_snapshots` table was added in [`migrations/0004_behavior_snapshots.sql`](../../migrations/0004_behavior_snapshots.sql). It stores timestamped behavioural ratings (recall, leash manners, energy level) per dog so behaviour can be tracked over time rather than overwritten in place.
+
+The `vaccinations` table was added in [`migrations/0005_vaccinations.sql`](../../migrations/0005_vaccinations.sql). It stores vaccination history per dog with expiry tracking and an optional R2 document pointer for supporting certificates.
+
+The v0.3.5 dog enrichment migration at [`migrations/0006_dog_enrichment.sql`](../../migrations/0006_dog_enrichment.sql) introduced: the `veterinary_practices` lookup table; optional breed metadata columns (`breed_group`, `size_category`, `origin_country`); and health, behaviour, and logistics columns on the `dogs` table.
+
 ## Not implemented yet
 
 The following remain planned rather than live:
@@ -91,7 +97,6 @@ The following remain planned rather than live:
 - authentication and role-based access control
 - production retention automation
 - DSAR automation across all stores
-- attachment upload/download flows backed by R2
 - offline sync and local SQLite persistence
 - payment processing
 - customer portal flows

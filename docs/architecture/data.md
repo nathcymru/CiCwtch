@@ -29,6 +29,8 @@ CiCwtch currently uses **Cloudflare D1** as the source of truth for operational 
 - A dog belongs to one client.
 - A dog may optionally reference one breed from the `breeds` lookup table via `breed_id`.
 - A dog may optionally reference one veterinary practice from the `veterinary_practices` lookup table via `vet_practice_id`.
+- A dog may have many `behavior_snapshots` records, each a timestamped point-in-time behavioural rating.
+- A dog may have many `vaccinations` records, each storing a vaccination name, dates, and an optional R2 document pointer.
 - A walk belongs to one client and one dog, and may optionally reference one walker.
 - A walker may hold many compliance items.
 - An invoice header belongs to one client.
@@ -67,6 +69,28 @@ As of v0.3.5, the `dogs` table includes additional columns for richer dog profil
 - **Logistics:** `walking_gear_object_key` (R2 pointer), `gear_location`
 
 All new columns are nullable or have safe defaults (`0` for booleans), ensuring backward compatibility with existing dog records.
+
+## Behaviour snapshots
+
+The `behavior_snapshots` table stores timestamped behavioural rating records per dog (migration `0004_behavior_snapshots.sql`). Each snapshot includes:
+
+- `recall_rating`, `leash_manners_rating`, `energy_level_rating` — integer scores from 1 to 5, nullable.
+- `behavior_tags_json` — optional JSON array of behaviour tag strings.
+- `notes` — optional free-text notes.
+- `created_at` — timestamp of when the snapshot was recorded.
+
+Snapshots are immutable historical records and are not collapsed back into the main `dogs` row. A dog may accumulate many snapshots over time, enabling trend tracking. The `dog_id` foreign key cascades on delete, so snapshots are removed if the dog record is hard-deleted. The latest snapshot is surfaced on the dog detail screen via `GET /api/v1/dogs/:id/behavior-snapshots`; new snapshots are added via `POST /api/v1/dogs/:id/behavior-snapshots`.
+
+## Vaccination records
+
+The `vaccinations` table stores vaccination history per dog (migration `0005_vaccinations.sql`). Each record includes:
+
+- `vaccination_name` — required; name of the vaccine (e.g. L4, Kennel Cough).
+- `date_administered` — required; date the vaccine was given.
+- `expiration_date` — optional; expiry or booster-due date.
+- `document_object_key` — optional R2 object key pointing to a supporting certificate stored in Cloudflare R2.
+
+No binary document data is stored in D1. The `dog_id` foreign key cascades on delete. Vaccination records are listed via `GET /api/v1/dogs/:id/vaccinations`; new records are added via `POST /api/v1/dogs/:id/vaccinations`.
 
 ## Dog media (R2 pointer pattern)
 

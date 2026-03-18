@@ -28,7 +28,8 @@ flowchart LR
   User[User] --> Flutter[Flutter App]
   Flutter --> Worker[Cloudflare Worker API]
   Worker --> D1[(Cloudflare D1)]
-  Worker -. future .-> R2[(Cloudflare R2)]
+  Worker --> R2[(Cloudflare R2)]
+  Worker --> GoogleWeather[Google Weather API]
 ```
 
 ## Frontend structure
@@ -58,6 +59,13 @@ flowchart TD
   API --> Walkers[walkers]
   API --> Invoices[invoices / invoice-headers]
   API --> InvoiceLines[invoice-lines]
+  API --> Breeds[breeds]
+  API --> VetPractices[vet-practices]
+  API --> Dashboard[dashboard]
+  API --> Weather[weather/today]
+  Dogs --> BehaviorSnapshots[dogs/:id/behavior-snapshots]
+  Dogs --> Vaccinations[dogs/:id/vaccinations]
+  Dogs --> Avatar[dogs/:id/avatar]
 ```
 
 ---
