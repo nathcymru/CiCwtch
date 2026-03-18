@@ -84,6 +84,18 @@ CiCwtch is currently a founder-led software project intended for dog-walking ope
 - **Access:** currently unauthenticated; authentication must be added before production use.
 - **Retention:** no data is stored by this endpoint; it is read-only.
 
+### Today's Weather dashboard card
+- **Purpose:** provide an operational same-day weather briefing for dog walkers including dog-walking safety factors and a daily verdict.
+- **Data subjects:** none directly — no personal data is stored or returned by this feature.
+- **Categories of data:** approximate geographic coordinates (`lat`/`lng`) optionally supplied by the client; defaults to central London if omitted.
+- **Third-party transfer:** the Worker forwards `lat`/`lng` to the **Google Weather API** (Google LLC, USA) to retrieve current conditions and forecast data. No personal data beyond an approximate location is transmitted.
+- **Storage:** no coordinates or weather data are stored in D1 or R2. The Worker fetches weather data at request time and discards it after the response is returned.
+- **Processing flow:** `GET /api/v1/weather/today` → Worker calls Google Weather API server-side using `CICWTCH_GOOGLE_WEATHER_API` secret → calculates dog safety factors → returns structured JSON to client.
+- **API credentials:** stored as Wrangler secrets (`CICWTCH_GOOGLE_WEATHER_API`, `CICWTCH_GOOGLE_WEATHER_SECRET`). Never exposed to the browser or committed to source.
+- **Access:** bearer-token protected; same auth layer as all other `/api/v1/` routes.
+- **Retention:** no data is stored; read-only transient proxy.
+- **Privacy risk:** low. The only data transmitted to a third party is a geographic coordinate, which is approximate and operational in nature. No personal or special-category data is included in the request to Google.
+
 ## International transfer and hosting note
 
 The project uses Cloudflare services. Deployment geography, transfer tooling, and any future R2 object storage usage must be reviewed before production processing of live customer data.

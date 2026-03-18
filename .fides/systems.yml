@@ -55,3 +55,25 @@ system:
         data_subjects:
           - customer
         data_use: essential.service
+  - fides_key: google_weather_api
+    organization_fides_key: cicwtch
+    name: Google Weather API
+    description: >
+      Third-party weather data provider. The CiCwtch Worker forwards optional
+      latitude/longitude coordinates supplied by the client to the Google Weather
+      API to retrieve current conditions and forecasts for the Today's Weather
+      dashboard card. Coordinates are not stored in D1. No personal data beyond
+      an approximate geographic location is transmitted. API credentials are
+      stored as Wrangler secrets and are never exposed to the browser.
+    system_type: Third-Party
+    administrating_department: Engineering
+    data_responsibility_title: Processor
+    third_country_transfers:
+      - USA
+    privacy_declarations:
+      - name: Fetch weather conditions for dashboard
+        data_categories:
+          - system.operations
+        data_subjects:
+          - customer
+        data_use: essential.service
