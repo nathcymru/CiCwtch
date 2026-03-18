@@ -26,8 +26,8 @@
 | `DB` | D1 Database | Relational data storage |
 | `CICWTCH_ATTACHMENTS` | R2 Bucket | Attachment/file object storage |
 | `API_BEARER_TOKEN` | Secret (env var) | Bearer token for API authentication |
-| `CICWTCH_GOOGLE_WEATHER_API` | Secret (env var) | Google Weather API key for the weather proxy endpoint |
-| `CICWTCH_GOOGLE_WEATHER_SECRET` | Secret (env var) | Reserved for future signed-request support |
+| `CiCwtch_Google_Weather_API` | Secret (env var) | Google Weather API key for the weather proxy endpoint |
+| `CiCwtch_Google_Weather_Secret` | Secret (env var) | Reserved for future signed-request support |
 
 ## Current API modules
 

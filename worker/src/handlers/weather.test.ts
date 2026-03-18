@@ -8,8 +8,8 @@ function makeEnv(apiKey?: string): Env {
   return {
     DB: {} as D1Database,
     CICWTCH_ATTACHMENTS: {} as R2Bucket,
-    CICWTCH_GOOGLE_WEATHER_API: apiKey,
-    CICWTCH_GOOGLE_WEATHER_SECRET: undefined,
+    CiCwtch_Google_Weather_API: apiKey,
+    CiCwtch_Google_Weather_Secret: undefined,
   } as unknown as Env;
 }
 
@@ -56,7 +56,7 @@ afterEach(() => {
 // ─── Missing API key ──────────────────────────────────────────────────────────
 
 describe("getWeatherToday — missing API key", () => {
-  it("returns 503 when CICWTCH_GOOGLE_WEATHER_API is not configured", async () => {
+  it("returns 503 when CiCwtch_Google_Weather_API is not configured", async () => {
     const request = new Request(API_URL);
     const response = await getWeatherToday(request, makeEnv(undefined));
 

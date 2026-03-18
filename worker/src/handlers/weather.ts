@@ -72,7 +72,7 @@ export async function getWeatherToday(
   request: Request,
   env: Env,
 ): Promise<Response> {
-  const apiKey = env.CICWTCH_GOOGLE_WEATHER_API;
+  const apiKey = env.CiCwtch_Google_Weather_API;
   if (!apiKey) {
     return jsonError(
       "Weather API key is not configured",
