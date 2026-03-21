@@ -76,7 +76,7 @@ export async function verifyPassword(
     String.fromCharCode(...new Uint8Array(hashBuffer)),
   );
 
-  // Constant-time comparison to prevent timing side-channels
+  // Constant-time comparison to prevent timing side-channel attacks
   if (computedHashB64.length !== expectedHashB64.length) return false;
   const enc = new TextEncoder();
   const a = enc.encode(computedHashB64);
