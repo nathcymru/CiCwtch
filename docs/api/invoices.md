@@ -9,14 +9,20 @@
 </p clear="right">
 
 # CiCwtch - Invoices API
-## Invoice header endpoints (with backward-compatible alias support)
+## Invoice header endpoints with tenant-scoped numbering rules
 
 <p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-Invoices are represented in the database as `invoice_headers`. The Worker supports both historical and user-facing paths.
+Invoices are represented in the database as `invoice_headers`. The Worker may still support historical aliases, but the user-facing API should prefer `/api/v1/invoices`.
+
+For schema details, relationships, and constraints, see [`docs/database/schema-notes.md`](../database/schema-notes.md).
 
 ## Preferred endpoints
 
@@ -26,7 +32,7 @@ Invoices are represented in the database as `invoice_headers`. The Worker suppor
 - `PUT /api/v1/invoices/:id`
 - `DELETE /api/v1/invoices/:id`
 
-## Backward-compatible legacy paths
+## Legacy compatibility
 
 - `/api/v1/invoice-headers`
 - `/api/v1/invoice-headers/:id`
@@ -34,8 +40,9 @@ Invoices are represented in the database as `invoice_headers`. The Worker suppor
 ## Validation
 
 - `client_id` and `invoice_number` are required.
-- `client_id` must reference an active client.
-- `status` must be one of `draft`, `issued`, `paid`, or `cancelled`.
+- `client_id` must reference an active client in the same organisation.
+- `invoice_number` is unique **per organisation**, not globally.
+- `status` must match the supported invoice status set implemented by the backend.
 
 ---
 <p align="center">

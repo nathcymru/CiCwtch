@@ -9,7 +9,7 @@
 </p clear="right">
 
 # CiCwtch - Architecture
-## Phase 1 source of truth for the implemented system
+## Current repository architecture and how it links to the database baseline
 
 <p align="left">
   <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
@@ -20,89 +20,75 @@
   &nbsp;
   <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-
 ## Current implemented scope
 
-CiCwtch is currently a cross-platform Flutter application backed by a Cloudflare Workers API and a Cloudflare D1 database.
+CiCwtch is a cross-platform Flutter application backed by a Cloudflare Workers API, a Cloudflare D1 relational database, and Cloudflare R2 for object storage.
 
-Phase 1 implements working operational CRUD for:
+The current documented operational baseline includes working application support for:
 
-- Clients
-- Dogs
-- Walks
-- Walkers
-- Invoice headers
-- Invoice lines (backend only)
-
-The Flutter application currently surfaces dashboard and CRUD flows for:
-
-- Clients
-- Dogs
-- Walks
-- Walkers
-- Invoices
-
-## What is implemented today
-
-### Frontend
-
-- Flutter app with Material 3 theme
-- shared navigation shell
-- dashboard overview
-- list/detail/create/edit/archive flows for core resources
-- lightweight client-side search and filtering
-- shared error, empty-state, section-heading, and status badge widgets
-
-### Backend
-
-- Cloudflare Worker entrypoint with explicit router
-- JSON-only REST endpoints under `/api/v1/`
-- D1 prepared statements for all write/read operations
-- soft deletion using `archived_at` where the schema supports it
-- health endpoints at `/health` and `/api/v1/health`
-- backward-compatible invoice header routes plus `/api/v1/invoices` alias paths
-
-### Data layer
-
-The current database schema lives in [`migrations/0001_initial_schema.sql`](../../migrations/0001_initial_schema.sql) and defines:
-
-- addresses
 - clients
-- client_contacts
 - dogs
-- dog_notes
-- walkers
-- walker_compliance_items
 - walks
-- walk_reports
-- invoice_headers
-- invoice_lines
-- attachments
-- audit_log
+- walkers
+- invoices
+- dashboard summaries
+- dog media stored in R2 with D1 metadata pointers
 
-The `breeds` lookup table was added in [`migrations/0002_breeds_lookup.sql`](../../migrations/0002_breeds_lookup.sql). Dogs reference breeds via `breed_id`.
+## Database documentation rule
 
-Dog media pointer columns were added in [`migrations/0003_dog_media_pointers.sql`](../../migrations/0003_dog_media_pointers.sql). These store R2 object keys for avatar, profile photo, and nose print media.
+This folder explains how the application is shaped. It does **not** duplicate the database source of truth. For current tables, relationships, constraints, seed strategy, and operating rules, use [`docs/database/`](../database/README.md).
 
-## Not implemented yet
+## Database baseline summary
 
-The following remain planned rather than live:
+The current documented D1 baseline includes tenant-owned operational tables such as:
 
-- authentication and role-based access control
-- production retention automation
-- DSAR automation across all stores
-- attachment upload/download flows backed by R2
-- offline sync and local SQLite persistence
-- payment processing
-- customer portal flows
+- `organisations`
+- `addresses`
+- `clients`
+- `client_contacts`
+- `client_documents`
+- `dogs`
+- `dog_notes`
+- `dog_medical_records`
+- `vaccinations`
+- `behavior_snapshots`
+- `walkers`
+- `walker_compliance_records`
+- `compliance_templates`
+- `walks`
+- `walk_reports`
+- `invoice_headers`
+- `invoice_lines`
+- `invoice_sequences`
+- `invoice_branding_profiles`
+- `invoice_line_item_templates`
+- `invoice_line_items_catalog`
+- `attachments`
+- `weather_snapshots`
+- `route_snapshots`
+- `device_registrations`
+- `calendar_sync_links`
+
+Global/reference datasets include:
+
+- `breeds`
+- `vets`
+- `tax_rates`
+- `service_templates`
+
+## Read this section-by-section
+
+- [Application architecture](application.md)
+- [Data architecture](data.md)
+- [Infrastructure architecture](infrastructure.md)
+- [Security architecture](security.md)
+- [Architecture decisions](decisions.md)
+- [Architecture diagrams](diagrams.md)
+- [Multi-tenant data model](multi-tenant-model.md)
 
 ## Working rule
 
-This document should describe the code that exists, not the code everyone wishes existed after a strong cup of tea.
-
-## Platform rules
-
-CiCwtch is a multi-tenant platform. The multi-tenant database schema pattern is a core architectural rule. See [multi-tenant-model.md](multi-tenant-model.md).
+This document should describe the code and database that exist now, not an aspirational future version.
 
 ---
 <p align="center">

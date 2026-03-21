@@ -1,0 +1,44 @@
+erDiagram
+    organisations ||--o{ clients : owns
+    organisations ||--o{ addresses : owns
+    organisations ||--o{ dogs : owns
+    organisations ||--o{ walks : owns
+    organisations ||--o{ walkers : owns
+    organisations ||--o{ invoice_headers : owns
+    organisations ||--o{ client_contacts : owns
+    organisations ||--o{ client_documents : owns
+    organisations ||--o{ dog_medical_records : owns
+    organisations ||--o{ compliance_templates : owns
+    organisations ||--o{ walker_compliance_records : owns
+    organisations ||--o{ weather_snapshots : owns
+    organisations ||--o{ route_snapshots : owns
+    organisations ||--o{ device_registrations : owns
+    organisations ||--o{ calendar_sync_links : owns
+
+    addresses ||--o{ clients : primary_or_billing_address
+    clients ||--o{ dogs : owns
+    clients ||--o{ client_contacts : has
+    clients ||--o{ client_documents : has
+    clients ||--o{ walks : books
+    clients ||--o{ invoice_headers : billed
+
+    breeds ||--o{ dogs : classifies
+    vets ||--o{ dogs : supports
+
+    dogs ||--o{ dog_notes : has
+    dogs ||--o{ dog_medical_records : has
+    dogs ||--o{ vaccinations : has
+    dogs ||--o{ behavior_snapshots : has
+    dogs ||--o{ walks : attends
+
+    walkers ||--o{ walks : delivers
+    walkers ||--o{ walker_compliance_records : holds
+
+    walks ||--o{ walk_reports : produces
+    walks ||--o{ route_snapshots : captures
+    walks ||--o{ weather_snapshots : references
+    walks ||--o{ invoice_lines : may_generate
+
+    invoice_headers ||--o{ invoice_lines : contains
+    invoice_line_item_templates ||--o{ invoice_line_items_catalog : seeds
+    tax_rates ||--o{ invoice_lines : applies

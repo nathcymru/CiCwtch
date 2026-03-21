@@ -9,84 +9,68 @@
 </p clear="right">
 
 # CiCwtch - Data Architecture
-## Current D1 schema, relationships, and data handling rules
+## Current D1 schema rules, data boundaries, and where to find detailed database docs
 
 <p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
   &nbsp;
-  <a href="https://www.sqlite.org/index.html"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
+## Primary data stores
 
-## Primary data store
+CiCwtch uses:
 
-CiCwtch currently uses **Cloudflare D1** as the source of truth for operational data.
+- **Cloudflare D1** for relational operational data
+- **Cloudflare R2** for binary file storage such as dog media and attached documents
 
-## Core entity relationships
+## Source of truth
 
-- A client may have one linked address and many dogs.
-- A dog belongs to one client.
-- A dog may optionally reference one breed from the `breeds` lookup table via `breed_id`.
-- A dog may optionally reference one veterinary practice from the `veterinary_practices` lookup table via `vet_practice_id`.
-- A walk belongs to one client and one dog, and may optionally reference one walker.
-- A walker may hold many compliance items.
-- An invoice header belongs to one client.
-- An invoice line belongs to one invoice header and may optionally reference one walk.
+This page is a summary. The detailed database source of truth sits under [`docs/database/`](../database/README.md).
 
-## Deletion model
+## Core relationship summary
 
-Operational top-level entities generally use `archived_at` for soft deletion:
+- An organisation owns tenant-scoped operational data.
+- A client belongs to one organisation and may link to operational addresses, contacts, documents, dogs, walks, and invoices.
+- A dog belongs to one organisation and one client.
+- A dog may carry notes, medical records, vaccinations, and behaviour snapshots.
+- A walk belongs to one organisation and links a client, dog, and optionally a walker.
+- A walk may produce a walk report and may capture route and weather snapshots.
+- A walker belongs to one organisation and may hold many compliance records.
+- An invoice header belongs to one organisation and one client; invoice lines belong to invoice headers.
 
-- clients
-- dogs
-- walkers
-- walks
-- invoice_headers
+## Tenant rule
 
-Invoice lines do not currently use soft deletion and are hard-deleted.
+CiCwtch is multi-tenant. Tenant-owned business tables must include `organisation_id`. The current documented exceptions are global lookup/reference tables such as `breeds` and `vets`. See [multi-tenant-model.md](multi-tenant-model.md) and [`docs/database/schema-notes.md`](../database/schema-notes.md).
 
-## Attachments and audit log
+## Invoice rule
 
-The schema already includes `attachments` and `audit_log` tables, but Phase 1 does not yet expose full attachment handling or systematic audit-log writing from the Worker.
+Invoice numbers are unique per organisation, not globally. The database baseline uses `UNIQUE (organisation_id, invoice_number)`.
 
-## Breeds lookup
+## Address and provider fields
 
-The `breeds` table is a global/reference lookup table. It normalises breed data so that dogs reference a `breed_id` instead of storing free-text breed values. The existing free-text `breed` column on `dogs` is retained for backward compatibility. Breed data (breed names) is non-personal, non-sensitive operational reference data and carries no GDPR implications. As of v0.3.5, the breeds table also stores optional metadata: `breed_group`, `size_category`, and `origin_country`.
+Addresses are operational records with validation and geocoding metadata. Provider-oriented fields such as `place_id`, `formatted_address`, payload JSON, and verification timestamps are part of the documented baseline and should be populated in demo data where validation flows are being exercised.
 
-## Veterinary practices lookup
+## Attachments and media
 
-The `veterinary_practices` table is a global/reference lookup table introduced in v0.3.5. Dogs may optionally reference a `vet_practice_id` to link to a structured vet practice record (name, phone, email, address). The existing free-text `veterinary_practice` column on `dogs` is retained for backward compatibility. Vet practice records contain business contact information (not personal data) and are operational reference data.
+Binary files are not stored in D1. D1 stores metadata and object keys; R2 stores the file bodies.
 
-## Dog enrichment (v0.3.5)
+- Dog avatar, nose-print, and walking-gear media are stored in R2.
+- `attachments` stores generic file metadata and object keys.
+- `client_documents` can link to attachments.
 
-As of v0.3.5, the `dogs` table includes additional columns for richer dog profiles:
+## Do not duplicate table-by-table schema here
 
-- **Health:** `allergies` (boolean), `allergies_notes`, `medication` (boolean), `medication_notes`, `vet_practice_id` (FK to `veterinary_practices`)
-- **Behaviour:** `energy_level`, `leash_manners`, `recall_rating`, `aggressive` (boolean), `muzzle_required` (boolean), `special_commands`
-- **Logistics:** `walking_gear_object_key` (R2 pointer), `gear_location`
+Use these instead:
 
-All new columns are nullable or have safe defaults (`0` for booleans), ensuring backward compatibility with existing dog records.
-
-## Dog media (R2 pointer pattern)
-
-Dog media (avatar, profile photo, nose print, walking gear photo) is stored in Cloudflare R2, not in D1. The `dogs` table holds only nullable R2 object-key pointers:
-
-- `avatar_object_key`
-- `profile_photo_object_key`
-- `nose_print_object_key`
-
-These columns store path-style object keys (for example `dogs/{dog_id}/avatar/original`). No binary data or base64 blobs are stored in D1. Dog avatar upload is implemented via `POST /api/v1/dogs/:id/avatar`, nose-print upload via `POST /api/v1/dogs/:id/nose-print`, and walking-gear upload via `POST /api/v1/dogs/:id/walking-gear`. Each writes the file to R2 and stores only the object key in D1. Retrieval is via the corresponding `GET` endpoints. `profile_photo_object_key` remains available in the schema but is not currently written by the Flutter client.
-
-## Multi-tenancy
-
-CiCwtch is a multi-tenant platform. Every core business table must include `organisation_id`. See [multi-tenant-model.md](multi-tenant-model.md) for the full schema pattern, query rules, and migration guidance.
-
-The current Phase 1 schema in `migrations/0001_initial_schema.sql` predates the formal multi-tenant rule and does not yet include `organisation_id` on existing tables. A future migration will add `organisation_id` to existing tables as part of the multi-tenant onboarding work.
-
-## Privacy note
-
-The schema already stores personal data such as names, phones, emails, addresses, notes, and operational care notes. That is why `docs/gdpr/` and `.fides/` now exist and must be kept current when the schema changes.
+- [ERD](../database/erd.md)
+- [Data dictionary](../database/data-dictionary.md)
+- [Schema notes and constraints](../database/schema-notes.md)
+- [Build and seed strategy](../database/migrations-and-seeding.md)
+- [Maintenance SOPs](../database/maintenance.md)
 
 ---
 <p align="center">

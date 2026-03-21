@@ -9,42 +9,28 @@
 </p clear="right">
 
 # CiCwtch - Retention Schedule
-## Provisional retention and review rules for implemented data sets
+## Current retention-oriented view of CiCwtch operational data
 
 <p align="left">
-  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
-  &nbsp;
-  <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
-  &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
   &nbsp;
-  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
+  <a href="https://docs.ethyca.com/"><img src="https://img.shields.io/badge/Fides-6E56CF?style=for-the-badge" alt="Fides" /></a>
+  &nbsp;
+  <a href="https://ico.org.uk/"><img src="https://img.shields.io/badge/UK%20GDPR-0A7CFF?style=for-the-badge" alt="UK GDPR" /></a>
 </p>
+| Data area | Store | Default handling note |
+|---|---|---|
+| Clients | D1 `clients` | Soft delete preferred; retain while service relationship remains active and for justified post-service needs. |
+| Dogs | D1 `dogs` | Soft delete preferred; review notes and medical records carefully before deletion. |
+| Walks | D1 `walks` | Retain for service history, disputes, and operational follow-up. |
+| Walkers | D1 `walkers` | Retain in line with contractual and compliance needs. |
+| Walker compliance | D1 `walker_compliance_records` | Retain in line with legal and insurance needs. |
+| Invoices | D1 `invoice_headers`, `invoice_lines` | Retain according to financial record obligations. |
+| Attachments | D1 `attachments` + R2 | Align attachment retention with the owning record and legal need. |
+| Device registrations | D1 `device_registrations` | Remove revoked or stale registrations when no longer needed. |
+| Calendar sync links | D1 `calendar_sync_links` | Remove credentials and links promptly when revoked. |
 
-<p align="left">
-<a href="https://github.com/nathcymru/CiCwtch/blob/main/docs/gdpr/readme.md"><img src="https://img.shields.io/badge/DPIA-In%20Progress-FFA500?style=for-the-badge" alt="GDPR DPIA: In Progress" /></a>
-&nbsp;
-<a href="https://github.com/nathcymru/CiCwtch/security"><img src="https://img.shields.io/badge/GitHub%20Security-Open%20Dashboard-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Security" /></a>
-&nbsp;
-<a href="https://scorecard.dev/viewer/?uri=github.com/nathcymru/CiCwtch"><img src="https://api.scorecard.dev/projects/github.com/nathcymru/CiCwtch/badge?style=for-the-badge" alt="OpenSSF Scorecard" /></a>
-</p>
-
-This schedule is a working draft and must be refined before production use.
-
-| Data set | Current storage | Current delete model | Working retention position |
-|---|---|---|---|
-| Clients | D1 `clients` | soft delete | retain while active relationship exists; define post-service retention before production |
-| Dogs | D1 `dogs` | soft delete | retain while active relationship exists; review free-text notes carefully |
-| Walks | D1 `walks` | soft delete | retain for operational history and dispute resolution; define formal period |
-| Walkers | D1 `walkers` | soft delete | retain according to employment/contractual need and compliance obligations |
-| Invoice headers | D1 `invoice_headers` | soft delete | retain according to financial record obligations |
-| Invoice lines | D1 `invoice_lines` | hard delete | linked to invoice retention; avoid ad hoc deletion in production |
-| Attachments | D1 metadata + R2 objects | not yet implemented | upload and retrieval endpoints are active; do not process live personal data without explicit retention rules and access controls |
-| Vaccinations | D1 `vaccinations` | no delete endpoint | retain while dog record is active; vaccination documents stored in R2 via object key pointer |
-
-## Engineering rule
-
-Any new table or storage integration must add a retention note here in the same PR.
+Use [`docs/database/schema-notes.md`](../database/schema-notes.md) for current table names and relational notes.
 
 ---
 <p align="center">

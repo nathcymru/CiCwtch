@@ -20,8 +20,7 @@
   &nbsp;
   <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-
-The detailed architecture documents are maintained under [`docs/architecture/`](architecture/README.md).
+The detailed architecture documents are maintained under [`docs/architecture/`](architecture/README.md). Database-specific source-of-truth material lives under [`docs/database/`](database/README.md).
 
 ## Read this next
 
@@ -33,10 +32,11 @@ The detailed architecture documents are maintained under [`docs/architecture/`](
 - [Architecture decisions](architecture/decisions.md)
 - [Architecture diagrams](architecture/diagrams.md)
 - [Multi-tenant data model](architecture/multi-tenant-model.md)
+- [Database documentation index](database/README.md)
 
 ## Source-of-truth rule
 
-If this overview and the detailed architecture pages ever disagree, the files under `docs/architecture/` win and this overview must be corrected immediately.
+If this overview disagrees with detailed architecture pages, the detailed pages win. If the detailed pages disagree with the database pages on relational design, the files under `docs/database/` win and the summaries must be corrected immediately.
 
 ---
 <p align="center">

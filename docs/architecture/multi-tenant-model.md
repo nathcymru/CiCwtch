@@ -9,109 +9,90 @@
 </p clear="right">
 
 # CiCwtch - Multi-Tenant Data Model
-## Organisation scoping rules, schema patterns, and query guidance
+## Tenant isolation rules for D1 tables and queries
 
 <p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
   &nbsp;
-  <a href="https://www.sqlite.org/index.html"><img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite" /></a>
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
+## Principle
 
-## Platform rule
+Each dog-walking business using CiCwtch is a separate tenant. Tenant isolation is a hard platform rule, not an optional convention.
 
-CiCwtch is a multi-tenant SaaS platform. Each tenant is an independent dog-walking business. Every tenant's data must be fully isolated from every other tenant's data. This is a core platform rule, not an optional feature.
+## Tenant anchor
 
-## Organisation record
+Each tenant is represented by a record in the `organisations` table. The `organisations` table is global and does not itself carry `organisation_id`.
 
-Each tenant is represented by a record in the `organisations` table. The `organisations` table is a global/platform-level table and does not itself carry `organisation_id`.
+## Mandatory table pattern
 
-## Tenant-owned table schema pattern
-
-Every core business table that belongs to a tenant must follow this column pattern:
+Tenant-owned tables should follow this shape:
 
 ```sql
-id              TEXT NOT NULL PRIMARY KEY,
-organisation_id TEXT NOT NULL,
--- ... domain-specific columns ...
-created_at      TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-updated_at      TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-archived_at     TEXT          -- nullable; present where soft-delete applies
+id TEXT PRIMARY KEY,
+organisation_id TEXT NOT NULL
 ```
 
-Rules:
-
-- `organisation_id` is `NOT NULL` on all tenant-owned tables.
-- `organisation_id` references the `organisations` table.
-- An index on `organisation_id` must be created for all tenant-owned tables.
-- `archived_at` is included on top-level operational entities where soft-delete is required.
+Add table-specific fields after that baseline and index `organisation_id` for filtering.
 
 ## Tenant-owned tables
 
-The following tables are tenant-owned and must carry `organisation_id`:
+Examples in the current documented baseline include:
 
 - `addresses`
 - `clients`
 - `client_contacts`
+- `client_documents`
 - `dogs`
-- `dog_notes`
+- `dog_medical_records`
 - `walkers`
-- `walker_compliance_items`
+- `walker_compliance_records`
+- `compliance_templates`
 - `walks`
-- `walk_reports` / `visit_records`
-- `invoices` / `invoice_headers`
+- `invoice_headers`
 - `invoice_lines`
-- `payments`
-- `bookings` / `walk_slots` (where applicable)
-- `attachments`
-- `audit_log`
-- `rewards` / `reward_campaigns`
-- `vouchers`
+- `invoice_sequences`
+- `invoice_branding_profiles`
+- `invoice_line_item_templates`
+- `invoice_line_items_catalog`
+- `weather_snapshots`
+- `route_snapshots`
+- `device_registrations`
+- `calendar_sync_links`
 
 ## Global/reference tables
 
-The following are platform-level or reference tables and do **not** carry `organisation_id`:
+The documented global lookup/reference tables are:
 
-- `organisations` (the tenant record itself)
-- Any future static lookup/reference tables (e.g., VAT codes, system config templates)
+- `breeds`
+- `vets`
 
-These tables are shared across all tenants and must not be confused with tenant-owned tables.
+## Query rule
 
-## Query pattern
-
-All reads, updates, archives, and deletes for tenant-owned data **must** filter by `organisation_id`:
+All reads, updates, archives, and deletes for tenant-owned data must filter by `organisation_id`.
 
 ```sql
--- List (active records only)
 SELECT * FROM clients
 WHERE organisation_id = ?
   AND archived_at IS NULL;
-
--- Get single record
-SELECT * FROM clients
-WHERE id = ?
-  AND organisation_id = ?;
-
--- Archive (soft delete)
-UPDATE clients
-SET archived_at = CURRENT_TIMESTAMP,
-    updated_at  = CURRENT_TIMESTAMP
-WHERE id = ?
-  AND organisation_id = ?;
 ```
-
-Never query a tenant-owned table without a `WHERE organisation_id = ?` clause.
-
-## Migration guidance
-
-- All future migrations for tenant-owned entities must include `organisation_id` in the initial `CREATE TABLE` statement.
-- Do not create a tenant table without `organisation_id` and then add it later — it must be present from day one.
-- All future migrations must also add the corresponding index:
 
 ```sql
-CREATE INDEX IF NOT EXISTS idx_<table>_org ON <table>(organisation_id);
+UPDATE clients
+SET archived_at = CURRENT_TIMESTAMP
+WHERE id = ?
+  AND organisation_id = ?;
 ```
+
+Never query a tenant-owned business table without a tenant filter.
+
+## Naming hygiene
+
+Temporary repair suffixes such as `_v2` should be removed once the canonical table is restored. Tenant rules apply to the canonical table names only.
 
 ---
 <p align="center">

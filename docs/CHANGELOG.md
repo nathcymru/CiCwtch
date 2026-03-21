@@ -1,11 +1,3 @@
-## Unreleased
-
-### Fixed
-- corrected the Google Weather handler to use the documented top-level Weather API response fields, improving live dashboard weather reliability
-- made dashboard weather failures visible with a lightweight retry card instead of silently hiding the section
-- persisted dog behaviour slider values (`energy_level`, `leash_manners`, `recall_rating`) from the multi-step dog form
-- implemented nose-print and walking-gear image upload/retrieval endpoints and wired the Flutter dog form to save those files
-
 <img src="../brand/app_icon_base.svg" alt="CiCwtch Logo" align="left" height="60" />
 <!-- HEADER BADGES -->
 <p align="right">
@@ -28,10 +20,16 @@
   &nbsp;
   <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-
 All notable changes to CiCwtch should be documented here.
 
-The format is intentionally simple and practical rather than ceremonial.
+## Unreleased
+
+### Changed
+- documentation now treats `docs/database/` as the relational source of truth and trims database duplication from architecture and API summaries
+- architecture and privacy docs now reflect the canonical `clients` table name and current tenant-scoped invoice numbering rule
+
+### Added
+- database documentation index, ERD, Mermaid source, data dictionary, schema notes, build-and-seed guide, and maintenance SOPs
 
 ## [0.2.0] - 2026-03-08
 

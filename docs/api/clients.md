@@ -12,11 +12,17 @@
 ## Client CRUD endpoints
 
 <p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
-Clients are soft-deletable operational records.
+Clients are tenant-scoped operational records backed by the `clients` table.
+
+For schema details, relationships, and naming rules, see [`docs/database/data-dictionary.md`](../database/data-dictionary.md).
 
 ## Endpoints
 
@@ -30,7 +36,8 @@ Clients are soft-deletable operational records.
 
 - Records with `archived_at` set are excluded from normal reads.
 - `full_name` is required.
-- All SQL uses prepared statements in the Worker.
+- Requests must be tenant-safe and scoped to `organisation_id` in backend handling.
+- All SQL should use prepared statements in the Worker.
 
 ---
 <p align="center">

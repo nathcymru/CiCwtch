@@ -9,15 +9,20 @@
 </p clear="right">
 
 # CiCwtch - API Reference
-## Current Worker API surface implemented in Phase 1
+## Current Worker API surface and where database details live
 
 <p align="left">
+  <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
+  &nbsp;
   <a href="https://developers.cloudflare.com/workers/"><img src="https://img.shields.io/badge/Cloudflare%20Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare Workers" /></a>
   &nbsp;
   <a href="https://developers.cloudflare.com/d1/"><img src="https://img.shields.io/badge/Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare D1" /></a>
+  &nbsp;
+  <a href="https://developers.cloudflare.com/r2/"><img src="https://img.shields.io/badge/Cloudflare%20R2-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare R2" /></a>
 </p>
+All business API routes are versioned under `/api/v1/`.
 
-All business API routes are versioned under `/api/v1/` and return JSON only.
+This section documents the API surface, not the full database schema. Database shape and relational rules live under [`docs/database/`](../database/README.md).
 
 ## Health
 
@@ -32,6 +37,7 @@ All business API routes are versioned under `/api/v1/` and return JSON only.
 - [Walkers API](walkers.md)
 - [Invoices API](invoices.md)
 - [Invoice lines API](invoice_lines.md)
+- [Attachments API](attachments.md)
 
 ## Error shape
 
