@@ -43,11 +43,68 @@
 
 ## Authentication
 
-The Worker uses a minimal bearer-token authentication layer to protect API routes. All routes except health endpoints require a valid `Authorization: Bearer <token>` header.
+The Worker supports two forms of authentication for protected routes:
+
+### User session authentication (v0.5.0)
+
+Full email/password user authentication using the D1 `users` and `user_sessions` tables.
+
+**Auth endpoints (public — no prior token required):**
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/api/v1/auth/login` | Verify credentials, create session, return token |
+| `POST` | `/api/v1/auth/logout` | Delete session (requires session token in header) |
+| `GET` | `/api/v1/auth/me` | Return current user for provided token |
+
+**Login request:**
+
+```json
+{ "email": "user@example.com", "password": "secret" }
+```
+
+**Login response (200):**
+
+```json
+{
+  "token": "<uuid>",
+  "expires_at": "2026-04-20T07:41:00.000Z",
+  "user": {
+    "id": "...",
+    "organisation_id": "...",
+    "email": "user@example.com",
+    "full_name": "Example User",
+    "role": "admin"
+  }
+}
+```
+
+**Login error responses:**
+
+| Condition | HTTP | Error code |
+|---|---|---|
+| Missing/invalid credentials | 401 | `invalid_credentials` |
+| Archived user | 401 | `invalid_credentials` |
+| Inactive account | 403 | `account_inactive` |
+| Password reset required | 403 | `password_reset_required` |
+
+**Password format:** `pbkdf2:sha256:100000:<base64_salt>:<base64_hash>`
+
+Use the session token for all subsequent API calls:
+
+```bash
+curl -H "Authorization: Bearer <token>" http://localhost:8787/api/v1/clients
+```
+
+Sessions expire after 30 days. The `last_login_at` field is updated on every successful login.
+
+### Environment bearer token (v0.3.0)
+
+The `API_BEARER_TOKEN` environment token is retained for service/dev access. Protected routes accept either a valid user session token **or** the env bearer token.
 
 **How it works:**
 
-- The middleware in `src/middleware/auth.ts` validates the `Authorization` header on protected routes.
+- The middleware in `src/middleware/auth.ts` validates the `Authorization` header.
 - Health endpoints (`/health` and `/api/v1/health`) remain public and require no token.
 - A missing, malformed, unconfigured, or invalid token returns a `401` JSON error response with code `unauthorized` and message `Missing or invalid bearer token`.
 - The expected token is read from the `API_BEARER_TOKEN` environment variable (never hardcoded).
@@ -115,6 +172,7 @@ The Worker includes centralised CORS handling in `src/cors.ts` so that browser-b
 
 ## Current resources
 
+- auth (`POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`) — user session authentication
 - clients
 - dogs
 - walks

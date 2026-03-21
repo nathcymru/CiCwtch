@@ -52,6 +52,17 @@
 - **Purpose:** store and retrieve operational files linked to business entities.
 - **Storage:** D1 `attachments` plus Cloudflare R2 object storage.
 
+### User authentication and sessions
+
+- **Data subjects:** system operators (owners, admins, dispatchers, walkers, read-only users).
+- **Storage:** D1 `users` (hashed credentials, role, tenant scope, activity flags) and `user_sessions` (session tokens with expiry).
+- **Notes:**
+  - Passwords are stored as PBKDF2-SHA256 hashes only — no plaintext credentials are stored or logged.
+  - Session tokens are random UUIDs stored in D1 with a 30-day expiry and deleted on logout.
+  - Each user record carries `organisation_id` for tenant-level data segregation.
+  - `last_login_at` is updated on successful authentication.
+  - Inactive (`is_active = 0`) and archived (`archived_at IS NOT NULL`) users cannot authenticate.
+
 ## Rule
 
 Where a GDPR page needs table-level accuracy, link to the database docs rather than duplicating field-by-field schema.
