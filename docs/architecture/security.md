@@ -38,6 +38,64 @@
 - documentation guardrails for architecture-sensitive changes
 - initial privacy inventory scaffolding through Fides manifests
 - minimal bearer-token authentication on protected API routes (v0.3.0)
+- full email/password user authentication with tenant-aware sessions (v0.5.0)
+
+## User authentication (v0.5.0)
+
+Email/password authentication for all system users is implemented using the `users` and `user_sessions` D1 tables.
+
+**How it works:**
+
+- `POST /api/v1/auth/login` accepts `{ email, password }`. Email is normalised to lowercase before lookup. Passwords are verified against a PBKDF2-SHA256 stored hash using `crypto.subtle` — no plaintext is ever compared or stored.
+- On success: a random session token (UUID) is created in `user_sessions` with a 30-day expiry; `last_login_at` is updated; `{ token, expires_at, user }` is returned.
+- `POST /api/v1/auth/logout` deletes the session record from D1.
+- `GET /api/v1/auth/me` returns the current user for the provided token.
+- All three auth endpoints are public (no prior token needed).
+- All other `/api/v1/*` routes accept either a valid user session token **or** the `API_BEARER_TOKEN` environment token (retained for service/dev access).
+
+**Enforcement:**
+
+| Condition | Result |
+|---|---|
+| `archived_at IS NOT NULL` | 401 `invalid_credentials` |
+| `is_active = 0` | 403 `account_inactive` |
+| Wrong password | 401 `invalid_credentials` |
+| `password_reset_required = 1` | 403 `password_reset_required` |
+| Valid credentials | 200 with token and user context |
+
+**Session payload (user context):**
+
+Every successful login returns and every session validates the following fields:
+
+- `id` — user UUID
+- `organisation_id` — tenant scope
+- `email` — normalised email address
+- `full_name` — display name
+- `role` — one of `owner`, `admin`, `dispatcher`, `walker`, `read_only`
+
+**Flutter client:**
+
+- `LoginScreen` provides email/password form with validation and clear error messages.
+- `AuthService` (ChangeNotifier) manages login, logout, and session restore.
+- Session token is persisted in `shared_preferences` and restored on app launch.
+- `AuthProvider` (InheritedNotifier) exposes `AuthService` to the widget tree.
+- The root `CiCwtchApp` widget redirects unauthenticated users to `LoginScreen`.
+- `AppShell` includes a logout action that clears the session.
+- `ApiConfig.setSessionToken` sets the runtime bearer token used by `ApiClient` for all API calls.
+
+**Password hashing format:**
+
+```
+pbkdf2:sha256:<iterations>:<base64_salt>:<base64_hash>
+```
+
+100,000 PBKDF2-SHA256 iterations with a random 16-byte salt.
+
+**Allowed roles:**
+
+`owner`, `admin`, `dispatcher`, `walker`, `read_only`
+
+For full details, see the [Worker README](../../worker/README.md#authentication).
 
 ## Bearer token authentication (v0.3.0)
 
@@ -108,17 +166,16 @@ echo "<secret>" | npx wrangler secret put CICWTCH_GOOGLE_WEATHER_SECRET --env pr
 
 The following are **not yet implemented** and must not be described as done elsewhere:
 
-- full user authentication and authorisation
-- role-based access control
-- user/session management
-- per-tenant access segregation
+- role-based access control (RBAC) — roles are stored and returned but not enforced at route level
+- per-tenant access segregation — `organisation_id` is present but not enforced on data queries
 - attachment access control
 - security event logging beyond schema placeholders
 - automated retention and erasure enforcement
+- password reset flow (blocked at login; admin must reset externally)
 
 ## Practical rule
 
-The current bearer-token layer provides basic environment protection but is not a substitute for full user authentication. The API should not be deployed as a public multi-user production service until proper user authentication and per-tenant access control are in place.
+User email/password authentication is implemented (v0.5.0). Session tokens are validated per request. The `API_BEARER_TOKEN` environment token is retained for service/dev access. Full per-tenant data isolation and RBAC are not yet enforced at the query level.
 
 ---
 <p align="center">

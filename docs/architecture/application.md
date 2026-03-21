@@ -39,13 +39,23 @@ Each implemented feature broadly follows this structure:
 
 This is intentionally lightweight. It is not a large enterprise state-management circus.
 
+## Authentication flow
+
+User authentication is implemented using email/password credentials verified against the D1 `users` table.
+
+1. On app launch, `CiCwtchApp` creates an `AuthService` and calls `restoreSession`. If a stored token exists in `shared_preferences`, it is validated against `GET /api/v1/auth/me`. On success, the user is taken directly to `AppShell`. On failure (expired/invalid token), the user is taken to `LoginScreen`.
+2. `LoginScreen` collects email and password, then calls `POST /api/v1/auth/login`. On success, the session token is stored in `shared_preferences` via `AuthService`, `ApiConfig.setSessionToken` is updated, and `AppShell` is shown.
+3. The logout action in `AppShell` calls `POST /api/v1/auth/logout` (server-side session deletion), clears the stored token, and returns to `LoginScreen`.
+4. `AuthProvider` (InheritedNotifier wrapping `AuthService`) makes auth state available to any widget via `AuthProvider.of(context)`.
+5. All API calls from authenticated screens use `ApiConfig.bearerToken`, which returns the active session token set by `AuthService`.
+
 ## Current runtime flow
 
 1. Flutter screen calls a feature service.
 2. Service delegates to repository.
 3. Repository calls `ApiClient`.
 4. `ApiClient` sends JSON HTTP requests to the Worker API.
-5. Worker validates input and uses D1 prepared statements.
+5. Worker validates the session or env bearer token, then processes the request using D1 prepared statements.
 6. Worker returns JSON to the app.
 
 ## Live API integration status

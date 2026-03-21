@@ -1,6 +1,7 @@
 import type { Env } from "./index";
 import { jsonOk, jsonError } from "./response";
 import { requireBearerToken } from "./middleware/auth";
+import { login, logout, me, validateSessionToken } from "./handlers/auth";
 import {
   listClients,
   getClient,
@@ -100,9 +101,42 @@ export async function route(
     return handleHealth();
   }
 
-  // All routes below require a valid bearer token
-  const denied = requireBearerToken(request, env.API_BEARER_TOKEN);
-  if (denied) return denied;
+  // Auth endpoints are public — they are the authentication mechanism
+  if (pathname === "/api/v1/auth/login") {
+    if (method === "POST") return login(request, env);
+    return methodNotAllowed(["POST"]);
+  }
+
+  if (pathname === "/api/v1/auth/logout") {
+    if (method === "POST") return logout(request, env);
+    return methodNotAllowed(["POST"]);
+  }
+
+  if (pathname === "/api/v1/auth/me") {
+    if (method === "GET") return me(request, env);
+    return methodNotAllowed(["GET"]);
+  }
+
+  // All routes below require authentication.
+  // Accept either the env API_BEARER_TOKEN (dev/service access) or a valid user session token.
+  const authHeader = request.headers.get("Authorization");
+  const token = authHeader?.startsWith("Bearer ")
+    ? authHeader.slice(7).trim()
+    : "";
+
+  const envTokenValid =
+    !!env.API_BEARER_TOKEN &&
+    token === env.API_BEARER_TOKEN;
+
+  if (!envTokenValid) {
+    // Try user session token
+    const sessionUser = token
+      ? await validateSessionToken(token, env)
+      : null;
+    if (!sessionUser) {
+      return jsonError("Missing or invalid bearer token", "unauthorized", 401);
+    }
+  }
 
   if (pathname === "/api/v1/dashboard") {
     if (method === "GET") return getDashboard(request, env);

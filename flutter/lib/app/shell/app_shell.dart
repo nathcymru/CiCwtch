@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:cicwtch/app/auth/auth_provider.dart';
 import 'package:cicwtch/features/clients/presentation/clients_list_screen.dart';
 import 'package:cicwtch/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:cicwtch/features/dogs/presentation/dogs_list_screen.dart';
@@ -57,6 +58,19 @@ class _AppShellState extends State<AppShell> {
               onDestinationSelected: _onDestinationSelected,
               labelType: NavigationRailLabelType.all,
               destinations: _navItems.map((item) => NavigationRailDestination(icon: Icon(item.icon), label: Text(item.label))).toList(),
+              trailing: Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.logout),
+                      tooltip: 'Sign out',
+                      onPressed: () => _confirmLogout(context),
+                    ),
+                  ),
+                ),
+              ),
             ),
             const VerticalDivider(thickness: 1, width: 1),
             Expanded(child: body),
@@ -66,6 +80,16 @@ class _AppShellState extends State<AppShell> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Sign out',
+            onPressed: () => _confirmLogout(context),
+          ),
+        ],
+      ),
       body: body,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
@@ -74,6 +98,29 @@ class _AppShellState extends State<AppShell> {
         items: _navItems.map((item) => BottomNavigationBarItem(icon: Icon(item.icon), label: item.label)).toList(),
       ),
     );
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Sign out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Sign out'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true && context.mounted) {
+      await AuthProvider.of(context).logout();
+    }
   }
 }
 

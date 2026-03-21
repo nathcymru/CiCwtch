@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/app/shell/app_shell.dart';
+import 'package:cicwtch/features/auth/presentation/login_screen.dart';
 import 'package:cicwtch/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:cicwtch/features/clients/presentation/client_create_screen.dart';
 import 'package:cicwtch/features/clients/presentation/client_detail_screen.dart';
@@ -26,6 +27,7 @@ import 'package:cicwtch/shared/domain/models/models.dart';
 
 class AppRoutes {
   static const home = '/';
+  static const login = '/login';
   static const dashboard = '/dashboard';
   static const clientsList = '/clients';
   static const clientDetail = '/clients/detail';
@@ -54,6 +56,8 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const AppShell(), settings: settings);
+      case AppRoutes.login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen(), settings: settings);
       case AppRoutes.dashboard:
         return MaterialPageRoute(builder: (_) => const DashboardScreen(), settings: settings);
       case AppRoutes.clientsList:
