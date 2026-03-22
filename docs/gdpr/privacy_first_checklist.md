@@ -66,6 +66,14 @@ the `clients` table. Nose photo and walking gear photo selections are
 stored client-side only until backend upload endpoints are available.
 Behaviour snapshot ratings (integers 1–5) contain no personal data.
 
+### Landing page (v0.3.x)
+
+The public landing page (`flutter/lib/features/landing/`) is a marketing-only
+UI rendered for unauthenticated visitors on `cicwtch.app`. It collects no
+personal data, stores nothing, and makes no API calls. No changes to D1, R2,
+or the Worker API are required. No updates to ROPA, Fides system registry,
+or retention schedules are needed for this feature.
+
 ---
 <p align="center">
   Built in Wales ❤️ Designed with Cwtch<br/>

@@ -22,20 +22,42 @@ class SubdomainDetector {
     return '';
   }
 
-  /// True when the app is running on the root domain (cicwtch.app) or on
-  /// localhost / a non-web platform.  In these cases the landing page is
-  /// shown to unauthenticated users.
-  static bool get isRootDomain {
-    final host = hostname;
-    // Non-web or localhost — treat as root so developers see the full flow.
+  // ---------------------------------------------------------------------------
+  // Pure host-string helpers — extracted so they can be unit-tested without
+  // any platform / web context.
+  // ---------------------------------------------------------------------------
+
+  /// Returns true when [host] is the root domain, localhost, or empty
+  /// (non-web platform).
+  static bool isRootDomainForHost(String host) {
     if (host.isEmpty || host == 'localhost' || host == '127.0.0.1') {
       return true;
     }
-    // Exact match: cicwtch.app (with or without port, just in case).
     final hostWithoutPort = host.split(':').first;
     return hostWithoutPort == _rootDomain;
   }
 
+  /// Returns true when [host] is an explicit tenant subdomain
+  /// (`*.cicwtch.app`).  Any other host (preview domains, unknown hosts, etc.)
+  /// is NOT treated as a tenant subdomain; it falls through to the root /
+  /// landing-page flow.
+  static bool isTenantSubdomainForHost(String host) {
+    if (host.isEmpty) return false;
+    final hostWithoutPort = host.split(':').first;
+    return hostWithoutPort != _rootDomain &&
+        hostWithoutPort.endsWith('.$_rootDomain');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Runtime accessors
+  // ---------------------------------------------------------------------------
+
+  /// True when the app is running on the root domain (cicwtch.app) or on
+  /// localhost / a non-web platform.  In these cases the landing page is
+  /// shown to unauthenticated users (web only).
+  static bool get isRootDomain => isRootDomainForHost(hostname);
+
   /// True when the app is running on a tenant subdomain (*.cicwtch.app).
-  static bool get isTenantSubdomain => !isRootDomain;
+  /// Preview domains and other unrecognised hosts are treated as root.
+  static bool get isTenantSubdomain => isTenantSubdomainForHost(hostname);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cicwtch/app/auth/auth_provider.dart';
@@ -76,9 +77,10 @@ class _CiCwtchAppState extends State<CiCwtchApp> {
     if (_authService.isAuthenticated) {
       return const AppShell();
     }
-    // Show the landing page only on the root domain (cicwtch.app).
-    // Tenant subdomains bypass the landing page and go straight to login.
-    if (SubdomainDetector.isRootDomain) {
+    // Show the landing page only on Flutter web AND on the root domain
+    // (cicwtch.app).  Tenant subdomains and native platforms (iOS/Android)
+    // bypass the landing page and go straight to the login screen.
+    if (kIsWeb && SubdomainDetector.isRootDomain) {
       return LandingPage(
         onCtaTapped: () {
           Navigator.of(context).pushNamed(AppRoutes.login);
