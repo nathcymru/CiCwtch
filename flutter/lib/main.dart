@@ -6,8 +6,10 @@ import 'package:cicwtch/app/shell/app_shell.dart';
 import 'package:cicwtch/features/auth/application/auth_service.dart';
 import 'package:cicwtch/features/auth/data/auth_repository.dart';
 import 'package:cicwtch/features/auth/presentation/login_screen.dart';
+import 'package:cicwtch/features/landing/presentation/landing_page.dart';
 import 'package:cicwtch/shared/data/api_client.dart';
 import 'package:cicwtch/shared/data/api_config.dart';
+import 'package:cicwtch/shared/utils/subdomain_detector.dart';
 import 'package:cicwtch/theme/app_theme.dart';
 
 void main() async {
@@ -73,6 +75,15 @@ class _CiCwtchAppState extends State<CiCwtchApp> {
     }
     if (_authService.isAuthenticated) {
       return const AppShell();
+    }
+    // Show the landing page only on the root domain (cicwtch.app).
+    // Tenant subdomains bypass the landing page and go straight to login.
+    if (SubdomainDetector.isRootDomain) {
+      return LandingPage(
+        onCtaTapped: () {
+          Navigator.of(context).pushNamed(AppRoutes.login);
+        },
+      );
     }
     return const LoginScreen();
   }
