@@ -1,50 +1,338 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
   <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CiCwtch helps professional dog walking businesses manage clients, dogs, walks, walkers, invoices, and communication in one secure platform.">
-  <meta name="keywords" content="dog walking software, dog walker CRM, dog walking business, client portal, pet care software">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="CiCwtch – The professional heart of your dog walking business.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cicwtch.app/">
+  <meta property="og:title" content="CiCwtch – The Professional Heart of Your Dog Walking Business">
+  <meta property="og:description" content="Manage clients, dogs, walks, walkers, and invoices – all in one professional platform built for dog walking businesses.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CiCwtch – The Professional Heart of Your Dog Walking Business">
+  <meta name="twitter:description" content="Manage clients, dogs, walks, walkers, and invoices – all in one professional platform built for dog walking businesses.">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="CiCwtch">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="robots" content="index,follow">
-
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://cicwtch.app/">
-  <meta property="og:title" content="CiCwtch — Professional software for dog walking businesses">
-  <meta property="og:description" content="Run your dog walking business with clients, dogs, walks, invoices, and communication in one place.">
-  <meta property="og:site_name" content="CiCwtch">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="CiCwtch — Professional software for dog walking businesses">
-  <meta name="twitter:description" content="Run your dog walking business with clients, dogs, walks, invoices, and communication in one place.">
-
-  <link rel="canonical" href="https://cicwtch.app/">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="landing.css">
-
-  <title>CiCwtch — Professional software for dog walking businesses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1&opsz,wght@20..48,100..700">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="web-assets/css/site.css">
+  <title>CiCwtch – The Professional Heart of Your Dog Walking Business</title>
+  <script src="web-assets/js/site-config.js"></script>
+  <script src="web-assets/js/site-router.js"></script>
+  <script src="web-assets/js/site-components.js"></script>
 </head>
-<body>
-  <noscript>
-    <div style="padding:1rem;font-family:Arial,sans-serif">
-      CiCwtch needs JavaScript enabled to load correctly.
+<body data-page="home">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div id="marketingRoot">
+    <div id="pageShell" hidden>
+      <div id="headerMount"></div>
+
+      <main id="main-content" tabindex="-1">
+        <div id="top"></div>
+
+        <section class="hero paw-pattern" aria-labelledby="hero-title">
+          <div class="container hero-grid">
+            <div class="hero-heading-row">
+              <div class="eyebrow">The all-in-one app for dog walkers</div>
+              <h1 id="hero-title">Spend less time chasing payments — and more time out on walks.</h1>
+            </div>
+
+            <div class="hero-row hero-row--two">
+              <div>
+                <p class="lead">Bookings, walk reports, client details, and invoices — all in one place. No more late-night admin, missed messages, or guessing who’s paid. Run your day with clarity and confidence.</p>
+                <p>Stay on top of your schedule as it changes. See what’s booked, what’s moved, and what’s coming up next without digging through messages or second-guessing yourself.</p>
+                <p>Get paid your way with built-in Stripe integration. Set up Direct Debit for regulars, take card payments online or in person, and offer fast checkout with Apple Pay — helping you get paid on time without the awkward follow-ups.</p>
+              </div>
+
+              <div class="hero-visual-mobile-hide">
+                <div class="visual-stage">
+                  <img id="heroImageEl" class="hero-portrait" alt="Professional dog walker with four dogs outdoors">
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-row hero-row--two hero-row--intro">
+              <div class="hero-actions">
+                <a href="#preorder" class="btn btn-primary">Pre-order now</a>
+              </div>
+              <div class="hero-actions">
+                <button type="button" class="btn btn-secondary" id="openVideoModal" aria-haspopup="dialog" aria-controls="videoModal">See the product in action</button>
+              </div>
+            </div>
+
+            <div class="hero-row hero-row--three">
+              <div class="hero-meta"><span class="chip">No hidden fees</span></div>
+              <div class="hero-meta"><span class="chip">Cancel anytime</span></div>
+              <div class="hero-meta"><span class="chip">Designed for on-the-go</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="proof-strip" aria-label="Key selling points">
+          <div class="container proof-grid">
+            <div class="proof-item">See exactly how it works before you sign up</div>
+            <div class="proof-item">£14/month. No contracts. No surprises</div>
+            <div class="proof-item">Built for dog walkers who are out all day, not behind a desk</div>
+            <div class="proof-item">Cuts admin, missed messages, and payment chasing</div>
+          </div>
+        </section>
+
+        <section id="features" style="background:#E6D8C0;" class="paw-pattern" aria-labelledby="features-title">
+          <div class="container">
+            <div class="section-heading">
+              <div class="kicker">Built for the way dog walkers actually work</div>
+              <h2 id="features-title">Everything you need to run your dog walking business in one place.</h2>
+              <p>Your day moves fast. Between pick-ups, route changes, owner messages, payments, and keeping track of each dog’s needs, there is no time for faffing about with five different apps and a notebook in the van. CiCwtch brings the moving parts together, so you can stay organised, look professional, and keep the dogs in safe hands.</p>
+            </div>
+
+            <div class="split">
+              <div class="image-card warm">
+                <img class="base-image" id="cafeImageEl" alt="Dog walker working at a cafe table with phone and laptop while dogs rest nearby">
+              </div>
+
+              <div class="feature-copy">
+                <h3>Less admin. More walking.</h3>
+                <p>CiCwtch is designed for real working days: muddy boots, last-minute changes, dogs with different needs, owners who want updates, and a business that still needs to get paid on time.</p>
+
+                <div class="bullet-list">
+                  <div class="bullet-item">
+                    <div class="bullet-icon" aria-hidden="true"><span class="material-symbols-rounded">pets</span></div>
+                    <div><strong>Keep every dog and owner detail where you need it</strong> Stop digging through messages for feeding notes, access instructions, vet details, or emergency contacts. CiCwtch keeps the important information in one secure place, ready when you need it.</div>
+                  </div>
+                  <div class="bullet-item">
+                    <div class="bullet-icon" aria-hidden="true"><span class="material-symbols-rounded">calendar_month</span></div>
+                    <div><strong>Stay on top of bookings, walks, and last-minute changes</strong> See what is happening today, what is coming up next, and what has changed. No more crossed wires, missed visits, or trying to remember who asked to swap Tuesday for Thursday.</div>
+                  </div>
+                  <div class="bullet-item">
+                    <div class="bullet-icon" aria-hidden="true"><span class="material-symbols-rounded">payments</span></div>
+                    <div><strong>Send invoices and keep payments under control</strong> Spend less time chasing money and more time doing the work that actually pays. CiCwtch helps you stay on top of invoicing, track what has been paid, and spot what still needs attention.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="tracking" class="paw-pattern" aria-labelledby="tracking-title">
+          <div class="container">
+            <div class="section-heading">
+              <div class="kicker">Built for the people who trust you</div>
+              <h2 id="tracking-title">Turn every walk into something your clients can see, trust, and value.</h2>
+              <p>Great dog walkers already do the right things. CiCwtch makes it visible — giving clients clear, consistent insight into their dog’s day, while quietly raising the standard of your service.</p>
+            </div>
+
+            <div class="split">
+              <div class="feature-copy">
+                <div class="cards tracking-cards">
+                  <div class="feature-card">
+                    <div class="icon" aria-hidden="true"><span class="material-symbols-rounded">location_on</span></div>
+                    <h4>Walk reports with GPS &amp; activity</h4>
+                    <p>Share a clear record of each walk — routes, duration, and activity — so owners can see exactly what their dog has enjoyed, not just be told about it.</p>
+                  </div>
+                  <div class="feature-card">
+                    <div class="icon" aria-hidden="true"><span class="material-symbols-rounded">chat_bubble</span></div>
+                    <h4>Photo updates that build trust</h4>
+                    <p>Capture moments from the walk and keep them organised in one place, giving clients a reassuring, visual connection to their dog’s day.</p>
+                  </div>
+                  <div class="feature-card">
+                    <div class="icon" aria-hidden="true"><span class="material-symbols-rounded">lock</span></div>
+                    <h4>Everything your clients need, in one place</h4>
+                    <p>Keep messages, invoices, and pet details together in one GDPR-secure portal, with built-in chat and smart auto-replies to help you deliver a more professional — and properly pawtastic — service.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="image-card">
+                <img class="base-image" id="walkingImageEl" alt="Over the shoulder walking scene with dogs ahead and mobile phone visible">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="social paw-pattern" aria-labelledby="social-proof-title">
+          <div class="container">
+            <div class="section-heading">
+              <div class="kicker">Around the water bowl</div>
+              <h2 id="social-proof-title">What are people saying about CiCwtch?</h2>
+              <p>Testimonials from dog walkers using CiCwtch in their daily routine — and from the two- and four-legged clients who keep them busy.</p>
+            </div>
+
+            <div class="testimonial-grid">
+              <div class="image-card warm" style="min-height:470px;">
+                <img class="base-image" id="warmImageEl" alt="Relaxed summer portrait of the dog walker with four dogs">
+              </div>
+
+              <div class="quote-stack">
+                <div class="quote-card">
+                  <p>“It feels like software for real dog walkers, not generic booking software with a paw icon stuck on top.”</p>
+                  <strong>Rhodri, Professional Walker</strong>
+                </div>
+                <div class="quote-card">
+                  <p>“Using this app makes client updates simple. I love that I can log my routes and send those daily updates right now!!”</p>
+                  <strong>Ellie, Professional Walker</strong>
+                </div>
+                <div class="quote-card">
+                  <p>“We love getting daily walk photos and maps. CiCwtch gives total peace of mind while Barney is out having fun today!!”</p>
+                  <strong>Lowri &amp; Barney, Happy Client</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" class="paw-pattern" aria-labelledby="pricing-title">
+          <div class="container pricing-wrap">
+            <div class="section-heading" style="margin-left:auto; margin-right:auto; text-align:center;">
+              <div class="kicker">One price. All the features. No surprises.</div>
+              <h2 id="pricing-title">£14 a month. Up front. No hidden fees. Cancel anytime.</h2>
+              <p>You’ve got enough to juggle without sitting through sales demos or comparing tiers just to find out if an app fits your budget. CiCwtch keeps it simple: you get the full toolkit from day one.</p>
+            </div>
+
+            <div class="pricing-card">
+              <div class="pricing-label">The Full Cwtch</div>
+              <p class="price">£14 <small>/ month</small></p>
+              <p class="pricing-sub">One straightforward monthly price for the tools that help a dog walking business stay organised, look professional, and stop leaking time into admin that nobody is paying extra for.</p>
+
+              <div class="pricing-flags">
+                <span>No hidden fees</span>
+                <span>Cancel anytime</span>
+                <span>All core features included</span>
+              </div>
+
+              <div class="pricing-features">
+                <div>Bookings, diaries and service admin</div>
+                <div>Real-time walk updates and owner visibility</div>
+                <div>Professional invoicing and MTD-compliant records</div>
+                <div>Get paid faster: accept Direct Debit, Card, or Cash</div>
+              </div>
+
+              <a href="#preorder" class="btn btn-primary">Reserve your place now</a>
+
+              <div class="charity-card">
+                <strong>Registered charity or not-for-profit?</strong><br>
+                <a href="#">Contact us</a> about the <strong>Charity Cwtch</strong> at <strong>£7 / month</strong>.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="about-name" style="padding-top:0;" aria-labelledby="about-name-title">
+          <div class="container">
+            <div class="cta-band">
+              <div>
+                <h3 id="about-name-title">Join the pack before launch.</h3>
+                <p>Be first in line for CiCwtch and get early access to the app built for dog walkers who want less admin, clearer client communication, and more control of the working day. If you like what you see, pre-order now and get ready to run your business with less chaos.</p>
+                <div class="store-badges">
+                  <img id="appleBadgeEl" alt="Pre-order on the App Store badge">
+                  <img id="googleBadgeEl" alt="Pre-register on Google Play badge">
+                </div>
+              </div>
+              <div>
+                <a href="#preorder" class="btn btn-secondary" style="background:#fff; color:#2f4731; font-weight:800;">Pre-order now</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="preorder" style="padding-top:40px; padding-bottom:40px;" aria-labelledby="preorder-title">
+          <div class="container preorder-name-layout">
+            <div class="section-heading">
+              <div class="kicker">Built in Wales</div>
+              <h2 id="preorder-title">Why the name “CiCwtch”?</h2>
+              <p>“Ci” is Welsh for dog. “Cwtch” is one of those Welsh words that does more than one job: a cuddle, a safe place, a feeling of comfort. That is the point of the brand. CiCwtch is meant to feel supportive and steady — a platform that helps dog walkers feel more in control, more organised and less alone with the admin side of the business.</p>
+            </div>
+
+            <div class="preorder-name-visual" aria-hidden="true">
+              <img id="pawsomeWalesImageEl" class="preorder-name-image" alt="">
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <section class="cookie-sheet" id="cookieSheet" aria-labelledby="cookieSheetTitle" aria-describedby="cookieSheetDescription" aria-live="polite" aria-label="Cookie preferences">
+        <div class="cookie-sheet__surface">
+          <div class="cookie-sheet__handle" aria-hidden="true"></div>
+          <div class="cookie-sheet__content">
+            <div class="cookie-sheet__text">
+              <p class="cookie-sheet__eyebrow">Cookie preferences</p>
+              <h2 id="cookieSheetTitle">We use cookies to improve your experience.</h2>
+              <p id="cookieSheetDescription">We use essential cookies to make CiCwtch work, and optional cookies to understand usage, improve performance, and support future marketing. You can accept all cookies or manage your settings.</p>
+            </div>
+            <div class="cookie-sheet__actions">
+              <button type="button" class="btn btn-secondary" id="openCookieSettings" aria-expanded="false" aria-controls="cookieSettingsPanel">Settings</button>
+              <button type="button" class="btn btn-primary" id="acceptAllCookies">Accept all</button>
+            </div>
+          </div>
+          <div class="cookie-sheet__settings" id="cookieSettingsPanel" hidden>
+            <div class="cookie-preference">
+              <div class="cookie-preference__copy">
+                <strong>Strictly necessary</strong>
+                <span>Always on. These are required for security, navigation, and core site functions.</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked disabled aria-label="Strictly necessary cookies always on">
+                <span class="switch__track" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="cookie-preference">
+              <div class="cookie-preference__copy">
+                <strong>Analytics</strong>
+                <span>Help us understand which pages and flows are useful so we can improve the experience.</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="cookieAnalytics" aria-label="Allow analytics cookies">
+                <span class="switch__track" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="cookie-preference">
+              <div class="cookie-preference__copy">
+                <strong>Marketing</strong>
+                <span>Allow future campaign and attribution cookies for launch and product growth activity.</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="cookieMarketing" aria-label="Allow marketing cookies">
+                <span class="switch__track" aria-hidden="true"></span>
+              </label>
+            </div>
+            <div class="cookie-sheet__settings-actions">
+              <button type="button" class="btn btn-secondary" id="saveCookiePreferences">Save preferences</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="footerMount"></div>
     </div>
-  </noscript>
 
-  <div id="site-root"></div>
+    <div id="videoModal" class="video-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="videoModalTitle" aria-describedby="videoModalDescription">
+      <div class="video-modal-content">
+        <button type="button" class="video-close" id="closeVideoModal" aria-label="Close video dialog">
+          <span class="material-symbols-rounded" aria-hidden="true">close</span>
+        </button>
 
-  <script src="landing.js"></script>
+        <div class="video-modal-body">
+          <h2 id="videoModalTitle" class="sr-only">CiCwtch product video</h2>
+          <p id="videoModalDescription" class="sr-only">A demonstration video showing the CiCwtch product interface and features.</p>
+          <div class="video-frame-wrap">
+            <iframe id="videoFrame" title="CiCwtch product video" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="video-modal-actions">
+          <a href="#preorder" class="btn btn-primary" id="modalTrialBtn">Pre-order now</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

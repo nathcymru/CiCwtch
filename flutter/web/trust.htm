@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CiCwtch security and trust overview.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1&opsz,wght@20..48,100..700">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="web-assets/css/site.css">
+  <title>CiCwtch – Security &amp; Trust</title>
+  <script src="web-assets/js/site-config.js"></script>
+  <script src="web-assets/js/site-router.js"></script>
+  <script src="web-assets/js/site-components.js"></script>
+</head>
+<body data-page="trust" class="legal-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="marketingRoot">
+    <div id="pageShell" hidden>
+      <div id="headerMount"></div>
+      <main id="main-content" tabindex="-1">
+        <section class="hero paw-pattern" aria-labelledby="trust-title">
+          <div class="container legal-shell">
+            <div class="section-heading">
+              <div class="kicker">Security &amp; Trust</div>
+              <h1 id="trust-title">How CiCwtch approaches privacy, security, and resilience</h1>
+              <p>This page summarises the intended controls, operating principles, and governance direction for the public-facing CiCwtch service.</p>
+            </div>
+            <div class="legal-meta">
+              <span class="chip">Privacy-first direction</span>
+              <span class="chip">Multi-tenant SaaS</span>
+              <span class="chip">Preview content</span>
+            </div>
+          </div>
+        </section>
+
+        <section style="padding-top:0;">
+          <div class="container legal-shell legal-grid">
+            <article class="legal-card">
+              <h2>Security principles</h2>
+              <ul>
+                <li>Least-privilege access and role separation where practical.</li>
+                <li>Secure-by-default application patterns for authentication, session handling, and tenant isolation.</li>
+                <li>Change control through versioned source, CI checks, and documented architecture decisions.</li>
+                <li>Defence in depth across application, infrastructure, and data layers.</li>
+              </ul>
+            </article>
+
+            <article class="legal-card">
+              <h2>Data protection posture</h2>
+              <p>CiCwtch is being built with a privacy-first approach intended to support UK GDPR and related data protection expectations. The service direction includes data inventories, retention controls, documented processing, and structured privacy assessment work.</p>
+              <div class="notice-panel">
+                <strong>Important:</strong>
+                <p>This trust page is an overview, not a substitute for a formal DPA, privacy notice, or legal advice. Those documents should be published separately and kept aligned with the live service.</p>
+              </div>
+            </article>
+
+            <article class="legal-card">
+              <h2>Infrastructure direction</h2>
+              <p>The current technical direction uses Cloudflare-hosted components for web delivery and API hosting, with managed storage layers for relational data and object storage. Public assets and application components are intended to be separated so the root marketing site and tenant application flows do not bleed into each other.</p>
+              <ul>
+                <li>Public marketing pages only on root domain hosts.</li>
+                <li>Tenant subdomains route directly into the application experience.</li>
+                <li>Static web assets served separately from business data processing APIs.</li>
+              </ul>
+            </article>
+
+            <article class="legal-card">
+              <h2>Operational safeguards</h2>
+              <ul>
+                <li>Repository guardrails for architecture-sensitive and privacy-sensitive changes.</li>
+                <li>Documented migration practices for database evolution.</li>
+                <li>Configuration-based deployment with environment-separated secrets.</li>
+                <li>Planned monitoring, status visibility, and incident response maturity over time.</li>
+              </ul>
+            </article>
+
+            <article class="legal-card">
+              <h2>Customer responsibilities</h2>
+              <p>Customers remain responsible for lawful collection and use of their client, pet, and staff data; internal access management; device security; and the accuracy of information entered into the system. A secure platform does not replace sensible operational controls in the real world.</p>
+            </article>
+
+            <article class="legal-card">
+              <h2>Roadmap intent</h2>
+              <p>The trust model is expected to expand over time with clearer public documentation for privacy, retention, data processing, security commitments, and service status. This page is meant to give visitors a sensible top-level view without pretending the whole legal stack lives in one paragraph and a prayer.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+      <div id="footerMount"></div>
+    </div>
+  </div>
+</body>
+</html>

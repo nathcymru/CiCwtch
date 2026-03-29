@@ -1,0 +1,51 @@
+<section class="cookie-sheet" id="cookieSheet" aria-labelledby="cookieSheetTitle" aria-describedby="cookieSheetDescription" aria-live="polite" aria-label="Cookie preferences">
+  <div class="cookie-sheet__surface">
+    <div class="cookie-sheet__handle" aria-hidden="true"></div>
+    <div class="cookie-sheet__content">
+      <div class="cookie-sheet__text">
+        <p class="cookie-sheet__eyebrow">Cookie preferences</p>
+        <h2 id="cookieSheetTitle">We use cookies to improve your experience.</h2>
+        <p id="cookieSheetDescription">We use essential cookies to make CiCwtch work, and optional cookies to understand usage, improve performance, and support future marketing. You can accept all cookies or manage your settings.</p>
+      </div>
+      <div class="cookie-sheet__actions">
+        <button type="button" class="btn btn-secondary" id="openCookieSettings" aria-expanded="false" aria-controls="cookieSettingsPanel">Settings</button>
+        <button type="button" class="btn btn-primary" id="acceptAllCookies">Accept all</button>
+      </div>
+    </div>
+    <div class="cookie-sheet__settings" id="cookieSettingsPanel" hidden>
+      <div class="cookie-preference">
+        <div class="cookie-preference__copy">
+          <strong>Strictly necessary</strong>
+          <span>Always on. These are required for security, navigation, and core site functions.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked disabled aria-label="Strictly necessary cookies always on">
+          <span class="switch__track" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="cookie-preference">
+        <div class="cookie-preference__copy">
+          <strong>Analytics</strong>
+          <span>Help us understand which pages and flows are useful so we can improve the experience.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="cookieAnalytics" aria-label="Allow analytics cookies">
+          <span class="switch__track" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="cookie-preference">
+        <div class="cookie-preference__copy">
+          <strong>Marketing</strong>
+          <span>Allow future campaign and attribution cookies for launch and product growth activity.</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="cookieMarketing" aria-label="Allow marketing cookies">
+          <span class="switch__track" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="cookie-sheet__settings-actions">
+        <button type="button" class="btn btn-secondary" id="saveCookiePreferences">Save preferences</button>
+      </div>
+    </div>
+  </div>
+</section>
