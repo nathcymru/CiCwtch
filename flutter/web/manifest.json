@@ -1,11 +1,12 @@
 {
   "name": "CiCwtch",
   "short_name": "CiCwtch",
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#4f7a28",
-  "description": "CiCwtch Flutter web application.",
+  "theme_color": "#0f172a",
+  "description": "CiCwtch for professional dog walking businesses.",
   "orientation": "portrait-primary",
   "prefer_related_applications": false,
   "icons": [
@@ -17,6 +18,11 @@
     {
       "src": "icons/Icon-512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
       "type": "image/png"
     }
   ]
