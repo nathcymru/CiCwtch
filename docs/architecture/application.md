@@ -39,6 +39,15 @@ Each implemented feature broadly follows this structure:
 
 This is intentionally lightweight. It is not a large enterprise state-management circus.
 
+## Web entry flow
+
+The Flutter web build is served from a single `index.html` shell. A lightweight JavaScript routing layer (`web-assets/js/site-router.js`) runs before the DOM is ready and decides whether to show the public marketing site or bootstrap Flutter:
+
+- **Root domain, marketing paths** (`cicwtch.app/`, `/tos.htm`, `/trust.htm`): the static HTML marketing site is shown. The `#marketingRoot` shell is revealed and `site-components.js` injects the header and footer. Flutter is not loaded.
+- **Tenant subdomains** (e.g. `tenant.cicwtch.app`) or **app paths** (e.g. `/login`, `/dashboard`): the `#marketingRoot` shell is hidden and `flutter_bootstrap.js` is loaded, booting the Flutter application.
+
+The marketing landing page and all its assets live under `flutter/web/` (`index.html`, `web-assets/`, `tos.htm`, `trust.htm`). There is one canonical landing page. The Flutter application no longer contains a competing landing page widget.
+
 ## Authentication flow
 
 User authentication is implemented using email/password credentials verified against the D1 `users` table.
