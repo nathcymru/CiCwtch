@@ -17,8 +17,8 @@
         `
       : `
           <a href="/">Home</a>
-          <a href="/tos.htm">Terms</a>
-          <a href="/trust.htm">Security &amp; Trust</a>
+          <a href="/legal_trust.htm#terms">Terms</a>
+          <a href="/legal_trust.htm#security">Security &amp; Trust</a>
           <a href="/login">Login</a>
         `;
 
@@ -109,8 +109,8 @@
 
               <div class="footer-link-list">
                 <h2 class="footer-column-h5">Legal</h2>
-                <a href="/tos.htm">Terms of Service</a>
-                <a href="/trust.htm">Security &amp; Trust</a>
+                <a href="/legal_trust.htm#terms">Terms of Service</a>
+                <a href="/legal_trust.htm#security">Security &amp; Trust</a>
               </div>
 
               <div class="footer-link-list">

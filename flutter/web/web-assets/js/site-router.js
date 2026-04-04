@@ -5,7 +5,7 @@
   const path = window.location.pathname;
   const isDev = DEV_PUBLIC_HOSTS.has(host) || host.endsWith('.pages.dev') || host.endsWith('.workers.dev');
   const isPublicRoot = PUBLIC_ROOT_HOSTS.has(host) || isDev;
-  const isPublicMarketingPath = path === '/' || path === '/index.html' || path === '/tos.htm' || path === '/trust.htm';
+  const isPublicMarketingPath = path === '/' || path === '/index.html' || path === '/tos.htm' || path === '/trust.htm' || path === '/legal_trust.htm';
   const shouldRenderMarketingSite = isPublicRoot && isPublicMarketingPath;
 
   window.CICWTCH_ROUTING = {
