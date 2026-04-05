@@ -63,6 +63,11 @@ import { listBreeds } from "./handlers/breeds";
 import { listVetPractices } from "./handlers/vet_practices";
 import { getDashboard } from "./handlers/dashboard";
 import { getWeatherToday } from "./handlers/weather";
+import {
+  submitTrustReport,
+  submitOfficialTrustReport,
+  submitContactMessage,
+} from "./handlers/trust_reports";
 
 const HEALTH_RESPONSE = { status: "ok", service: "cicwtch-api" };
 
@@ -115,6 +120,23 @@ export async function route(
   if (pathname === "/api/v1/auth/me") {
     if (method === "GET") return me(request, env);
     return methodNotAllowed(["GET"]);
+  }
+
+  // Public trust-report submission endpoints — no authentication required.
+  // These accept submissions from the public-facing Trust Centre and Contact Us pages.
+  if (pathname === "/api/v1/trust-reports") {
+    if (method === "POST") return submitTrustReport(request, env);
+    return methodNotAllowed(["POST"]);
+  }
+
+  if (pathname === "/api/v1/trust-reports/official") {
+    if (method === "POST") return submitOfficialTrustReport(request, env);
+    return methodNotAllowed(["POST"]);
+  }
+
+  if (pathname === "/api/v1/contact") {
+    if (method === "POST") return submitContactMessage(request, env);
+    return methodNotAllowed(["POST"]);
   }
 
   // All routes below require authentication.

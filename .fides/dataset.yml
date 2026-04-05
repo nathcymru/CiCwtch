@@ -216,3 +216,57 @@ dataset:
             data_categories: [system.operations]
           - name: change_summary
             data_categories: [system.operations]
+      - name: trust_reports
+        fields:
+          - name: id
+            data_categories: [system.operations]
+          - name: reference
+            data_categories: [system.operations]
+          - name: reporter_name
+            data_categories: [user.name]
+          - name: reporter_email
+            data_categories: [user.contact.email]
+          - name: reporter_phone
+            data_categories: [user.contact.phone_number]
+          - name: organisation_name
+            data_categories: [user]
+          - name: official_role
+            data_categories: [user.employment]
+          - name: description
+            data_categories: [user]
+          - name: form_data
+            data_categories: [user]
+          - name: declarations
+            data_categories: [system.operations]
+          - name: collar_number
+            data_categories: [user.employment]
+          - name: force_name
+            data_categories: [user.employment]
+          - name: cad_number
+            data_categories: [system.operations]
+          - name: crime_reference
+            data_categories: [system.operations]
+          - name: supporting_links
+            data_categories: [system.operations]
+          - name: internal_notes
+            data_categories: [system.operations]
+          - name: requested_outcome
+            data_categories: [user]
+          - name: preferred_contact
+            data_categories: [user.contact]
+      - name: trust_report_attachments
+        fields:
+          - name: original_filename
+            data_categories: [user]
+          - name: content_type
+            data_categories: [system.operations]
+          - name: r2_key
+            data_categories: [system.operations]
+      - name: trust_report_events
+        fields:
+          - name: event_type
+            data_categories: [system.operations]
+          - name: actor
+            data_categories: [system.operations]
+          - name: detail
+            data_categories: [system.operations]

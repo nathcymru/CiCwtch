@@ -8,18 +8,11 @@
   }
 
   function buildHeaderNav(page) {
-    const sectionLinks = page === 'home'
-      ? `
-          <a href="#features">Features</a>
-          <a href="#tracking">Walk tracking</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#about-name">Why CiCwtch?</a>
-        `
-      : `
-          <a href="/">Home</a>
-          <a href="/legal_trust.htm#terms">Terms</a>
-          <a href="/legal_trust.htm#security">Security &amp; Trust</a>
-          <a href="/login">Login</a>
+    const sectionLinks = `
+          <a href="/contact-us.htm">Contact Us</a>
+          <a href="/legal_trust.htm">Legal and Trust Centre</a>
+          <a href="#">Enterprise <span style="font-size:0.8em;opacity:0.7">(coming soon)</span></a>
+          <a href="https://github.com/users/nathcymru/projects/2" target="_blank" rel="noopener noreferrer">Roadmap</a>
         `;
 
     return `
@@ -95,21 +88,22 @@
             <div class="footer-columns">
               <div class="footer-link-list">
                 <h2 class="footer-column-h5">CiCwtch</h2>
-                <a href="/#features">Features</a>
-                <a href="/#pricing">Pricing</a>
-                <a href="/pre-order">Pre-Order</a>
+                <a href="/">Home</a>
+                <a href="/contact-us.htm">Contact Us</a>
+                <a href="/legal_trust.htm">Legal and Trust Centre</a>
               </div>
 
               <div class="footer-link-list">
                 <h2 class="footer-column-h5">Technical</h2>
                 <a href="/login">Login</a>
                 <a href="https://status.cicwtch.com">System Status</a>
-                <a href="/roadmap">Roadmap</a>
+                <a href="https://github.com/users/nathcymru/projects/2" target="_blank" rel="noopener noreferrer">Roadmap</a>
               </div>
 
               <div class="footer-link-list">
                 <h2 class="footer-column-h5">Legal</h2>
                 <a href="/legal_trust.htm#terms">Terms of Service</a>
+                <a href="/legal_trust.htm#privacy">Privacy Policy</a>
                 <a href="/legal_trust.htm#security">Security &amp; Trust</a>
               </div>
 

@@ -26,7 +26,7 @@
 - **Flutter** for the client application
 - **Cloudflare Workers** for the API runtime
 - **Cloudflare D1** for relational data storage
-- **Cloudflare R2** for object/file storage (binding `CICWTCH_ATTACHMENTS` configured; attachment endpoints pending)
+- **Cloudflare R2** for object/file storage (binding `CICWTCH_ATTACHMENTS` configured; used for dog media attachments and official Trust Centre document uploads)
 - **GitHub Actions** for CI and documentation/privacy guardrails
 - **Cloudflare Pages** for Flutter web hosting (git-based deployment from `flutter/` directory)
 
