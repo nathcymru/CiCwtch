@@ -1,6 +1,18 @@
 import type { Env } from "../index";
 import { jsonOk, jsonError } from "../response";
 
+// ── Type guard for File-like objects from FormData ───────────────────────────
+// FormData.getAll() returns (string | File)[] but runtime types vary across
+// Cloudflare Workers environments, so we validate via duck-typing.
+
+function isFileLike(entry: unknown): entry is File {
+  return (
+    entry !== null &&
+    typeof entry === "object" &&
+    typeof (entry as Record<string, unknown>)["arrayBuffer"] === "function"
+  );
+}
+
 // ── Reference-number generation ──────────────────────────────────────────────
 // Increments the singleton sequence row and returns a formatted public reference
 // such as TCR-2025-00042.
@@ -14,7 +26,9 @@ async function generateReference(env: Env): Promise<string> {
     ).first<{ next_val: number }>();
     if (row) seq = row.next_val;
   } catch {
-    // Fallback: read then set (D1 may not support RETURNING in all environments)
+    // RETURNING clause is not supported in all D1/SQLite versions.
+    // Fall back to a read-then-increment, accepting a small race window
+    // in very low-concurrency scenarios (acceptable for trust centre volume).
     const r = await env.DB.prepare(
       "SELECT next_val FROM trust_report_sequence WHERE id = 1",
     ).first<{ next_val: number }>();
@@ -307,9 +321,8 @@ export async function submitOfficialTrustReport(
   // Upload attached files to R2 and store metadata in D1
   const fileEntries = formData.getAll("files");
   for (const entry of fileEntries) {
-    if (typeof entry === "string") continue;
-    const file = entry as unknown as File;
-    if (!file || typeof (file as unknown as { arrayBuffer?: unknown }).arrayBuffer !== "function") continue;
+    if (!isFileLike(entry)) continue;
+    const file = entry as File;
     const attachmentId = crypto.randomUUID();
     try {
       const uploaded = await uploadOfficialFile(env, file, id, route, attachmentId);
@@ -325,9 +338,10 @@ export async function submitOfficialTrustReport(
         uploadedAt: now,
       });
       await recordEvent(env, id, "attachment_added", uploaded.originalFilename);
-    } catch {
-      // Non-fatal: log but continue processing other files
-      await recordEvent(env, id, "attachment_error", file.name || "unknown");
+    } catch (uploadErr) {
+      // Non-fatal: continue processing remaining files and record the failure reason.
+      const reason = uploadErr instanceof Error ? uploadErr.message : "unknown error";
+      await recordEvent(env, id, "attachment_error", `${file.name || "unknown"}: ${reason}`);
     }
   }
 

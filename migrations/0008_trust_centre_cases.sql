@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS trust_reports (
   assigned_to       TEXT,
 
   -- Status and priority
-  status            TEXT    NOT NULL DEFAULT 'open',
-  -- Allowed: open | in_progress | awaiting_response | closed | rejected
-  priority          TEXT    NOT NULL DEFAULT 'normal',
-  -- Allowed: low | normal | high | urgent
+  status            TEXT    NOT NULL DEFAULT 'open'
+                    CHECK (status IN ('open','in_progress','awaiting_response','closed','rejected')),
+  priority          TEXT    NOT NULL DEFAULT 'normal'
+                    CHECK (priority IN ('low','normal','high','urgent')),
 
   -- Routing fields
   role_type         TEXT    NOT NULL,
