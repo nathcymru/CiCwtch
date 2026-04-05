@@ -52,7 +52,23 @@
 - **Purpose:** store and retrieve operational files linked to business entities.
 - **Storage:** D1 `attachments` plus Cloudflare R2 object storage.
 
-### User authentication and sessions
+### Trust Centre case management
+
+- **Data subjects:** public users, clients, official authorities (police, regulators, legal representatives).
+- **Storage:** D1 `trust_reports`, `trust_report_events`, `trust_report_sequence`; R2 for official documents uploaded via police/regulatory routes.
+- **Notes:**
+  - Only official routes (police/emergency and regulator/legal) allow document uploads; files are stored in R2 under the `trust-reports/` prefix.
+  - Public and client routes store only descriptive text and supporting links — no file uploads.
+  - Each report is assigned a unique human-readable public reference number (format: `TCR-YYYY-NNNNN`).
+  - Attachment metadata (filename, content type, R2 key) is stored in D1; file content lives in R2 only.
+
+### Contact Us enquiries
+
+- **Data subjects:** general public, prospective clients.
+- **Storage:** D1 `trust_reports` (role_type = `contact`).
+- **Notes:** Contact form submissions are stored as trust report records for traceability and response tracking.
+
+
 
 - **Data subjects:** system operators (owners, admins, dispatchers, walkers, read-only users).
 - **Storage:** D1 `users` (hashed credentials, role, tenant scope, activity flags) and `user_sessions` (session tokens with expiry).

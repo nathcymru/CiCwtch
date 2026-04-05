@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact CiCwtch – get in touch with our team for sales, support, or general enquiries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1&opsz,wght@20..48,100..700">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="web-assets/css/site.css">
+  <title>CiCwtch – Contact Us</title>
+  <script src="web-assets/js/site-config.js"></script>
+  <script src="web-assets/js/site-router.js"></script>
+  <script src="web-assets/js/site-components.js"></script>
+  <style>
+    .contact-page-hero {
+      background: var(--glan);
+      padding: 64px 0 40px;
+    }
+    .contact-page-hero .eyebrow {
+      color: var(--carreg);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .contact-page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 18px;
+      line-height: 1.15;
+    }
+    .contact-page-hero .lead {
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      max-width: 600px;
+      margin: 0;
+    }
+    .contact-section {
+      padding: 56px 0 80px;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 760px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    .contact-info h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 16px;
+    }
+    .contact-info p {
+      color: var(--ink-soft);
+      margin: 0 0 16px;
+      line-height: 1.6;
+    }
+    .contact-channels {
+      list-style: none;
+      margin: 24px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .contact-channels li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .contact-channels .material-symbols-rounded {
+      font-size: 22px;
+      color: var(--y-gofid-gwyllt);
+    }
+    .contact-trust-note {
+      margin-top: 32px;
+      padding: 18px 20px;
+      border-radius: var(--radius-sm);
+      background: rgba(76,111,79,0.07);
+      border-left: 3px solid var(--y-gofid-gwyllt);
+    }
+    .contact-trust-note p {
+      margin: 0;
+      font-size: 0.93rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+    .contact-trust-note a {
+      color: var(--y-gofid-gwyllt);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .contact-form-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-1);
+      padding: 36px 32px;
+    }
+    .contact-form-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 24px;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .form-row label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid rgba(143,140,134,0.3);
+      border-radius: var(--radius-sm);
+      background: var(--glan);
+      font-family: inherit;
+      font-size: 0.97rem;
+      color: var(--ink);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      box-sizing: border-box;
+    }
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus {
+      outline: none;
+      border-color: var(--y-gofid-gwyllt);
+      box-shadow: 0 0 0 3px rgba(76,111,79,0.14);
+    }
+    .form-row textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-submit-btn {
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--y-gofid-gwyllt);
+      color: #ffffff;
+      border: 0;
+      border-radius: var(--pill);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .form-submit-btn:hover { background: #426145; }
+    .form-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .contact-form-status {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.93rem;
+      font-weight: 600;
+      display: none;
+    }
+    .contact-form-status.success {
+      background: rgba(76,111,79,0.1);
+      color: var(--y-gofid-gwyllt);
+      display: block;
+    }
+    .contact-form-status.error {
+      background: rgba(180,30,30,0.07);
+      color: #b41e1e;
+      display: block;
+    }
+    .form-required {
+      color: #b41e1e;
+      margin-left: 2px;
+    }
+  </style>
+</head>
+<body data-page="contact">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="marketingRoot">
+    <div id="pageShell" hidden>
+      <div id="headerMount"></div>
+      <main id="main-content" tabindex="-1">
+
+        <section class="contact-page-hero paw-pattern" aria-labelledby="contact-page-title">
+          <div class="container">
+            <div class="eyebrow">GET IN TOUCH</div>
+            <h1 id="contact-page-title">Contact Us</h1>
+            <p class="lead">We are a small team and we genuinely read every message. Whether you have a question about CiCwtch, want to discuss your business needs, or just want to say hello — drop us a line.</p>
+          </div>
+        </section>
+
+        <section class="contact-section">
+          <div class="container">
+            <div class="contact-grid">
+
+              <div class="contact-info">
+                <h2>How we can help</h2>
+                <p>Use the form on this page for general enquiries, sales questions, or support requests that are not urgent. We aim to respond within one to two working days.</p>
+                <p>If you are looking to become a client, we would love to hear about your business. Tell us a bit about what you do and what you are looking for.</p>
+
+                <ul class="contact-channels" aria-label="Contact channels">
+                  <li>
+                    <span class="material-symbols-rounded" aria-hidden="true">mail</span>
+                    <span>hello@cicwtch.app</span>
+                  </li>
+                  <li>
+                    <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                    <span>Based in Wales, UK</span>
+                  </li>
+                </ul>
+
+                <div class="contact-trust-note" role="note">
+                  <p>For formal matters — privacy, data rights, complaints, police or regulatory requests, or anything that falls under the Legal &amp; Trust Centre — please use our <a href="/forms.htm">dedicated Trust Centre form</a> instead. It routes your request to the right place and gives it the proper handling it needs.</p>
+                </div>
+              </div>
+
+              <div class="contact-form-card">
+                <h2>Send us a message</h2>
+                <form id="contactForm" novalidate>
+                  <div class="form-row">
+                    <label for="contactName">Your name <span class="form-required" aria-hidden="true">*</span></label>
+                    <input type="text" id="contactName" name="name" autocomplete="name" required placeholder="Jane Smith">
+                  </div>
+                  <div class="form-row">
+                    <label for="contactEmail">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                    <input type="email" id="contactEmail" name="email" autocomplete="email" required placeholder="jane@example.com">
+                  </div>
+                  <div class="form-row">
+                    <label for="contactSubject">What is this about?</label>
+                    <select id="contactSubject" name="subject">
+                      <option value="">Choose one (optional)</option>
+                      <option value="general">General enquiry</option>
+                      <option value="sales">Becoming a client</option>
+                      <option value="support">Support question</option>
+                      <option value="partnership">Partnership or press</option>
+                      <option value="other">Something else</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="contactMessage">Message <span class="form-required" aria-hidden="true">*</span></label>
+                    <textarea id="contactMessage" name="message" required placeholder="Tell us what you need…"></textarea>
+                  </div>
+                  <button type="submit" class="form-submit-btn" id="contactSubmitBtn">Send message</button>
+                  <div class="contact-form-status" id="contactFormStatus" role="status" aria-live="polite"></div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </main>
+      <div id="footerMount"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var form = document.getElementById('contactForm');
+      var submitBtn = document.getElementById('contactSubmitBtn');
+      var statusEl = document.getElementById('contactFormStatus');
+      if (!form) return;
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var name = (document.getElementById('contactName').value || '').trim();
+        var email = (document.getElementById('contactEmail').value || '').trim();
+        var message = (document.getElementById('contactMessage').value || '').trim();
+        statusEl.className = 'contact-form-status';
+        statusEl.textContent = '';
+        if (!name || !email || !message) {
+          statusEl.className = 'contact-form-status error';
+          statusEl.textContent = 'Please fill in your name, email address, and message.';
+          return;
+        }
+        var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (!emailOk) {
+          statusEl.className = 'contact-form-status error';
+          statusEl.textContent = 'Please enter a valid email address.';
+          return;
+        }
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending…';
+        var payload = {
+          name: name,
+          email: email,
+          subject: (document.getElementById('contactSubject').value || '').trim() || null,
+          message: message
+        };
+        fetch('/api/v1/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function (res) {
+          if (res.ok) {
+            form.reset();
+            statusEl.className = 'contact-form-status success';
+            statusEl.textContent = 'Message sent. We will be in touch soon.';
+          } else {
+            statusEl.className = 'contact-form-status error';
+            statusEl.textContent = 'Something went wrong. Please try again or email us directly at hello@cicwtch.app.';
+          }
+        })
+        .catch(function () {
+          statusEl.className = 'contact-form-status error';
+          statusEl.textContent = 'Could not send your message. Please check your connection and try again, or email us at hello@cicwtch.app.';
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send message';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

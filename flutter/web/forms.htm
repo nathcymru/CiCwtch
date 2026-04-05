@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CiCwtch Trust Centre – report a problem, raise a concern, or contact us formally.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:FILL@0..1&opsz,wght@20..48,100..700">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="web-assets/css/site.css">
+  <title>CiCwtch – Trust Centre Form</title>
+  <script src="web-assets/js/site-config.js"></script>
+  <script src="web-assets/js/site-router.js"></script>
+  <script src="web-assets/js/site-components.js"></script>
+  <style>
+    /* ── Page chrome ── */
+    .forms-page-hero {
+      background: var(--glan);
+      padding: 56px 0 36px;
+    }
+    .forms-page-hero .eyebrow {
+      color: var(--carreg);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .forms-page-hero h1 {
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 14px;
+      line-height: 1.15;
+    }
+    .forms-page-hero .lead {
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0;
+      line-height: 1.6;
+    }
+    .forms-section {
+      padding: 40px 0 80px;
+    }
+    .forms-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-1);
+      padding: 40px 36px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) {
+      .forms-card { padding: 28px 18px; }
+    }
+
+    /* ── Form elements ── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid rgba(143,140,134,0.3);
+      border-radius: var(--radius-sm);
+      background: var(--glan);
+      font-family: inherit;
+      font-size: 0.97rem;
+      color: var(--ink);
+      transition: border-color var(--transition), box-shadow var(--transition);
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--y-gofid-gwyllt);
+      box-shadow: 0 0 0 3px rgba(76,111,79,0.14);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+    .form-required { color: #b41e1e; margin-left: 2px; }
+    .form-hint {
+      font-size: 0.83rem;
+      color: var(--carreg);
+      margin-top: 2px;
+    }
+
+    /* ── Section headings ── */
+    .form-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 32px 0 18px;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid rgba(143,140,134,0.18);
+    }
+    .form-section-title:first-child { margin-top: 0; }
+
+    /* ── Info/alert boxes ── */
+    .info-box {
+      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.93rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .info-box--blue {
+      background: rgba(11,87,208,0.06);
+      border-left: 3px solid var(--focus);
+      color: var(--ink);
+    }
+    .info-box--green {
+      background: rgba(76,111,79,0.07);
+      border-left: 3px solid var(--y-gofid-gwyllt);
+      color: var(--ink);
+    }
+    .info-box--urgent {
+      background: rgba(180,30,30,0.07);
+      border-left: 3px solid #b41e1e;
+      color: var(--ink);
+    }
+    .info-box--urgent strong { color: #b41e1e; }
+    .info-box--amber {
+      background: rgba(180,120,10,0.07);
+      border-left: 3px solid #b47800;
+      color: var(--ink);
+    }
+    .info-box p { margin: 0 0 8px; }
+    .info-box p:last-child { margin: 0; }
+
+    /* ── Yes/no radios ── */
+    .radio-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .radio-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .radio-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--y-gofid-gwyllt);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    /* ── Checkbox declarations ── */
+    .declaration-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .declaration-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.93rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+    .declaration-list input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--y-gofid-gwyllt);
+      flex: 0 0 auto;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    /* ── Supporting links (public routes) ── */
+    .link-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+    .link-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .link-row input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1.5px solid rgba(143,140,134,0.3);
+      border-radius: var(--radius-sm);
+      background: var(--glan);
+      font-family: inherit;
+      font-size: 0.93rem;
+      color: var(--ink);
+    }
+    .link-row input:focus {
+      outline: none;
+      border-color: var(--y-gofid-gwyllt);
+      box-shadow: 0 0 0 3px rgba(76,111,79,0.14);
+    }
+    .link-row-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--carreg);
+      font-size: 20px;
+      padding: 4px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      transition: color var(--transition);
+    }
+    .link-row-remove:hover { color: #b41e1e; }
+    .add-link-btn {
+      background: none;
+      border: 1.5px solid rgba(76,111,79,0.35);
+      border-radius: var(--pill);
+      color: var(--y-gofid-gwyllt);
+      font-family: inherit;
+      font-size: 0.87rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .add-link-btn:hover {
+      background: rgba(76,111,79,0.07);
+      border-color: var(--y-gofid-gwyllt);
+    }
+
+    /* ── Submit button ── */
+    .submit-btn {
+      width: 100%;
+      padding: 15px 20px;
+      background: var(--y-gofid-gwyllt);
+      color: #ffffff;
+      border: 0;
+      border-radius: var(--pill);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--transition);
+      margin-top: 8px;
+    }
+    .submit-btn:hover { background: #426145; }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* ── Form status messages ── */
+    .form-status {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.93rem;
+      font-weight: 600;
+      line-height: 1.5;
+      display: none;
+    }
+    .form-status.success {
+      background: rgba(76,111,79,0.1);
+      color: var(--y-gofid-gwyllt);
+      display: block;
+    }
+    .form-status.error {
+      background: rgba(180,30,30,0.07);
+      color: #b41e1e;
+      display: block;
+    }
+
+    /* ── Steps (hidden/shown via JS) ── */
+    [hidden] { display: none !important; }
+
+    /* ── Reference confirmation ── */
+    .reference-box {
+      background: rgba(76,111,79,0.07);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      text-align: center;
+      margin-top: 24px;
+    }
+    .reference-box .ref-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--carreg);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .reference-box .ref-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--y-gofid-gwyllt);
+      letter-spacing: 0.04em;
+    }
+    .reference-box .ref-note {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body data-page="forms" class="legal-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="marketingRoot">
+    <div id="pageShell" hidden>
+      <div id="headerMount"></div>
+      <main id="main-content" tabindex="-1">
+
+        <section class="forms-page-hero paw-pattern" aria-labelledby="forms-page-title">
+          <div class="container">
+            <div class="eyebrow">LEGAL &amp; TRUST CENTRE</div>
+            <h1 id="forms-page-title">Public Trust Centre Form</h1>
+            <p class="lead">Use this page to report a problem, ask for help, or raise a concern. We have kept the language plain on purpose. You should not need a law degree just to tell us something has gone wrong.</p>
+          </div>
+        </section>
+
+        <section class="forms-section">
+          <div class="container">
+            <div class="forms-card">
+
+              <!-- ── Step 0: Who are you? ── -->
+              <div id="step-who">
+                <h2 class="form-section-title">Tell us who you are and what you need</h2>
+                <p style="color:var(--ink-soft);font-size:0.95rem;margin:0 0 24px;line-height:1.6;">We will use your answers to show the right questions and keep the process as simple as possible.</p>
+
+                <div class="form-group">
+                  <label for="field-role">I am a… <span class="form-required" aria-hidden="true">*</span></label>
+                  <select id="field-role" name="role" required>
+                    <option value="">Choose one…</option>
+                    <option value="business_client">A current or former dog walking business client</option>
+                    <option value="dog_owner_client">A current or former dog owner client</option>
+                    <option value="accessibility">I need accessibility help</option>
+                    <option value="rights_holder">I own rights to content or a brand</option>
+                    <option value="police">Police or emergency services</option>
+                    <option value="regulator">A regulator or legal representative</option>
+                    <option value="security_researcher">A security researcher</option>
+                    <option value="prospective_client">I want to become a client</option>
+                    <option value="public">A member of the public</option>
+                    <option value="other">Something else</option>
+                  </select>
+                </div>
+
+                <p style="font-size:0.83rem;color:var(--carreg);margin:0;">We will use the information you provide to review and respond to your report or request in line with our <a href="/legal_trust.htm#privacy" style="color:var(--y-gofid-gwyllt);font-weight:600;">Privacy Policy</a>.</p>
+              </div>
+
+              <!-- ── Client info box (shown for business_client / dog_owner_client) ── -->
+              <div id="client-help-box" hidden>
+                <div class="info-box info-box--green">
+                  <p><strong>Already a client?</strong></p>
+                  <p>Many day-to-day queries — invoices, bookings, walk reports, and account changes — can be handled in-app or through the self-service login screen. If you have tried that and still need help, carry on with this form.</p>
+                </div>
+              </div>
+
+              <!-- ── Step 1b: What do you need help with? (client routes) ── -->
+              <div id="step-help-type" hidden>
+                <div class="form-group">
+                  <label for="field-help-type">What do you need help with today? <span class="form-required" aria-hidden="true">*</span></label>
+                  <select id="field-help-type" name="help_type" required>
+                    <option value="">Choose one…</option>
+                    <!-- populated by JS based on role -->
+                  </select>
+                </div>
+              </div>
+
+              <!-- ── Standard contact fields (shared by most public routes) ── -->
+              <div id="step-contact-fields" hidden>
+                <h2 class="form-section-title">Your details</h2>
+                <div class="form-group">
+                  <label for="field-name">Your name <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="field-name" name="name" autocomplete="name" required placeholder="Jane Smith">
+                </div>
+                <div class="form-group">
+                  <label for="field-email">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="field-email" name="email" autocomplete="email" required placeholder="jane@example.com">
+                </div>
+                <div class="form-group">
+                  <label for="field-phone">Phone number <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="tel" id="field-phone" name="phone" autocomplete="tel" placeholder="+44 7700 900000">
+                </div>
+                <div class="form-group">
+                  <label for="field-org">Business or organisation name <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="text" id="field-org" name="organisation" autocomplete="organization" placeholder="Paws &amp; Co">
+                </div>
+              </div>
+
+              <!-- ── Description / about field (public routes) ── -->
+              <div id="step-description" hidden>
+                <h2 class="form-section-title">Tell us more</h2>
+                <div class="form-group">
+                  <label for="field-description">Please describe what has happened or what you need <span class="form-required" aria-hidden="true">*</span></label>
+                  <textarea id="field-description" name="description" required placeholder="Please be as clear and specific as you can. Include dates and any relevant details."></textarea>
+                </div>
+              </div>
+
+              <!-- ── Supporting links (public routes, no file upload) ── -->
+              <div id="step-supporting-links" hidden>
+                <h2 class="form-section-title">Supporting references</h2>
+                <p style="color:var(--ink-soft);font-size:0.93rem;margin:0 0 14px;line-height:1.55;">If you have screenshots, URLs, or other references that support your report, add them below. Use links or web addresses where you can.</p>
+                <div class="link-rows" id="linkRows">
+                  <div class="link-row">
+                    <input type="url" placeholder="https://example.com/evidence" aria-label="Supporting link 1">
+                    <button type="button" class="link-row-remove" aria-label="Remove this link" title="Remove">
+                      <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-link-btn" id="addLinkBtn">
+                  <span class="material-symbols-rounded" aria-hidden="true">add</span>
+                  Add another link
+                </button>
+              </div>
+
+              <!-- ── Requested outcome ── -->
+              <div id="step-outcome" hidden>
+                <div class="form-group">
+                  <label for="field-outcome">What outcome are you hoping for? <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <textarea id="field-outcome" name="requested_outcome" placeholder="For example: an explanation of what happened, a correction, a refund, or just to make us aware." style="min-height:80px;"></textarea>
+                </div>
+              </div>
+
+              <!-- ── Police/emergency route ── -->
+              <div id="step-police" hidden>
+                <h2 class="form-section-title">Official law enforcement or emergency services request</h2>
+                <div class="info-box info-box--blue">
+                  <p>This route is for police, emergency services, and other law enforcement authorities submitting an official request. All submissions are logged and may be shared internally for compliance purposes.</p>
+                </div>
+                <div class="form-group">
+                  <label for="p-name">Name <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="p-name" name="p_name" required>
+                </div>
+                <div class="form-group">
+                  <label for="p-email">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="p-email" name="p_email" required>
+                </div>
+                <div class="form-group">
+                  <label for="p-phone">Phone number <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="tel" id="p-phone" name="p_phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="p-force">Force or organisation <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="p-force" name="p_force" required placeholder="e.g. Dyfed-Powys Police">
+                </div>
+                <div class="form-group">
+                  <label for="p-role">Role or rank <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="p-role" name="p_role" required placeholder="e.g. Detective Constable">
+                </div>
+                <div class="form-group">
+                  <label for="p-collar">Collar number <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="p-collar" name="p_collar" required placeholder="e.g. 1234">
+                </div>
+                <div class="form-group">
+                  <label for="p-station">Station / unit / team</label>
+                  <input type="text" id="p-station" name="p_station" placeholder="e.g. Major Crime Unit, Cardiff">
+                </div>
+                <div class="form-group">
+                  <label for="p-cad">CAD / incident number</label>
+                  <input type="text" id="p-cad" name="p_cad" placeholder="e.g. CAD/2025/12345">
+                </div>
+                <div class="form-group">
+                  <label for="p-crime-ref">Crime reference number</label>
+                  <input type="text" id="p-crime-ref" name="p_crime_ref" placeholder="e.g. 0123456789">
+                </div>
+                <div class="form-group">
+                  <label for="p-about">What is this about? <span class="form-required" aria-hidden="true">*</span></label>
+                  <textarea id="p-about" name="p_about" required placeholder="Please describe the matter clearly, including any data you are requesting and the reason for the request."></textarea>
+                </div>
+
+                <h2 class="form-section-title">Risk and notification</h2>
+                <div class="form-group">
+                  <label id="p-risk-label">Is there a current risk to life or serious harm?</label>
+                  <div class="radio-group" role="radiogroup" aria-labelledby="p-risk-label">
+                    <label class="radio-option">
+                      <input type="radio" name="p_risk_to_life" value="yes" id="p-risk-yes"> Yes
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="p_risk_to_life" value="no" id="p-risk-no"> No
+                    </label>
+                  </div>
+                </div>
+
+                <div id="p-risk-alert" hidden>
+                  <div class="info-box info-box--urgent">
+                    <p><strong>Highest priority — risk to life or serious harm</strong></p>
+                    <p>We treat this as our highest priority. Please be aware that this inbox is not monitored continuously around the clock. If this is an active emergency, call 999 immediately.</p>
+                    <p>Because of the seriousness of your request, you will receive an email with direct personal contact details so we can follow up as quickly as possible.</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label id="p-notify-label">Should we avoid notifying the data subject or business about this request?</label>
+                  <div class="radio-group" role="radiogroup" aria-labelledby="p-notify-label">
+                    <label class="radio-option">
+                      <input type="radio" name="p_avoid_notification" value="yes" id="p-notify-yes"> Yes
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="p_avoid_notification" value="no" id="p-notify-no"> No
+                    </label>
+                  </div>
+                </div>
+
+                <h2 class="form-section-title">Official documents</h2>
+                <p style="color:var(--ink-soft);font-size:0.93rem;margin:0 0 14px;line-height:1.55;">Upload any official documentation supporting this request (e.g. court orders, production orders, warrants). Multiple files are accepted.</p>
+                <div class="form-group">
+                  <label for="p-uploads">Upload documents</label>
+                  <input type="file" id="p-uploads" name="p_uploads" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                  <span class="form-hint">PDF, Word, or images. Maximum 10 files.</span>
+                </div>
+
+                <h2 class="form-section-title">Before you send this</h2>
+                <ul class="declaration-list" id="police-declarations">
+                  <li>
+                    <input type="checkbox" id="p-decl-1" name="p_decl_authority" required>
+                    <label for="p-decl-1">I confirm I am submitting this request in an official law enforcement or emergency services capacity.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="p-decl-2" name="p_decl_accurate" required>
+                    <label for="p-decl-2">I confirm the information provided is accurate to the best of my knowledge.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="p-decl-3" name="p_decl_lawful" required>
+                    <label for="p-decl-3">I understand that providing false information may be a criminal offence and result in the request being rejected and referred appropriately.</label>
+                  </li>
+                  <!-- Extra declaration shown when p_avoid_notification = yes -->
+                  <li id="p-decl-suppress-item" hidden>
+                    <input type="checkbox" id="p-decl-suppress" name="p_decl_suppress">
+                    <label for="p-decl-suppress">I confirm there is a valid legal basis to withhold notification from the data subject or business (e.g. to avoid prejudicing a criminal investigation).</label>
+                  </li>
+                  <!-- Extra declaration shown when p_risk_to_life = yes -->
+                  <li id="p-decl-risk-item" hidden>
+                    <input type="checkbox" id="p-decl-risk" name="p_decl_risk_escalation">
+                    <label for="p-decl-risk">I confirm this matter involves a current risk to life or serious harm and request immediate escalation.</label>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Regulator / legal route ── -->
+              <div id="step-regulator" hidden>
+                <h2 class="form-section-title">Official regulatory, legal, or representative request</h2>
+                <div class="info-box info-box--blue">
+                  <p>This route is for regulators, legal authorities, solicitors, and other officially authorised representatives submitting a formal request. All submissions are logged and handled in line with applicable law.</p>
+                </div>
+                <div class="form-group">
+                  <label for="r-name">Name <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="r-name" name="r_name" required>
+                </div>
+                <div class="form-group">
+                  <label for="r-email">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="r-email" name="r_email" required>
+                </div>
+                <div class="form-group">
+                  <label for="r-phone">Phone number</label>
+                  <input type="tel" id="r-phone" name="r_phone">
+                </div>
+                <div class="form-group">
+                  <label for="r-org">Organisation / authority / firm <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="r-org" name="r_org" required placeholder="e.g. Information Commissioner's Office">
+                </div>
+                <div class="form-group">
+                  <label for="r-role">Role or title <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="r-role" name="r_role" required placeholder="e.g. Case Officer">
+                </div>
+                <div class="form-group">
+                  <label for="r-ref">Official reference number</label>
+                  <input type="text" id="r-ref" name="r_official_ref" placeholder="e.g. ICO-2025-12345">
+                </div>
+                <div class="form-group">
+                  <label for="r-about">What is this about? <span class="form-required" aria-hidden="true">*</span></label>
+                  <textarea id="r-about" name="r_about" required placeholder="Please describe the nature of your request, the legal basis, and what information or action you require."></textarea>
+                </div>
+
+                <h2 class="form-section-title">Official documents</h2>
+                <p style="color:var(--ink-soft);font-size:0.93rem;margin:0 0 14px;line-height:1.55;">Upload any official documentation supporting this request. Multiple files are accepted.</p>
+                <div class="form-group">
+                  <label for="r-uploads">Upload documents</label>
+                  <input type="file" id="r-uploads" name="r_uploads" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                  <span class="form-hint">PDF, Word, or images. Maximum 10 files.</span>
+                </div>
+
+                <h2 class="form-section-title">Before you send this</h2>
+                <ul class="declaration-list">
+                  <li>
+                    <input type="checkbox" id="r-decl-1" name="r_decl_capacity" required>
+                    <label for="r-decl-1">I confirm I am submitting this request in an official or authorised capacity.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="r-decl-2" name="r_decl_accurate" required>
+                    <label for="r-decl-2">I confirm the information provided is accurate to the best of my knowledge.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="r-decl-3" name="r_decl_lawful" required>
+                    <label for="r-decl-3">I understand this submission will be logged and may be shared internally for compliance purposes.</label>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Accessibility route ── -->
+              <div id="step-accessibility" hidden>
+                <h2 class="form-section-title">Accessibility help</h2>
+                <div class="form-group">
+                  <label for="a-name">Your name <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="a-name" name="a_name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="a-email">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="a-email" name="a_email" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                  <label for="a-phone">Phone number <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="tel" id="a-phone" name="a_phone" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                  <label for="a-need">Please describe the accessibility barrier or adjustment you need <span class="form-required" aria-hidden="true">*</span></label>
+                  <textarea id="a-need" name="a_need" required placeholder="Tell us what the barrier is and what would help. We will do our best to accommodate you."></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="a-preferred-contact">How would you prefer us to respond? <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="text" id="a-preferred-contact" name="a_preferred_contact" placeholder="e.g. Email only, large print, phone call">
+                </div>
+                <ul class="declaration-list" style="margin-top:12px;">
+                  <li>
+                    <input type="checkbox" id="a-decl-1" name="a_decl_consent" required>
+                    <label for="a-decl-1">I agree to CiCwtch using the information I have provided to respond to my accessibility request.</label>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Rights / copyright route ── -->
+              <div id="step-rights" hidden>
+                <h2 class="form-section-title">Copyright or brand rights concern</h2>
+                <div class="form-group">
+                  <label for="rh-name">Your name <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="text" id="rh-name" name="rh_name" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                  <label for="rh-email">Email address <span class="form-required" aria-hidden="true">*</span></label>
+                  <input type="email" id="rh-email" name="rh_email" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                  <label for="rh-phone">Phone number <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="tel" id="rh-phone" name="rh_phone" autocomplete="tel">
+                </div>
+                <div class="form-group">
+                  <label for="rh-org">Organisation or brand name <span style="font-weight:400;color:var(--carreg)">(optional)</span></label>
+                  <input type="text" id="rh-org" name="rh_org" autocomplete="organization">
+                </div>
+                <div class="form-group">
+                  <label for="rh-about">Please describe the content or brand concern <span class="form-required" aria-hidden="true">*</span></label>
+                  <textarea id="rh-about" name="rh_about" required placeholder="Describe what content or brand element is at issue, where it appears, and why you believe it infringes your rights."></textarea>
+                </div>
+                <h2 class="form-section-title">Supporting references</h2>
+                <p style="color:var(--ink-soft);font-size:0.93rem;margin:0 0 14px;line-height:1.55;">Add links to the content you are concerned about and to your rights registration or official record where relevant.</p>
+                <div class="link-rows" id="rhLinkRows">
+                  <div class="link-row">
+                    <input type="url" placeholder="https://example.com/infringing-content" aria-label="Supporting link 1">
+                    <button type="button" class="link-row-remove" aria-label="Remove this link" title="Remove">
+                      <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-link-btn" id="addRhLinkBtn">
+                  <span class="material-symbols-rounded" aria-hidden="true">add</span>
+                  Add another link
+                </button>
+                <ul class="declaration-list" style="margin-top:24px;">
+                  <li>
+                    <input type="checkbox" id="rh-decl-1" name="rh_decl_owner" required>
+                    <label for="rh-decl-1">I confirm I am the rights holder or authorised to act on behalf of the rights holder.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="rh-decl-2" name="rh_decl_good_faith" required>
+                    <label for="rh-decl-2">I believe in good faith that the use described is not authorised by the rights holder, its agent, or the law.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="rh-decl-3" name="rh_decl_accurate" required>
+                    <label for="rh-decl-3">The information in this notice is accurate and I understand that submitting a false claim may have legal consequences.</label>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Common declarations for public/client routes ── -->
+              <div id="step-common-declarations" hidden>
+                <h2 class="form-section-title">Before you send this</h2>
+                <ul class="declaration-list">
+                  <li>
+                    <input type="checkbox" id="decl-accurate" name="decl_accurate" required>
+                    <label for="decl-accurate">The information I have provided is accurate to the best of my knowledge.</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="decl-privacy" name="decl_privacy" required>
+                    <label for="decl-privacy">I agree to CiCwtch using the information I have provided to review and respond to my report in line with the <a href="/legal_trust.htm#privacy" style="color:var(--y-gofid-gwyllt);">Privacy Policy</a>.</label>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Submit button ── -->
+              <div id="step-submit" hidden>
+                <button type="button" class="submit-btn" id="submitBtn">Send report</button>
+                <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+              </div>
+
+              <!-- ── Success confirmation ── -->
+              <div id="step-success" hidden>
+                <div class="info-box info-box--green">
+                  <p><strong>Your report has been received.</strong></p>
+                  <p>We will review it and respond to the email address you provided. Please allow us up to five working days for most matters. Official police and regulatory requests are treated with higher priority.</p>
+                </div>
+                <div class="reference-box">
+                  <div class="ref-label">Your reference number</div>
+                  <div class="ref-number" id="confirmRefNumber"></div>
+                  <div class="ref-note">Please keep this reference number. Use it if you need to follow up with us.</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </main>
+      <div id="footerMount"></div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var API_BASE = '/api/v1';
+
+    /* ── Element refs ── */
+    var roleSelect      = document.getElementById('field-role');
+    var clientHelpBox   = document.getElementById('client-help-box');
+    var stepHelpType    = document.getElementById('step-help-type');
+    var helpTypeSelect  = document.getElementById('field-help-type');
+    var stepContact     = document.getElementById('step-contact-fields');
+    var stepDescription = document.getElementById('step-description');
+    var stepLinks       = document.getElementById('step-supporting-links');
+    var stepOutcome     = document.getElementById('step-outcome');
+    var stepPolice      = document.getElementById('step-police');
+    var stepRegulator   = document.getElementById('step-regulator');
+    var stepAccessibility = document.getElementById('step-accessibility');
+    var stepRights      = document.getElementById('step-rights');
+    var stepCommonDecl  = document.getElementById('step-common-declarations');
+    var stepSubmit      = document.getElementById('step-submit');
+    var stepSuccess     = document.getElementById('step-success');
+    var submitBtn       = document.getElementById('submitBtn');
+    var formStatus      = document.getElementById('formStatus');
+    var confirmRefNumber = document.getElementById('confirmRefNumber');
+
+    /* ── Police-specific refs ── */
+    var pRiskYes        = document.getElementById('p-risk-yes');
+    var pRiskNo         = document.getElementById('p-risk-no');
+    var pRiskAlert      = document.getElementById('p-risk-alert');
+    var pNotifyYes      = document.getElementById('p-notify-yes');
+    var pDeclSuppressItem = document.getElementById('p-decl-suppress-item');
+    var pDeclRiskItem   = document.getElementById('p-decl-risk-item');
+
+    /* ── Help options by role ── */
+    var helpOptions = {
+      business_client: [
+        { value: 'harmful',   label: 'Something harmful, unsafe, or urgent' },
+        { value: 'privacy',   label: 'Privacy or personal data help' },
+        { value: 'complaint', label: 'A complaint or concern' },
+      ],
+      dog_owner_client: [
+        { value: 'harmful',   label: 'Something harmful, unsafe, or urgent' },
+        { value: 'privacy',   label: 'Privacy or personal data help' },
+        { value: 'complaint', label: 'A complaint or concern' },
+      ],
+    };
+
+    /* ── Hide all optional sections ── */
+    function hideAll() {
+      clientHelpBox.hidden   = true;
+      stepHelpType.hidden    = true;
+      stepContact.hidden     = true;
+      stepDescription.hidden = true;
+      stepLinks.hidden       = true;
+      stepOutcome.hidden     = true;
+      stepPolice.hidden      = true;
+      stepRegulator.hidden   = true;
+      stepAccessibility.hidden = true;
+      stepRights.hidden      = true;
+      stepCommonDecl.hidden  = true;
+      stepSubmit.hidden      = true;
+      stepSuccess.hidden     = true;
+    }
+
+    /* ── Populate help-type dropdown ── */
+    function populateHelpType(role) {
+      var opts = helpOptions[role] || [];
+      helpTypeSelect.innerHTML = '<option value="">Choose one…</option>';
+      opts.forEach(function (o) {
+        var el = document.createElement('option');
+        el.value = o.value;
+        el.textContent = o.label;
+        helpTypeSelect.appendChild(el);
+      });
+    }
+
+    /* ── Role change handler ── */
+    roleSelect.addEventListener('change', function () {
+      var role = roleSelect.value;
+      hideAll();
+
+      if (!role) return;
+
+      /* Redirect roles */
+      if (role === 'security_researcher') {
+        window.location.href = 'https://github.com/nathcymru/CiCwtch/security/advisories/new';
+        return;
+      }
+      if (role === 'prospective_client' || role === 'public' || role === 'other') {
+        window.location.href = 'https://cicwtch.app/contact-us';
+        return;
+      }
+
+      /* Police route */
+      if (role === 'police') {
+        stepPolice.hidden = false;
+        stepSubmit.hidden = false;
+        return;
+      }
+
+      /* Regulator / legal route */
+      if (role === 'regulator') {
+        stepRegulator.hidden = false;
+        stepSubmit.hidden = false;
+        return;
+      }
+
+      /* Accessibility route */
+      if (role === 'accessibility') {
+        stepAccessibility.hidden = false;
+        stepSubmit.hidden = false;
+        return;
+      }
+
+      /* Rights holder route */
+      if (role === 'rights_holder') {
+        stepRights.hidden = false;
+        stepSubmit.hidden = false;
+        return;
+      }
+
+      /* Client routes — show info box and help type dropdown */
+      if (role === 'business_client' || role === 'dog_owner_client') {
+        clientHelpBox.hidden = false;
+        populateHelpType(role);
+        stepHelpType.hidden = false;
+        /* Full client flow shown after help type selected */
+        helpTypeSelect.addEventListener('change', onHelpTypeChange);
+        return;
+      }
+    });
+
+    function onHelpTypeChange() {
+      var ht = helpTypeSelect.value;
+      /* Remove listener to avoid duplicates */
+      helpTypeSelect.removeEventListener('change', onHelpTypeChange);
+      helpTypeSelect.addEventListener('change', onHelpTypeChange);
+
+      stepContact.hidden     = !ht;
+      stepDescription.hidden = !ht;
+      stepLinks.hidden       = !ht;
+      stepOutcome.hidden     = !ht;
+      stepCommonDecl.hidden  = !ht;
+      stepSubmit.hidden      = !ht;
+    }
+
+    /* ── Police: risk-to-life toggle ── */
+    document.querySelectorAll('input[name="p_risk_to_life"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        var isYes = pRiskYes.checked;
+        pRiskAlert.hidden = !isYes;
+        pDeclRiskItem.hidden = !isYes;
+      });
+    });
+
+    /* ── Police: avoid-notification toggle ── */
+    document.querySelectorAll('input[name="p_avoid_notification"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        pDeclSuppressItem.hidden = !pNotifyYes.checked;
+      });
+    });
+
+    /* ── Supporting link rows (public routes) ── */
+    function makeLinkRow(containerId, placeholder, index) {
+      var container = document.getElementById(containerId);
+      if (!container) return;
+      var row = document.createElement('div');
+      row.className = 'link-row';
+      var input = document.createElement('input');
+      input.type = 'url';
+      input.placeholder = placeholder || 'https://';
+      input.setAttribute('aria-label', 'Supporting link ' + index);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'link-row-remove';
+      btn.setAttribute('aria-label', 'Remove this link');
+      btn.title = 'Remove';
+      btn.innerHTML = '<span class="material-symbols-rounded" aria-hidden="true">close</span>';
+      btn.addEventListener('click', function () {
+        if (container.querySelectorAll('.link-row').length > 1) row.remove();
+      });
+      row.appendChild(input);
+      row.appendChild(btn);
+      container.appendChild(row);
+    }
+
+    /* Attach remove buttons to initial rows */
+    document.querySelectorAll('.link-row-remove').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var container = btn.closest('.link-rows');
+        if (container && container.querySelectorAll('.link-row').length > 1) {
+          btn.closest('.link-row').remove();
+        }
+      });
+    });
+
+    var addLinkBtn = document.getElementById('addLinkBtn');
+    if (addLinkBtn) {
+      addLinkBtn.addEventListener('click', function () {
+        var count = document.getElementById('linkRows').querySelectorAll('.link-row').length + 1;
+        makeLinkRow('linkRows', 'https://example.com/evidence', count);
+      });
+    }
+
+    var addRhLinkBtn = document.getElementById('addRhLinkBtn');
+    if (addRhLinkBtn) {
+      addRhLinkBtn.addEventListener('click', function () {
+        var count = document.getElementById('rhLinkRows').querySelectorAll('.link-row').length + 1;
+        makeLinkRow('rhLinkRows', 'https://example.com/reference', count);
+      });
+    }
+
+    /* ── Collect link values ── */
+    function collectLinks(containerId) {
+      var rows = document.querySelectorAll('#' + containerId + ' .link-row input');
+      var links = [];
+      rows.forEach(function (inp) {
+        var v = (inp.value || '').trim();
+        if (v) links.push(v);
+      });
+      return links;
+    }
+
+    /* ── Build multipart payload for official routes ── */
+    function buildOfficialFormData(route) {
+      var fd = new FormData();
+      fd.append('route', route);
+
+      if (route === 'police') {
+        fd.append('name',         (document.getElementById('p-name').value || '').trim());
+        fd.append('email',        (document.getElementById('p-email').value || '').trim());
+        fd.append('phone',        (document.getElementById('p-phone').value || '').trim());
+        fd.append('force',        (document.getElementById('p-force').value || '').trim());
+        fd.append('role',         (document.getElementById('p-role').value || '').trim());
+        fd.append('collar_number',(document.getElementById('p-collar').value || '').trim());
+        fd.append('station',      (document.getElementById('p-station').value || '').trim());
+        fd.append('cad_number',   (document.getElementById('p-cad').value || '').trim());
+        fd.append('crime_ref',    (document.getElementById('p-crime-ref').value || '').trim());
+        fd.append('description',  (document.getElementById('p-about').value || '').trim());
+        fd.append('risk_to_life', pRiskYes.checked ? 'yes' : (pRiskNo.checked ? 'no' : ''));
+        fd.append('avoid_notification', pNotifyYes.checked ? 'yes' : 'no');
+        var files = document.getElementById('p-uploads').files;
+        for (var i = 0; i < files.length && i < 10; i++) fd.append('files', files[i]);
+
+      } else if (route === 'regulator') {
+        fd.append('name',         (document.getElementById('r-name').value || '').trim());
+        fd.append('email',        (document.getElementById('r-email').value || '').trim());
+        fd.append('phone',        (document.getElementById('r-phone').value || '').trim());
+        fd.append('organisation', (document.getElementById('r-org').value || '').trim());
+        fd.append('role',         (document.getElementById('r-role').value || '').trim());
+        fd.append('official_ref', (document.getElementById('r-ref').value || '').trim());
+        fd.append('description',  (document.getElementById('r-about').value || '').trim());
+        var rFiles = document.getElementById('r-uploads').files;
+        for (var j = 0; j < rFiles.length && j < 10; j++) fd.append('files', rFiles[j]);
+      }
+
+      return fd;
+    }
+
+    /* ── Build JSON payload for non-official routes ── */
+    function buildPublicPayload() {
+      var role     = roleSelect.value;
+      var helpType = helpTypeSelect ? helpTypeSelect.value : '';
+      return {
+        route:     role,
+        help_type: helpType || null,
+        name:      (document.getElementById('field-name')  ? document.getElementById('field-name').value.trim()  : ''),
+        email:     (document.getElementById('field-email') ? document.getElementById('field-email').value.trim() : ''),
+        phone:     (document.getElementById('field-phone') ? document.getElementById('field-phone').value.trim() : '') || null,
+        organisation: (document.getElementById('field-org') ? document.getElementById('field-org').value.trim() : '') || null,
+        description:  (document.getElementById('field-description') ? document.getElementById('field-description').value.trim() : ''),
+        requested_outcome: (document.getElementById('field-outcome') ? document.getElementById('field-outcome').value.trim() : '') || null,
+        supporting_links:  collectLinks('linkRows'),
+      };
+    }
+
+    function buildAccessibilityPayload() {
+      return {
+        route: 'accessibility',
+        name:  (document.getElementById('a-name').value || '').trim(),
+        email: (document.getElementById('a-email').value || '').trim(),
+        phone: (document.getElementById('a-phone').value || '').trim() || null,
+        description: (document.getElementById('a-need').value || '').trim(),
+        preferred_contact: (document.getElementById('a-preferred-contact').value || '').trim() || null,
+      };
+    }
+
+    function buildRightsPayload() {
+      return {
+        route: 'rights_holder',
+        name:  (document.getElementById('rh-name').value || '').trim(),
+        email: (document.getElementById('rh-email').value || '').trim(),
+        phone: (document.getElementById('rh-phone').value || '').trim() || null,
+        organisation: (document.getElementById('rh-org').value || '').trim() || null,
+        description:  (document.getElementById('rh-about').value || '').trim(),
+        supporting_links: collectLinks('rhLinkRows'),
+      };
+    }
+
+    /* ── Validate a single required text field ── */
+    function reqText(id) {
+      var el = document.getElementById(id);
+      return el && el.value.trim().length > 0;
+    }
+
+    function showError(msg) {
+      formStatus.className = 'form-status error';
+      formStatus.textContent = msg;
+    }
+
+    function clearStatus() {
+      formStatus.className = 'form-status';
+      formStatus.textContent = '';
+    }
+
+    /* ── Submit handler ── */
+    submitBtn.addEventListener('click', function () {
+      clearStatus();
+      var role = roleSelect.value;
+      if (!role) { showError('Please choose who you are first.'); return; }
+
+      var isOfficialPolice    = role === 'police';
+      var isOfficialRegulator = role === 'regulator';
+      var isAccessibility     = role === 'accessibility';
+      var isRights            = role === 'rights_holder';
+
+      /* Police validation */
+      if (isOfficialPolice) {
+        if (!reqText('p-name') || !reqText('p-email') || !reqText('p-phone') || !reqText('p-force') || !reqText('p-role') || !reqText('p-collar') || !reqText('p-about')) {
+          showError('Please fill in all required fields.'); return;
+        }
+        var riskAnswered = document.querySelector('input[name="p_risk_to_life"]:checked');
+        if (!riskAnswered) { showError('Please answer the risk-to-life question.'); return; }
+        if (!document.getElementById('p-decl-1').checked || !document.getElementById('p-decl-2').checked || !document.getElementById('p-decl-3').checked) {
+          showError('Please confirm all required declarations.'); return;
+        }
+        if (pNotifyYes.checked && !document.getElementById('p-decl-suppress').checked) {
+          showError('Please confirm the notification-suppression declaration.'); return;
+        }
+        if (pRiskYes.checked && !document.getElementById('p-decl-risk').checked) {
+          showError('Please confirm the risk-escalation declaration.'); return;
+        }
+      }
+
+      /* Regulator validation */
+      if (isOfficialRegulator) {
+        if (!reqText('r-name') || !reqText('r-email') || !reqText('r-org') || !reqText('r-role') || !reqText('r-about')) {
+          showError('Please fill in all required fields.'); return;
+        }
+        if (!document.getElementById('r-decl-1').checked || !document.getElementById('r-decl-2').checked || !document.getElementById('r-decl-3').checked) {
+          showError('Please confirm all required declarations.'); return;
+        }
+      }
+
+      /* Accessibility validation */
+      if (isAccessibility) {
+        if (!reqText('a-name') || !reqText('a-email') || !reqText('a-need')) {
+          showError('Please fill in all required fields.'); return;
+        }
+        if (!document.getElementById('a-decl-1').checked) {
+          showError('Please confirm you agree to us using your information.'); return;
+        }
+      }
+
+      /* Rights validation */
+      if (isRights) {
+        if (!reqText('rh-name') || !reqText('rh-email') || !reqText('rh-about')) {
+          showError('Please fill in all required fields.'); return;
+        }
+        if (!document.getElementById('rh-decl-1').checked || !document.getElementById('rh-decl-2').checked || !document.getElementById('rh-decl-3').checked) {
+          showError('Please confirm all required declarations.'); return;
+        }
+      }
+
+      /* Public/client routes validation */
+      if (!isOfficialPolice && !isOfficialRegulator && !isAccessibility && !isRights) {
+        if (!reqText('field-name') || !reqText('field-email') || !reqText('field-description')) {
+          showError('Please fill in your name, email, and description.'); return;
+        }
+        if (!document.getElementById('decl-accurate').checked || !document.getElementById('decl-privacy').checked) {
+          showError('Please confirm the declarations before sending.'); return;
+        }
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      var promise;
+
+      if (isOfficialPolice || isOfficialRegulator) {
+        var fd = buildOfficialFormData(role);
+        promise = fetch(API_BASE + '/trust-reports/official', {
+          method: 'POST',
+          body: fd,
+        });
+      } else if (isAccessibility) {
+        promise = fetch(API_BASE + '/trust-reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildAccessibilityPayload()),
+        });
+      } else if (isRights) {
+        promise = fetch(API_BASE + '/trust-reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildRightsPayload()),
+        });
+      } else {
+        promise = fetch(API_BASE + '/trust-reports', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(buildPublicPayload()),
+        });
+      }
+
+      promise
+        .then(function (res) {
+          return res.json().then(function (data) {
+            return { ok: res.ok, data: data };
+          });
+        })
+        .then(function (result) {
+          if (result.ok && result.data && result.data.reference) {
+            /* Show success */
+            stepPolice.hidden      = true;
+            stepRegulator.hidden   = true;
+            stepAccessibility.hidden = true;
+            stepRights.hidden      = true;
+            stepContact.hidden     = true;
+            stepDescription.hidden = true;
+            stepLinks.hidden       = true;
+            stepOutcome.hidden     = true;
+            stepCommonDecl.hidden  = true;
+            stepSubmit.hidden      = true;
+            clientHelpBox.hidden   = true;
+            stepHelpType.hidden    = true;
+            document.getElementById('step-who').hidden = true;
+            confirmRefNumber.textContent = result.data.reference;
+            stepSuccess.hidden = false;
+          } else {
+            var msg = (result.data && result.data.error && result.data.error.message) || 'Something went wrong. Please try again.';
+            showError(msg);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send report';
+          }
+        })
+        .catch(function () {
+          showError('Could not submit your report. Please check your connection and try again.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send report';
+        });
+    });
+
+  })();
+  </script>
+</body>
+</html>
